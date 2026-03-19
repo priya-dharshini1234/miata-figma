@@ -48,9 +48,12 @@
       One-Year Blended Ultrasound Program with International Clinical Training and ARDMS Pathway.
     </p>
     <div class="buttons hero-buttons">
-      <button class="primary-btn" onclick="window.location.href='/apply/'">Apply Now →</button>
-      <button class="secondary-btn">Download Brochure</button>
-    </div>
+  <button class="primary-btn" onclick="window.location.href='/apply/'">Apply Now →</button>
+  <a href="{% static 'myapp/miatabrochure.pdf' %}" download="miatabrochure.pdf">
+    <button class="secondary-btn">Download Brochure</button>
+  </a>
+</div>
+
   </div>
 </section>
 
@@ -174,7 +177,7 @@
 <div class="profiles">
 
   <div class="profile-card">
-    <img src="{% static 'myapp/doc1.jpg' %}" alt="doctor">
+   
     <div class="profile-content">
       <h3>Dr. Priya Sharma</h3>
       <p class="degree">MBBS, PG Dip Ultrasound</p>
@@ -186,7 +189,7 @@
   </div>
 
   <div class="profile-card">
-    <img src="{% static 'myapp/doc2.jpg' %}" alt="doctor">
+   
     <div class="profile-content">
       <h3>Dr. Arjun Patel</h3>
       <p class="degree">BHMS, PG Dip Ultrasound</p>
@@ -198,7 +201,7 @@
   </div>
 
   <div class="profile-card">
-    <img src="{% static 'myapp/doc3.jpg' %}" alt="doctor">
+    
     <div class="profile-content">
       <h3>Dr. Mei Chen</h3>
       <p class="degree">MBBS, PG Dip Ultrasound</p>
@@ -608,31 +611,7 @@
   </div>
 </div>
 
-<div class="miata-payment-section">
-  <div class="miata-payment-box">
-    <div class="miata-payment-header">
-      <div class="miata-payment-icon">💳</div>
-      <h3>Flexible Payment Plans</h3>
-    </div>
-    <p class="miata-payment-desc">We understand that investing in education is significant. MIATA offers structured payment options to ease your financial planning.</p>
-    <div class="miata-payment-grid">
-      <div class="miata-payment-card">
-        <h4>Full Payment</h4>
-        <p>Pay the entire fee upfront and receive a discount.</p>
-        <span>Save 5%</span>
-      </div>
-      <div class="miata-payment-card">
-        <h4>Phase-Wise Payment</h4>
-        <p>Pay separately for theory, clinical, and internship phases.</p>
-        <span>3 Parts</span>
-      </div>
-      <div class="miata-payment-card">
-        <h4>Monthly Installments</h4>
-        <p>Spread payments over program duration with flexible EMI.</p>
-        <span>12 Months</span>
-      </div>
-    </div>
-  </div>
+
 
   <div class="miata-notincluded-box">
     <h3>What's Not Included</h3>
@@ -840,8 +819,7 @@
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
-  });
+  }); 
 </script>
-
 </body>
 </html>
