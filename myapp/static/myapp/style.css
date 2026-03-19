@@ -1,0 +1,1574 @@
+/* ========== RESET & BASE ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1a2e;
+  background-color: #fff;
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 48px;
+  background-color: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.logo h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #1a1a2e;
+  line-height: 1.2;
+}
+
+/* FIX 1: Medical Imaging Academy text - brighter */
+.logo p {
+  font-size: 11px;
+  color: #1a1a2e;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 36px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+nav ul li a:hover {
+  color: #1a9e8f;
+}
+
+.apply-btn {
+  background-color: #1a9e8f;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.apply-btn:hover {
+  background-color: #157d71;
+  transform: translateY(-1px);
+}
+
+/* ========== HERO SECTION ========== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: #1a2a3a;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15, 30, 50, 0.85) 0%, rgba(20, 60, 70, 0.75) 100%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 80px 80px;
+  max-width: 700px;
+}
+
+.hero-content h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 58px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+/* FIX 4: Hero buttons alignment */
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.hero-content .badge {
+  display: inline-block;
+  background-color: rgba(255,255,255,0.12);
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  padding: 8px 20px;
+  border-radius: 30px;
+  margin-bottom: 28px;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+
+.badge {
+  display: inline-block;
+  background-color: #f0f9f8;
+  color: #1a9e8f !important;
+  border: 1px solid rgba(26, 158, 143, 0.4);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+.hero-decoration {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 45%;
+  background: linear-gradient(
+    to left,
+    rgba(26, 158, 143, 0.08) 0%,
+    transparent 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.primary-btn {
+  background-color: #1a9e8f;
+  color: #fff;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.primary-btn:hover {
+  background-color: #157d71;
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  padding: 14px 30px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.secondary-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ========== STATS BANNER ========== */
+.stats-banner {
+  background-color: #1c2f3f;
+  padding: 28px 0;
+}
+
+.stats-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
+/* ========== WHY CHOOSE MIATA ========== */
+.why-miata {
+  padding: 80px 0 90px;
+  background-color: #ffffff;
+}
+
+.why-miata-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+  text-align: center;
+}
+
+.why-miata-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+}
+
+.why-miata-subtitle {
+  font-size: 16px;
+  color: #666;
+  max-width: 640px;
+  margin: 0 auto 56px;
+  line-height: 1.7;
+}
+
+.why-miata-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: left;
+}
+
+.why-card {
+  background-color: #ffffff;
+  border: 1px solid #e8edf2;
+  border-radius: 12px;
+  padding: 32px 28px;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.why-card:hover {
+  box-shadow: 0 8px 32px rgba(26, 158, 143, 0.12);
+  transform: translateY(-4px);
+}
+
+.why-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background-color: #e8f7f5;
+  border-radius: 10px;
+  color: #1a9e8f;
+  margin-bottom: 20px;
+}
+
+.why-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.why-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.7;
+}
+
+/* ========== GRADUATES SECTION ========== */
+.graduates {
+  text-align: center;
+  padding: 80px 60px;
+}
+
+.graduates h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #12324a;
+}
+
+/* FIX 2: Subtitle under Our Graduates - brighter */
+.graduates-subtitle {
+  color: #1a2e44;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 40px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.st-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.st-card h2 {
+  color: #2bb3a3;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.st-card p {
+  font-size: 14px;
+  color: #6b7b8c;
+}
+
+/* ========== PROFILE CARDS ========== */
+.profiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 0 60px;
+}
+
+.profile-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: 0.3s;
+}
+
+.profile-card:hover {
+  transform: translateY(-6px);
+}
+
+.profile-card img {
+  width: 100%;
+  height: 550px;
+  object-fit: cover;
+}
+
+.profile-content {
+  padding: 22px;
+  text-align: left;
+}
+
+.profile-content h3 {
+  font-size: 18px;
+  color: #12324a;
+  margin-bottom: 5px;
+}
+
+.degree {
+  font-size: 13px;
+  color: #6b7b8c;
+  margin-bottom: 10px;
+}
+
+.location {
+  font-size: 13px;
+  color: #2bb3a3;
+  margin-bottom: 12px;
+}
+
+/* Profile badge - renamed to avoid conflict with hero badge */
+.profile-badge {
+  display: inline-block;
+  background: #e6f5f3;
+  color: #1a7a6e;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.quote {
+  font-size: 14px;
+  color: #5a6b7c;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.profile-content a {
+  text-decoration: none;
+  color: #2bb3a3;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.profile-content a:hover {
+  text-decoration: underline;
+}
+
+/* ========== CURRICULUM CARDS ========== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 40px 60px;
+}
+
+.card {
+  border-radius: 14px;
+  padding: 30px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.meta {
+  margin-top: 15px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.phase1 {
+  background: linear-gradient(135deg, #352472, #273650);
+  color: white;
+}
+
+.card:hover {
+  box-shadow: 0 8px 28px rgba(42, 157, 143, 0.14);
+  transform: translateY(-3px);
+}
+
+
+.phase2 {
+  background: linear-gradient(135deg, #68c5ba, #2ec6c2);
+  color: white;
+}
+
+.phase3 {
+  background: linear-gradient(135deg, #3a3277, #08455f);
+  color: white;
+}
+
+.section {
+  padding: 20px 60px 60px;
+}
+
+.section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .cards { grid-template-columns: 1fr; }
+  .navbar { padding: 16px 20px; }
+  .cards, .section { padding: 20px; }
+}
+
+/* ========== ACCORDION ========== */
+.phase-section {
+  max-width: 960px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+
+.phase-section h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a2e44;
+  margin-bottom: 28px;
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dde4ec;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #dde4ec;
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px;
+  cursor: pointer;
+  background: #fff;
+  transition: background 0.15s;
+  user-select: none;
+}
+
+.accordion-header:hover {
+  background: #f7fafc;
+}
+
+.accordion-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2e44;
+}
+
+.accordion-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #1a2e44;
+  transition: transform 0.3s ease;
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  background: #fff;
+}
+
+.accordion-item.open .accordion-body {
+  max-height: 600px;
+}
+
+.accordion-body ul {
+  list-style: none;
+  padding: 4px 28px 28px 28px;
+}
+
+.accordion-body ul li {
+  position: relative;
+  padding: 7px 0 7px 20px;
+  font-size: 14px;
+  color: #4a5f78;
+  line-height: 1.5;
+}
+
+.accordion-body ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0eb5a6;
+}
+
+/* ========== PHASES WRAPPER ========== */
+.phases-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+
+.phase {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: fadeUp 0.55s ease forwards;
+}
+
+.phase:nth-child(1) { animation-delay: 0.05s; }
+.phase:nth-child(2) { animation-delay: 0.20s; }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.phase-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.phase-number {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #1a9e8f;
+  color: #fff;
+  font-family: 'Inter', serif;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(42, 157, 143, 0.30);
+}
+
+.phase-title {
+  font-family: 'Inter', serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: -0.3px;
+}
+
+.phase-card {
+  background: #fff;
+  border: 1px solid #e0e8ef;
+  border-radius: 14px;
+  padding: 30px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.phase-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: #1a9e8f;
+  border-radius: 14px 0 0 14px;
+}
+
+.phase-card:hover {
+  box-shadow: 0 8px 28px rgba(42, 157, 143, 0.14);
+  transform: translateY(-3px);
+}
+
+ul.phase-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+ul.phase-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15.5px;
+  font-weight: 400;
+  color: #666;
+  line-height: 1.55;
+}
+
+.u-card:hover {
+  box-shadow: 0 8px 28px rgba(42, 157, 143, 0.14);
+  transform: translateY(-3px);
+}
+
+
+ul.phase-list li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1a9e8f;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.phase-badge {
+  display: inline-block;
+  background: #1a9e8f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-left: 10px;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+}
+
+@media (max-width: 520px) {
+  .phase-card { padding: 22px 20px 22px 26px; }
+  .phase-title { font-size: 20px; }
+}
+
+/* ========== TIMELINE SECTION ========== */
+.timeline-section {
+  padding: 50px 20px;
+}
+
+.timeline-section h1 {
+  font-size: 36px;
+  color: #1f3b4d;
+  text-align: center;
+}
+
+/* FIX 3: Timeline subtitle - brighter */
+.timeline-subtitle {
+  color: #1f3b4d;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 60px; left: 0;
+  width: 100%;
+  height: 3px;
+  background: #1f3b4d;
+  z-index: 0;
+}
+
+.step {
+  position: relative;
+  width: 30%;
+  text-align: center;
+}
+
+.circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  font-size: 40px;
+  color: white;
+  z-index: 1;
+  position: relative;
+}
+
+.dark  { background: #123a5a; }
+.teal  { background: #1ea5a8; }
+.grey  { background: #4a6375; }
+
+.content { margin-top: 20px; }
+.content h3 { color: #1f3b4d; }
+.content p  { color: #6c7a86; font-size: 14px; }
+
+/* ========== INTERNATIONAL LOCATIONS ========== */
+.section {
+  padding: 60px 20px;
+}
+
+.section h1 {
+  font-size: 40px;
+  color: #1f3b4d;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.section p {
+  color: #6c7a86;
+  font-size: 18px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.image-box {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.image-box img {
+  width: 100%;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  padding: 40px;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  color: white;
+  text-align: left;
+}
+
+.overlay h2 { font-size: 48px; margin: 0; }
+.overlay p  { font-size: 18px; margin-top: 10px; }
+
+/* ========== COUNTRY CARDS ========== */
+.container {
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.u-card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.u-card h2 { margin: 0; color: #042133; font-size: 20px; }
+.desc { color: #031729; font-size: 14px; margin: 5px 0 15px; }
+
+.code {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-size: 26px;
+  color: #333;
+  font-weight: bold;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  color: #1f3b4d;
+  font-size: 14px;
+}
+
+.location span { margin-left: 8px; }
+
+.icon {
+  width: 10px;
+  height: 10px;
+  background: #1ea5a8;
+  border-radius: 50%;
+}
+
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+/* ========== INFO CARD ========== */
+.info-card {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0f2f4f, #1a9e8f);
+  color: white;
+}
+
+.info-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.info-item { flex: 1; }
+.label { font-size: 14px; opacity: 0.8; margin-bottom: 5px; }
+.info-item h2 { font-size: 28px; margin: 0; font-weight: 500; }
+
+.download-btn {
+  background: #e6e6e6;
+  color: #0f2f4f;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-btn:hover { background: #d5d5d5; }
+
+/* ========== DTA SECTION ========== */
+.dta-section {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 60px 20px;
+  text-align: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0f2f4f, #1a9e8f);
+  color: white;
+}
+
+.dta-section h1 { font-size: 36px; font-weight: 600; margin-bottom: 15px; }
+.dta-section p  { font-size: 18px; font-weight: 300; opacity: 0.9; max-width: 700px; margin: 0 auto 30px; line-height: 1.6; }
+
+.dta-btn {
+  background: #e6e6e6;
+  color: #0f2f4f;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.dta-btn:hover { background: #d5d5d5; }
+
+/* ========== ADMISSION SECTION ========== */
+.miata-admission {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.miata-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+  color: #0f2f4f;
+}
+
+.miata-subtitle {
+  text-align: center;
+  color: #6b7c8f;
+  margin-bottom: 40px;
+}
+
+.miata-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.miata-step-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.miata-step-card:hover {
+  box-shadow: 0 8px 28px rgba(42, 157, 143, 0.14);
+  transform: translateY(-3px);
+}
+
+
+.miata-step-card h3 { margin-top: 20px; color: #0f2f4f; }
+.miata-step-card p  { color: #6b7c8f; font-size: 14px; }
+
+.miata-step-badge {
+  position: absolute;
+  top: -12px; right: -12px;
+  background: #1a9e8f;
+  color: white;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.miata-eligibility-box {
+  background: white;
+  margin-top: 50px;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.miata-eligibility-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.miata-eligibility-box h2,
+.miata-eligibility-box h4 { color: #0f2f4f; }
+
+.miata-eligibility-box ul { padding-left: 18px; }
+.miata-eligibility-box li { margin-bottom: 10px; color: #6b7c8f; }
+
+.miata-apply-btn {
+  display: block;
+  margin: 30px auto 0;
+  background: #1a9e8f;
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.miata-apply-btn:hover { background: #158a7c; }
+
+@media (max-width: 900px) {
+  .miata-steps-grid     { grid-template-columns: 1fr; }
+  .miata-eligibility-grid { grid-template-columns: 1fr; }
+}
+
+/* ========== FEES & SCHOLARSHIPS ========== */
+.miata-fees-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* FIX 5: Fees heading styled like other section headings */
+.fees-heading-wrapper {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.fees-section-heading {
+  font-size: 36px;
+  font-weight: 700;
+  color: #0f2f4f;
+  margin-bottom: 12px;
+}
+
+.fees-section-subheading {
+  font-size: 16px;
+  color: #6b7c8f;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.miata-fees-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.miata-fee-card {
+  padding: 30px;
+  border-radius: 16px;
+  color: white;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.miata-fee-dark { background: linear-gradient(135deg, #0f2f4f, #1c3f5f); }
+.miata-fee-teal { background: linear-gradient(135deg, #1a9e8f, #2bb3a6); }
+
+.miata-icon-box {
+  width: 50px; height: 50px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.miata-fee-card h3 { font-weight: 500; margin-bottom: 10px; }
+.miata-fee-card h1 { font-size: 40px; font-weight: 600; margin: 10px 0; }
+.miata-fee-card p  { font-size: 14px; opacity: 0.9; margin-bottom: 20px; }
+.miata-fee-card ul { list-style: none; padding: 0; }
+
+.miata-fee-card li {
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 25px;
+}
+
+.miata-fee-card li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #fff;
+  font-size: 14px;
+}
+
+.miata-scholar-btn {
+  margin-top: 20px;
+  width: 100%;
+  background: #e6e6e6;
+  color: #0f2f4f;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.miata-scholar-btn:hover { background: #d5d5d5; }
+
+@media (max-width: 900px) { .miata-fees-grid { grid-template-columns: 1fr; } }
+
+/* ========== PAYMENT SECTION ========== */
+.miata-payment-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.miata-payment-box {
+  background: #f7f7f7;
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.miata-payment-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.miata-payment-icon {
+  width: 45px; height: 45px;
+  background: #e9ecef;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.miata-payment-desc { color: #6b7c8f; margin-bottom: 25px; }
+
+.miata-payment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.miata-payment-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.miata-payment-card h4 { color: #0f2f4f; margin-bottom: 8px; }
+.miata-payment-card p  { font-size: 14px; color: #6b7c8f; margin-bottom: 10px; }
+.miata-payment-card span { color: #1a9e8f; font-weight: 500; }
+
+.miata-notincluded-box {
+  background: #f7f7f7;
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.miata-notincluded-box h3 { color: #0f2f4f; margin-bottom: 15px; }
+
+.miata-notincluded-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.miata-notincluded-box ul { padding-left: 18px; }
+.miata-notincluded-box li { margin-bottom: 10px; color: #6b7c8f; }
+
+@media (max-width: 900px) {
+  .miata-payment-grid     { grid-template-columns: 1fr; }
+  .miata-notincluded-grid { grid-template-columns: 1fr; }
+}
+
+/* ========== GLOBAL CAREER PATHWAY ========== */
+.pathway-section {
+  padding: 70px 30px 80px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.pathway-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.pathway-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #0a2540;
+  margin-bottom: 14px;
+}
+
+.pathway-header p {
+  color: #6c7a86;
+  font-size: 16px;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.pathway-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.pathway-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 40px 36px 32px;
+  box-shadow: 0 2px 12px rgba(10, 37, 64, 0.08);
+  border: 1px solid rgba(10, 37, 64, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pathway-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0a2540, #1ea5a8);
+  border-radius: 14px 14px 0 0;
+}
+
+.pathway-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 32px rgba(10, 37, 64, 0.14);
+}
+
+.pathway-icon-wrap {
+  position: relative;
+  width: 62px; height: 62px;
+  margin-bottom: 24px;
+}
+
+.pathway-icon {
+  width: 62px; height: 62px;
+  background: linear-gradient(135deg, #0a2540, #1a4f72);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 6px 20px rgba(10, 37, 64, 0.22);
+}
+
+.pathway-icon-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(30,165,168,0.25), rgba(10,37,64,0.1));
+  z-index: 0;
+}
+
+.pathway-tag {
+  display: inline-block;
+  background: rgba(30, 165, 168, 0.10);
+  color: #1ea5a8;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 4px 12px;
+  border-radius: 40px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(30, 165, 168, 0.2);
+}
+
+.pathway-card h3 {
+  font-size: 20px;
+  color: #0a2540;
+  margin-bottom: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pathway-card p {
+  color: #6c7a86;
+  font-size: 14.5px;
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+
+.pathway-link {
+  text-decoration: none;
+  color: #1ea5a8;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s;
+}
+
+.pathway-link:hover { gap: 8px; }
+.pathway-link span  { transition: transform 0.2s; }
+.pathway-link:hover span { transform: translateX(3px); }
+
+/* ========== CAREER SECTION ========== */
+.miata-career-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.miata-outcome-banner {
+  background: linear-gradient(135deg, #0f2f4f, #1a9e8f);
+  color: white;
+  border-radius: 20px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.miata-outcome-banner h2 { font-size: 32px; margin-bottom: 10px; }
+.miata-outcome-banner p  { opacity: 0.9; margin-bottom: 30px; }
+
+.miata-stats-row {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.miata-stats-row h1   { font-size: 40px; margin: 0; }
+.miata-stats-row span { font-size: 14px; opacity: 0.85; }
+
+.miata-career-title {
+  text-align: center;
+  margin: 40px 0 20px;
+  color: #0f2f4f;
+}
+
+.miata-career-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.miata-career-card {
+  background: #f7f7f7;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.miata-career-card h3 { color: #0f2f4f; margin-bottom: 10px; }
+.miata-career-card p  { color: #6b7c8f; font-size: 14px; }
+
+.miata-career-card:hover {
+  transform: translateY(-5px);
+  background: white;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 900px) {
+  .miata-career-grid { grid-template-columns: 1fr; }
+  .miata-stats-row   { gap: 20px; }
+}
+
+/* ========== CTA SECTION ========== */
+.cta-section {
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.cta-box {
+  max-width: 1000px;
+  width: 100%;
+  padding: 60px 30px;
+  border-radius: 20px;
+  text-align: center;
+  color: white;
+  background: linear-gradient(135deg, #0f3554, #1ea5a8);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box::before,
+.cta-box::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+
+.cta-box::before { width: 200px; height: 200px; bottom: -50px; left: -50px; }
+.cta-box::after  { width: 250px; height: 250px; top: -60px;    right: -60px; }
+
+.cta-box h1 { font-size: 40px; margin-bottom: 20px; }
+
+.cta-subtitle {
+  font-size: 18px;
+  color: #dce7ef;
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+}
+
+.primary  { background: #ffffff; color: #0f3554; }
+.secondary { background: transparent; color: white; border: 2px solid #ffffff; }
+
+.bottom-text { font-size: 14px; color: #dce7ef; }
+
+@media (max-width: 600px) { .cta-box h1 { font-size: 28px; } }
+
+/* ========== FOOTER ========== */
+.footer {
+  background: #0f3554;
+  color: #fff;
+  padding-top: 50px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1100px;
+  margin: auto;
+  gap: 40px;
+  padding: 20px;
+}
+
+.footer-col h3 { margin-bottom: 15px; }
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col ul li {
+  margin: 8px 0;
+  color: #cbd5df;
+  font-size: 14px;
+}
+
+.footer-col ul li a {
+  color: #cbd5df;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-col ul li a:hover { color: #1ea5a8; }
+
+.logo { display: flex; align-items: center; gap: 10px; }
+
+.logo-box {
+  background: #1ea5a8;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.logo h2 { margin: 0; }
+.logo p  { margin: 0; font-size: 14px; color: #cbd5df; }
+
+.about { margin-top: 15px; color: #cbd5df; font-size: 14px; }
+
+.contact li { display: flex; align-items: center; gap: 8px; }
+
+.footer-bottom {
+  border-top: 1px solid #2c4f6a;
+  margin-top: 30px;
+  padding: 20px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.socials span {
+  display: inline-block;
+  width: 35px; height: 35px;
+  background: #1c4a6a;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 35px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) { .footer-container { grid-template-columns: 1fr 1fr; } }
+
+@media (max-width: 600px) {
+  .footer-container { grid-template-columns: 1fr; }
+  .footer-bottom    { flex-direction: column; gap: 10px; text-align: center; }
+}

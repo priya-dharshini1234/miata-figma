@@ -1,0 +1,847 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIATA Medical Imaging Academy</title>
+<link rel="stylesheet" href="{% static 'myapp/style.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="logo">
+    <img src="{% static 'myapp/miatalogo.png' %}" alt="logo">
+    <div>
+      <h3>MIATA</h3>
+      <p>Medical Imaging Academy</p>
+    </div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#why-miata">Why MIATA</a></li>
+      <li><a href="#curriculum">Curriculum</a></li>
+      <li><a href="#success-stories">Success Stories</a></li>
+      <li><a href="#admissions">Admissions</a></li>
+      <li><a href="#fees">Fees</a></li>
+    </ul>
+  </nav>
+  <button class="apply-btn" onclick="window.location.href='/apply/'">Apply Now</button>
+</header>
+
+
+<!-- HERO SECTION -->
+<section class="hero" style="background-image: url(&quot;{% static 'myapp/hero-bg.jpg' %}&quot;);">
+  <div class="hero-overlay"></div>
+  <div class="hero-decoration"></div>
+  <div class="hero-content">
+    <span class="badge">Globally Accredited Medical Ultrasound Training</span>
+    <h1>
+      Advance Your Diagnostic <br>
+      Imaging Career with Global <br>
+      Accreditation
+    </h1>
+    <p class="subtitle">
+      One-Year Blended Ultrasound Program with International Clinical Training and ARDMS Pathway.
+    </p>
+    <div class="buttons hero-buttons">
+      <button class="primary-btn" onclick="window.location.href='/apply/'">Apply Now →</button>
+      <button class="secondary-btn">Download Brochure</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- STATS BANNER -->
+<section class="stats-banner">
+  <div class="stats-container">
+    <div class="stat-item">
+      <span class="stat-number">12-15</span>
+      <span class="stat-label">Months Duration</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">6+</span>
+      <span class="stat-label">Countries</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">100%</span>
+      <span class="stat-label">Placement Support</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">ARDMS</span>
+      <span class="stat-label">Pathway Eligible</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHY CHOOSE MIATA SECTION -->
+<section class="why-miata" id="why-miata">
+  <div class="why-miata-container">
+    <h2 class="why-miata-title">Why Choose MIATA</h2>
+    <p class="why-miata-subtitle">
+      A comprehensive, globally-aligned training program designed for medical professionals seeking
+      international careers in diagnostic ultrasound.
+    </p>
+
+    <div class="why-miata-cards">
+
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <h3>Blended Learning Model</h3>
+        <p>Comprehensive online theory combined with hands-on clinical training. Learn at your own pace with expert-led modules and live scanning practice.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <h3>International Clinical Exposure</h3>
+        <p>Train in world-class facilities across UK, Australia, UAE, Malaysia, and more. Experience diverse clinical environments and international standards.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+        <h3>Paid Internship Placement</h3>
+        <p>Transition from training to professional practice with our structured paid internship program. Gain real-world experience with stipend support.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        <h3>ARDMS Eligibility Pathway</h3>
+        <p>Meet prerequisites for ARDMS certification. Our curriculum aligns with international registry requirements for global career mobility.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- OUR GRADUATES SECTION -->
+<section class="graduates" id="success-stories">
+
+  <h1>Our Graduates. Global Impact.</h1>
+  <p class="graduates-subtitle">
+    Real medical professionals building international ultrasound careers.
+  </p>
+
+  <div class="stats">
+    <div class="st-card">
+      <h2>95%</h2>
+      <p>Internship Placement Rate</p>
+    </div>
+    <div class="st-card">
+      <h2>12+</h2>
+      <p>International Training Locations</p>
+    </div>
+    <div class="st-card">
+      <h2>500+</h2>
+      <p>ARDMS Eligible Graduates</p>
+    </div>
+    <div class="st-card">
+      <h2>100%</h2>
+      <p>Career Mobility Support</p>
+    </div>
+  </div>
+
+</section>
+
+<div class="profiles">
+
+  <div class="profile-card">
+    <img src="{% static 'myapp/doc1.jpg' %}" alt="doctor">
+    <div class="profile-content">
+      <h3>Dr. Priya Sharma</h3>
+      <p class="degree">MBBS, PG Dip Ultrasound</p>
+      <p class="location">📍 Melbourne, Australia</p>
+      <span class="profile-badge">Senior Sonographer</span>
+      <p class="quote">"MIATA's structured curriculum and international clinical training gave me the confidence to practice in Australia. The ARDMS pathway preparation was invaluable."</p>
+      <a href="#">View Full Story →</a>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <img src="{% static 'myapp/doc2.jpg' %}" alt="doctor">
+    <div class="profile-content">
+      <h3>Dr. Arjun Patel</h3>
+      <p class="degree">BHMS, PG Dip Ultrasound</p>
+      <p class="location">📍 London, UK</p>
+      <span class="profile-badge">Clinical Sonographer</span>
+      <p class="quote">"The blended learning approach allowed me to continue working while completing my theory modules. The UK clinical placement was transformative."</p>
+      <a href="#">View Full Story →</a>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <img src="{% static 'myapp/doc3.jpg' %}" alt="doctor">
+    <div class="profile-content">
+      <h3>Dr. Mei Chen</h3>
+      <p class="degree">MBBS, PG Dip Ultrasound</p>
+      <p class="location">📍 Dubai, UAE</p>
+      <span class="profile-badge">Consultant Sonographer</span>
+      <p class="quote">"From theory to paid internship, every phase was professionally managed. I'm now working in one of Dubai's leading diagnostic centers."</p>
+      <a href="#">View Full Story →</a>
+    </div>
+  </div>
+
+</div>
+<br><br>
+
+<!-- CURRICULUM SECTION -->
+<section id="curriculum">
+<center>
+  <br>
+  <h1>Comprehensive Academic Curriculum</h1><br><br>
+  <p>Structured theoretical and clinical modules aligned with international standards.</p>
+</center>
+
+  <div class="cards">
+    <div class="card phase1">
+      <div>
+        <h3>Phase 1</h3>
+        <p><strong>Theory (6 Months)</strong></p>
+        <p>Comprehensive online learning with expert-led modules, live sessions, and assessments.</p>
+      </div>
+      <div class="meta">Online • Self-paced</div>
+    </div>
+    <div class="card phase2">
+      <div>
+        <h3>Phase 2</h3>
+        <p><strong>Clinical Training (3 Months)</strong></p>
+        <p>Supervised live scanning in international facilities with experienced mentors.</p>
+      </div>
+      <div class="meta">International • On-site</div>
+    </div>
+    <div class="card phase3">
+      <div>
+        <h3>Phase 3</h3>
+        <p><strong>Paid Internship (3–6 Months)</strong></p>
+        <p>Supervised independent practice with performance-based stipend and career support.</p>
+      </div>
+      <div class="meta">Paid • Professional</div>
+    </div>
+  </div>
+
+  <section class="phase-section">
+    <h2>Phase 1: Theoretical Modules</h2>
+    <div class="accordion">
+
+      <div class="accordion-item open">
+        <div class="accordion-header" onclick="toggle(this)">
+          <span class="accordion-title">Module 1: Ultrasound Physics &amp; Instrumentation</span>
+          <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>Wave propagation and acoustic properties</li>
+            <li>Doppler principles and hemodynamics</li>
+            <li>Image optimization and quality assurance</li>
+            <li>Safety protocols and bioeffects</li>
+            <li>Equipment specifications and troubleshooting</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggle(this)">
+          <span class="accordion-title">Module 2: Abdominal Ultrasound</span>
+          <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>Liver, gallbladder and biliary system imaging</li>
+            <li>Pancreas and spleen assessment</li>
+            <li>Renal and adrenal gland evaluation</li>
+            <li>Bowel and peritoneal cavity scanning</li>
+            <li>Retroperitoneal structures and aorta</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggle(this)">
+          <span class="accordion-title">Module 3: Obstetrics &amp; Gynecology</span>
+          <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>First, second and third trimester scanning protocols</li>
+            <li>Fetal biometry and growth assessment</li>
+            <li>Placental and amniotic fluid evaluation</li>
+            <li>Uterine and ovarian pathology</li>
+            <li>Transvaginal ultrasound techniques</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggle(this)">
+          <span class="accordion-title">Module 4: Vascular &amp; Doppler Studies</span>
+          <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>Carotid and vertebral artery assessment</li>
+            <li>Peripheral arterial and venous mapping</li>
+            <li>Deep vein thrombosis (DVT) evaluation</li>
+            <li>Portal and hepatic vascular studies</li>
+            <li>Colour and spectral Doppler interpretation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggle(this)">
+          <span class="accordion-title">Module 5: Professional Practice &amp; Reporting</span>
+          <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+        </div>
+        <div class="accordion-body">
+          <ul>
+            <li>Structured report writing and clinical communication</li>
+            <li>Medicolegal and ethical responsibilities</li>
+            <li>Patient care and infection control standards</li>
+            <li>Quality management systems in imaging</li>
+            <li>Continuing professional development (CPD)</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="phases-wrapper">
+    <div class="phase">
+      <div class="phase-heading">
+        <div class="phase-number">2</div>
+        <h2 class="phase-title">Phase 2: Clinical Training</h2>
+      </div>
+      <div class="phase-card">
+        <ul class="phase-list">
+          <li>Supervised live scanning with real patients</li>
+          <li>Equipment handling and optimization techniques</li>
+          <li>Patient positioning and communication</li>
+          <li>Real-time reporting and case documentation</li>
+          <li>Interventional ultrasound exposure</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-heading">
+        <div class="phase-number">3</div>
+        <h2 class="phase-title">
+          Phase 3: Paid Internship
+          <span class="phase-badge">Stipend</span>
+        </h2>
+      </div>
+      <div class="phase-card">
+        <ul class="phase-list">
+          <li>Supervised independent scanning responsibilities</li>
+          <li>Comprehensive case log maintenance</li>
+          <li>Performance-based monthly stipend</li>
+          <li>Regular clinical evaluation and feedback</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="info-card">
+    <div class="info-grid">
+      <div class="info-item">
+        <p class="label">Total Duration</p>
+        <h2>12-15 Months</h2>
+      </div>
+      <div class="info-item">
+        <p class="label">Mode</p>
+        <h2>Blended</h2>
+      </div>
+      <div class="info-item">
+        <p class="label">Internship</p>
+        <h2>Paid</h2>
+      </div>
+    </div>
+    <button class="download-btn">⬇ Download Detailed Curriculum</button>
+  </div>
+
+</section>
+<!-- END CURRICULUM SECTION -->
+
+
+<!-- PROGRAM TIMELINE -->
+<section class="timeline-section">
+  <h1>Program Timeline</h1>
+  <br>
+  <p class="timeline-subtitle">
+    A structured pathway from theory to professional practice in 12–15 months.
+  </p>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="circle dark">📖</div>
+      <div class="content">
+        <h3>6 Months Theory</h3>
+        <p>Online modules covering physics, anatomy, and scanning protocols</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="circle teal">🌐</div>
+      <div class="content">
+        <h3>3 Months Clinical</h3>
+        <p>Supervised hands-on training in international facilities</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="circle grey">💼</div>
+      <div class="content">
+        <h3>3–6 Months Internship</h3>
+        <p>Paid professional practice with career progression support</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h1>International Clinical Locations</h1>
+  <p>Train in world-class facilities across six continents and build truly global experience.</p>
+  <div class="image-box">
+    <img src="https://i.pinimg.com/736x/70/9b/36/709b36defc5e1e4079ba0591d424f7f3.jpg" alt="World Map">
+    <div class="overlay">
+      <h2>12+ Locations</h2>
+      <p>Across 6+ countries and growing</p>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="grid">
+    <div class="u-card">
+      <div class="code">GB</div>
+      <h2>United Kingdom</h2>
+      <div class="desc">NHS and private facilities</div>
+      <div class="location"><div class="icon"></div><span>London</span></div>
+      <div class="location"><div class="icon"></div><span>Manchester</span></div>
+      <div class="location"><div class="icon"></div><span>Edinburgh</span></div>
+    </div>
+    <div class="u-card">
+      <div class="code">AU</div>
+      <h2>Australia</h2>
+      <div class="desc">Leading diagnostic centers</div>
+      <div class="location"><div class="icon"></div><span>Sydney</span></div>
+      <div class="location"><div class="icon"></div><span>Melbourne</span></div>
+      <div class="location"><div class="icon"></div><span>Brisbane</span></div>
+    </div>
+    <div class="u-card">
+      <div class="code">AE</div>
+      <h2>United Arab Emirates</h2>
+      <div class="desc">State-of-the-art hospitals</div>
+      <div class="location"><div class="icon"></div><span>Dubai</span></div>
+      <div class="location"><div class="icon"></div><span>Abu Dhabi</span></div>
+    </div>
+    <div class="u-card">
+      <div class="code">MY</div>
+      <h2>Malaysia</h2>
+      <div class="desc">International medical centers</div>
+      <div class="location"><div class="icon"></div><span>Kuala Lumpur</span></div>
+      <div class="location"><div class="icon"></div><span>Penang</span></div>
+    </div>
+    <div class="u-card">
+      <div class="code">MU</div>
+      <h2>Mauritius</h2>
+      <div class="desc">Modern healthcare facilities</div>
+      <div class="location"><div class="icon"></div><span>Port Louis</span></div>
+    </div>
+    <div class="u-card">
+      <div class="code">🌍</div>
+      <h2>Middle East</h2>
+      <div class="desc">Premium healthcare systems</div>
+      <div class="location"><div class="icon"></div><span>Qatar</span></div>
+      <div class="location"><div class="icon"></div><span>Saudi Arabia</span></div>
+    </div>
+  </div>
+</div>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<div class="dta-section">
+  <h1>Choose Your Preferred Training Location</h1>
+  <p>We work with you to match your career goals with the most suitable international training facility.</p>
+  <button class="dta-btn">Discuss Location Options</button>
+</div>
+
+<!-- ADMISSIONS SECTION -->
+<div class="miata-admission" id="admissions">
+
+  <h1 class="miata-title">Admission Process</h1>
+  <p class="miata-subtitle">A transparent, structured pathway from application to professional certification.</p>
+
+  <div class="miata-steps-grid">
+    <div class="miata-step-card">
+      <div class="miata-step-badge">1</div>
+      <h3>Submit Application</h3>
+      <p>Complete online application with academic transcripts and professional credentials.</p>
+    </div>
+    <div class="miata-step-card">
+      <div class="miata-step-badge">2</div>
+      <h3>Eligibility Review</h3>
+      <p>Our admissions team reviews your qualifications and conducts an interview assessment.</p>
+    </div>
+    <div class="miata-step-card">
+      <div class="miata-step-badge">3</div>
+      <h3>Enrollment Confirmation</h3>
+      <p>Receive admission offer, complete enrollment formalities, and payment plan setup.</p>
+    </div>
+    <div class="miata-step-card">
+      <div class="miata-step-badge">4</div>
+      <h3>Academic Phase</h3>
+      <p>Begin online theory modules with live sessions, assessments, and expert mentorship.</p>
+    </div>
+    <div class="miata-step-card">
+      <div class="miata-step-badge">5</div>
+      <h3>Clinical Placement</h3>
+      <p>International clinical training placement based on your preferences and availability.</p>
+    </div>
+    <div class="miata-step-card">
+      <div class="miata-step-badge">6</div>
+      <h3>Internship &amp; Graduation</h3>
+      <p>Paid internship placement leading to PG Diploma certification and ARDMS eligibility.</p>
+    </div>
+  </div>
+
+  <div class="miata-eligibility-box">
+    <h2>Eligibility Requirements</h2>
+    <br>
+    <div class="miata-eligibility-grid">
+      <div>
+        <h4>Academic Qualifications</h4>
+        <br>
+        <ul>
+          <li>MBBS, BHMS, BAMS, or equivalent medical degree</li>
+          <li>Biomedical sciences degree holders (case-by-case)</li>
+          <li>Minimum aggregate of 50% or equivalent</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Additional Requirements</h4>
+        <br>
+        <ul>
+          <li>English proficiency (IELTS/TOEFL if required)</li>
+          <li>Valid professional registration (if applicable)</li>
+          <li>Passion for diagnostic imaging</li>
+        </ul>
+      </div>
+    </div>
+    <button class="miata-apply-btn" onclick="window.location.href='/apply/'">Start Your Application</button>
+  </div>
+
+</div>
+
+<!-- FEES & SCHOLARSHIPS SECTION -->
+<div class="miata-fees-section" id="fees">
+  <div class="fees-heading-wrapper">
+    <h2 class="fees-section-heading">Fees &amp; Scholarships</h2>
+    <p class="fees-section-subheading">Transparent, structured pricing with scholarship opportunities for deserving candidates.</p>
+  </div>
+
+  <div class="miata-fees-grid">
+    <div class="miata-fee-card miata-fee-dark">
+      <div class="miata-icon-box">$</div>
+      <h3>Program Fee</h3>
+      <h1>AUD $35,000</h1>
+      <p>Comprehensive fee covering all three phases: theory, clinical training, and internship placement.</p>
+      <ul>
+        <li>Complete online theory curriculum with live sessions</li>
+        <li>International clinical training placement</li>
+        <li>Paid internship arrangement and support</li>
+        <li>ARDMS preparation and career guidance</li>
+        <li>Postgraduate Diploma certification</li>
+      </ul>
+    </div>
+    <div class="miata-fee-card miata-fee-teal">
+      <div class="miata-icon-box">🏅</div>
+      <h3>Merit Scholarships</h3>
+      <h1>Up to $10,000</h1>
+      <p>Academic excellence and professional merit scholarships available for qualifying candidates.</p>
+      <ul>
+        <li>Based on academic performance and credentials</li>
+        <li>Professional experience consideration</li>
+        <li>First-come, first-served basis per cohort</li>
+        <li>Applied directly to program fees</li>
+        <li>No separate repayment required</li>
+      </ul>
+      <button class="miata-scholar-btn">Apply for Scholarship</button>
+    </div>
+  </div>
+</div>
+
+<div class="miata-payment-section">
+  <div class="miata-payment-box">
+    <div class="miata-payment-header">
+      <div class="miata-payment-icon">💳</div>
+      <h3>Flexible Payment Plans</h3>
+    </div>
+    <p class="miata-payment-desc">We understand that investing in education is significant. MIATA offers structured payment options to ease your financial planning.</p>
+    <div class="miata-payment-grid">
+      <div class="miata-payment-card">
+        <h4>Full Payment</h4>
+        <p>Pay the entire fee upfront and receive a discount.</p>
+        <span>Save 5%</span>
+      </div>
+      <div class="miata-payment-card">
+        <h4>Phase-Wise Payment</h4>
+        <p>Pay separately for theory, clinical, and internship phases.</p>
+        <span>3 Parts</span>
+      </div>
+      <div class="miata-payment-card">
+        <h4>Monthly Installments</h4>
+        <p>Spread payments over program duration with flexible EMI.</p>
+        <span>12 Months</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="miata-notincluded-box">
+    <h3>What's Not Included</h3>
+    <div class="miata-notincluded-grid">
+      <ul>
+        <li>International travel and visa expenses</li>
+        <li>ARDMS examination fees (payable separately to ARDMS)</li>
+      </ul>
+      <ul>
+        <li>Accommodation during clinical training (assistance provided)</li>
+        <li>Personal expenses and insurance</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- GLOBAL CAREER PATHWAY SECTION -->
+<section class="pathway-section">
+  <div class="pathway-header">
+    <h2>Your Global Career Pathway</h2>
+    <p>Build an internationally recognized career in diagnostic ultrasound with comprehensive support.</p>
+  </div>
+
+  <div class="pathway-grid">
+    <div class="pathway-card">
+      <div class="pathway-icon-wrap">
+        <div class="pathway-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="8" r="4" stroke="white" stroke-width="2"/>
+            <path d="M6 20C6 17 8.7 15 12 15C15.3 15 18 17 18 20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M17 3L18.5 6L22 6.5L19.5 9L20 12.5L17 11L14 12.5L14.5 9L12 6.5L15.5 6L17 3Z" fill="white" opacity="0.8"/>
+          </svg>
+        </div>
+        <div class="pathway-icon-glow"></div>
+      </div>
+      <div class="pathway-tag">Certification</div>
+      <h3>ARDMS Eligibility</h3>
+      <p>Meet all prerequisites for American Registry for Diagnostic Medical Sonography certification — the global gold standard in ultrasound credentials.</p>
+      <a href="#" class="pathway-link">Learn more <span>→</span></a>
+    </div>
+
+    <div class="pathway-card">
+      <div class="pathway-icon-wrap">
+        <div class="pathway-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="white" stroke-width="2"/>
+            <ellipse cx="12" cy="12" rx="4" ry="9" stroke="white" stroke-width="2"/>
+            <line x1="3" y1="12" x2="21" y2="12" stroke="white" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="pathway-icon-glow"></div>
+      </div>
+      <div class="pathway-tag">Global Access</div>
+      <h3>International Registration Pathway</h3>
+      <p>Structured support for professional registration in UK (HCPC), Australia (ASAR), and other international sonography boards worldwide.</p>
+      <a href="#" class="pathway-link">Learn more <span>→</span></a>
+    </div>
+
+    <div class="pathway-card">
+      <div class="pathway-icon-wrap">
+        <div class="pathway-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="3" width="13" height="17" rx="2" stroke="white" stroke-width="2"/>
+            <line x1="8" y1="8" x2="13" y2="8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="12" x2="15" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="16" x2="11" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="18" cy="18" r="4" fill="#0a2540" stroke="white" stroke-width="1.5"/>
+            <path d="M16.5 18L17.5 19L19.5 17" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pathway-icon-glow"></div>
+      </div>
+      <div class="pathway-tag">Hands-On</div>
+      <h3>Clinical Placement Support</h3>
+      <p>Gain hands-on clinical experience through our network of internationally accredited hospitals and imaging centres across the globe.</p>
+      <a href="#" class="pathway-link">Learn more <span>→</span></a>
+    </div>
+
+    <div class="pathway-card">
+      <div class="pathway-icon-wrap">
+        <div class="pathway-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <polyline points="3,17 8,11 13,14 21,6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="16,6 21,6 21,11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="3" y1="21" x2="21" y2="21" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="pathway-icon-glow"></div>
+      </div>
+      <div class="pathway-tag">Career Growth</div>
+      <h3>Career Mobility Support</h3>
+      <p>Dedicated career advisors help you navigate job markets, visa pathways, and long-term progression in your chosen country of practice.</p>
+      <a href="#" class="pathway-link">Learn more <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+
+<div class="miata-career-section">
+  <div class="miata-outcome-banner">
+    <h2>Graduate Career Outcomes</h2>
+    <p>Our alumni are making impact in leading healthcare institutions worldwide.</p>
+    <div class="miata-stats-row">
+      <div><h1>85%</h1><span>International Placements</span></div>
+      <div><h1>$60K+</h1><span>Average Annual Salary</span></div>
+      <div><h1>90%</h1><span>ARDMS Pass Rate</span></div>
+      <div><h1>15+</h1><span>Countries of Practice</span></div>
+    </div>
+  </div>
+
+  <h2 class="miata-career-title">Career Opportunities</h2>
+
+  <div class="miata-career-grid">
+    <div class="miata-career-card"><h3>Clinical Sonographer</h3><p>Hospitals and diagnostic centers</p></div>
+    <div class="miata-career-card"><h3>Specialist Sonographer</h3><p>Obstetrics, vascular, cardiac subspecialties</p></div>
+    <div class="miata-career-card"><h3>Lead Sonographer</h3><p>Department management and supervision</p></div>
+    <div class="miata-career-card"><h3>Academic Educator</h3><p>Teaching and training programs</p></div>
+    <div class="miata-career-card"><h3>Research Sonographer</h3><p>Clinical trials and medical research</p></div>
+    <div class="miata-career-card"><h3>Private Practice</h3><p>Independent diagnostic services</p></div>
+  </div>
+</div>
+
+
+<section class="cta-section">
+  <div class="cta-box">
+    <h1>Start Your International Ultrasound Career Today</h1>
+    <p class="cta-subtitle">Join hundreds of medical professionals who have transformed their careers with MIATA's globally recognized training program.</p>
+    <div class="buttons">
+      <button class="btn primary" onclick="window.location.href='/apply/'">Apply Now →</button>
+      <button class="btn secondary">📅 Schedule Counseling Call</button>
+    </div>
+    <br>
+    <br>
+    <p class="bottom-text">
+      Next cohort starts: <b>April 2026</b><br>
+      Limited seats available • Rolling admissions
+    </p>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <div class="logo">
+        <div class="logo-box">M</div>
+        <div>
+          <h2>MIATA</h2>
+          <p>Medical Imaging Academy</p>
+        </div>
+      </div>
+      <p class="about">Advancing diagnostic imaging careers through globally accredited ultrasound training and international clinical excellence.</p>
+    </div>
+    <div class="footer-col">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#why-miata">Why MIATA</a></li>
+        <li><a href="#curriculum">Curriculum</a></li>
+        <li><a href="#success-stories">Success Stories</a></li>
+        <li><a href="#admissions">Admissions</a></li>
+        <li><a href="#fees">Fees &amp; Scholarships</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Programs</h3>
+      <ul>
+        <li>PG Diploma in Ultrasound</li>
+        <li>Clinical Training</li>
+        <li>Paid Internship</li>
+        <li>ARDMS Preparation</li>
+        <li>Continuing Education</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Contact Us</h3>
+      <ul class="contact">
+        <li>✉ vijayabhaskar.gdmr@gmail.com</li>
+        <li>📞 +91 99278 29520</li>
+        <li>📍 International Headquarters<br>Sydney, Australia</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 MIATA - Medical Imaging Accredited Training Academy. All rights reserved.</p>
+    <div class="socials">
+      <span>f</span><span>t</span><span>in</span><span>ig</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  function toggle(header) {
+    const item = header.closest('.accordion-item');
+    item.classList.toggle('open');
+  }
+
+  // Smooth scroll navigation
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
