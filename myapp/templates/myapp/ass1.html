@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Assessment – Chapter 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Poppins',sans-serif; background:#eef2f7; padding:30px 20px; color:#1c2b4a; }
+.container { max-width:800px; margin:0 auto; }
+.back-btn { display:inline-flex; align-items:center; gap:8px; background:#1e6bb8; color:white; padding:8px 18px; border-radius:20px; text-decoration:none; font-size:13px; margin-bottom:20px; transition:0.3s; }
+.back-btn:hover { background:#0f4c81; }
+.instructions { border:2px solid #007BFF; border-radius:10px; padding:20px; background:#f9f9ff; margin-bottom:24px; }
+.instructions h2 { color:#007BFF; text-align:center; margin-bottom:14px; font-size:20px; }
+.instructions ul { font-size:15px; line-height:1.7; padding-left:20px; }
+.instructions .warning { text-align:center; color:#d63384; font-weight:bold; margin-top:12px; font-size:14px; }
+.question { margin-bottom:20px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.08); }
+.question p { font-size:16px; font-weight:600; margin-bottom:14px; }
+.option { padding:12px 16px; margin:8px 0; border-radius:8px; background:#f1f3f6; cursor:pointer; display:flex; align-items:center; gap:10px; transition:0.2s; }
+.option:hover { background:#e3eaf5; }
+.option input { accent-color:#1e6bb8; width:16px; height:16px; }
+.correct { border:2px solid #2ecc71; background:#eafaf1; }
+.wrong    { border:2px solid #e74c3c; background:#fdf2f2; }
+.explanation { display:none; margin-top:12px; padding:12px; background:#f0f7ff; border-left:4px solid #0984e3; border-radius:6px; font-size:14px; color:#444; }
+.hint-toggle { color:#555; font-size:13px; cursor:pointer; float:right; }
+.hint-box { display:none; margin-top:10px; padding:10px; background:#f1f9ff; border-left:4px solid #0984e3; border-radius:5px; font-size:14px; color:#444; }
+.btn-row { text-align:center; margin-top:10px; }
+button { padding:12px 28px; border:none; border-radius:10px; font-size:15px; cursor:pointer; margin:10px; font-family:'Poppins',sans-serif; font-weight:600; transition:0.3s; }
+.submit-btn { background:#0984e3; color:white; }
+.submit-btn:hover { background:#076abf; }
+.finish-btn { background:#00b894; color:white; display:none; }
+.finish-btn:hover { background:#00a07d; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="{% url 'chap1' %}" class="back-btn">← Back to Chapter 1</a>
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <h2>📋 Assessment Instructions</h2>
+    <ul>
+      <li>Read all questions carefully before answering.</li>
+      <li>You must score <strong>at least 80%</strong> to unlock the next module.</li>
+      <li>Once you click <strong>Submit</strong>, your answers will be final — <strong>no changes</strong> can be made.</li>
+      <li>Make sure you have completed all questions before submitting.</li>
+      <li>Your score and result will be displayed immediately after submission.</li>
+    </ul>
+    <p class="warning">⚠️ Once submitted, answers cannot be edited!</p>
+  </div>
+
+  <form id="quizForm" method="POST" action="{% url 'result1' %}">
+    {% csrf_token %}
+    <input type="hidden" name="score" id="scoreInput">
+    <input type="hidden" name="total" id="totalInput">
+
+    <!-- Question 1 -->
+    <div class="question" data-correct="b">
+      <span class="hint-toggle" onclick="toggleHint('hint1', this)">Show hint ▼</span>
+      <p>1. Which frequency is used for abdominal ultrasound?</p>
+      <div class="option"><input type="radio" name="q1" value="a"> 10–15 MHz</div>
+      <div class="option"><input type="radio" name="q1" value="b"> 2–5 MHz</div>
+      <div class="option"><input type="radio" name="q1" value="c"> 20–25 MHz</div>
+      <div class="option"><input type="radio" name="q1" value="d"> 7–10 MHz</div>
+      <div id="hint1" class="hint-box">Lower frequency ultrasound penetrates deeper into the abdomen.</div>
+      <div class="explanation">✅ Correct Answer: 2–5 MHz → Curvilinear probes with 2–5 MHz are used for abdominal imaging.</div>
+    </div>
+
+    <!-- Add more questions here following the same pattern -->
+
+    <div class="btn-row">
+      <button type="button" id="submitBtn" class="submit-btn" onclick="checkAnswers()">Submit</button>
+      <button type="submit" id="finishBtn" class="finish-btn">View Result</button>
+    </div>
+  </form>
+
+</div>
+
+<script>
+function toggleHint(id, element){
+  let hint = document.getElementById(id);
+  if(hint.style.display === "block"){
+    hint.style.display = "none";
+    element.innerHTML = "Show hint ▼";
+  } else {
+    hint.style.display = "block";
+    element.innerHTML = "Hide hint ▲";
+  }
+}
+
+function checkAnswers(){
+  let questions = document.querySelectorAll(".question");
+  let total = questions.length;
+  let correct = 0;
+
+  questions.forEach(q => {
+    let correctAns = q.getAttribute("data-correct");
+    let selected   = q.querySelector("input:checked");
+    let explanation = q.querySelector(".explanation");
+
+    let radios = q.querySelectorAll("input");
+    radios.forEach(r => r.disabled = true);
+
+    if(!selected) return;
+
+    let options = q.querySelectorAll(".option");
+    options.forEach(opt => {
+      let radio = opt.querySelector("input");
+      if(radio.value === correctAns) opt.classList.add("correct");
+      if(selected.value !== correctAns && radio.checked) opt.classList.add("wrong");
+    });
+
+    if(selected.value === correctAns) correct++;
+    explanation.style.display = "block";
+  });
+
+  document.getElementById("scoreInput").value = correct;
+  document.getElementById("totalInput").value = total;
+  document.getElementById("submitBtn").style.display = "none";
+  document.getElementById("finishBtn").style.display = "inline-block";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Agreement – MIATA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Poppins',sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; background:#f4f4f4; padding:30px 20px; }
+.agreement-box { background:white; width:100%; max-width:750px; border-radius:4px; box-shadow:0 4px 24px rgba(0,0,0,0.10); overflow:hidden; border:1px solid #ddd; }
+.agreement-header { background:#1b2a4e; padding:35px 40px; color:white; text-align:center; }
+.agreement-header .icon { font-size:36px; margin-bottom:10px; }
+.agreement-header h2 { font-size:20px; font-weight:700; margin-bottom:5px; letter-spacing:0.5px; }
+.agreement-header p { font-size:12px; opacity:0.75; letter-spacing:0.3px; }
+.agreement-body { padding:35px 40px; }
+.doc-title { font-size:16px; font-weight:700; color:#1b2a4e; text-align:center; margin-bottom:4px; letter-spacing:0.5px; text-transform:uppercase; }
+.doc-subtitle { font-size:12px; color:#888; text-align:center; margin-bottom:22px; }
+.terms-box {
+  background:#fafafa;
+  border:1px solid #e0e0e0;
+  border-radius:4px;
+  padding:24px 28px;
+  max-height:400px;
+  overflow-y:auto;
+  margin-bottom:24px;
+  font-size:13px;
+  color:#333;
+  line-height:1.8;
+}
+.terms-box h3 { font-size:13px; font-weight:700; color:#1b2a4e; margin:18px 0 8px 0; text-transform:uppercase; letter-spacing:0.6px; }
+.terms-box h3:first-child { margin-top:0; }
+.terms-box p { margin-bottom:10px; }
+.terms-box ul { padding-left:20px; margin-bottom:10px; }
+.terms-box ul li { margin-bottom:6px; }
+.party-block { background:white; border:1px solid #e0e0e0; border-radius:3px; padding:12px 16px; margin:10px 0; font-size:13px; }
+.party-block strong { color:#1b2a4e; display:block; margin-bottom:4px; }
+.highlight { background:#f5f5f5; border-left:3px solid #1b2a4e; padding:8px 12px; border-radius:2px; margin:10px 0; font-weight:600; color:#333; font-size:13px; }
+.commission-table { width:100%; border-collapse:collapse; margin:10px 0; }
+.commission-table th, .commission-table td { border:1px solid #e0e0e0; padding:8px 12px; text-align:left; font-size:12px; }
+.commission-table th { background:#f0f2f7; font-weight:700; color:#1b2a4e; }
+.divider { border:none; border-top:1px solid #e8e8e8; margin:16px 0; }
+.sign-block { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
+.sign-item { background:white; border:1px solid #e0e0e0; border-radius:4px; padding:16px; }
+.sign-item .sign-label { font-size:11px; font-weight:700; color:#1b2a4e; text-transform:uppercase; letter-spacing:0.7px; display:block; margin-bottom:10px; border-bottom:1px solid #e8e8e8; padding-bottom:8px; }
+.sign-item p { font-size:12px; color:#555; margin-bottom:4px; }
+.sig-blank { min-height:72px; border-bottom:1px solid #bbb; margin:10px 0 12px 0; }
+.checkbox-row { display:flex; align-items:flex-start; gap:12px; margin-bottom:24px; cursor:pointer; }
+.checkbox-row input[type="checkbox"] { width:16px; height:16px; margin-top:3px; accent-color:#1b2a4e; cursor:pointer; flex-shrink:0; }
+.checkbox-row label { font-size:13px; color:#444; cursor:pointer; line-height:1.6; }
+.accept-btn { width:100%; padding:13px; background:#1b2a4e; color:white; border:none; border-radius:4px; font-size:15px; font-weight:600; cursor:pointer; transition:0.2s; font-family:'Poppins',sans-serif; opacity:0.4; pointer-events:none; letter-spacing:0.3px; }
+.accept-btn.enabled { opacity:1; pointer-events:all; }
+.accept-btn.enabled:hover { background:#0f1e38; }
+.decline-link { display:block; text-align:center; margin-top:14px; font-size:12px; color:#aaa; text-decoration:none; }
+.decline-link:hover { color:#1b2a4e; }
+@media(max-width:600px){
+  .agreement-body { padding:20px; }
+  .agreement-header { padding:25px 20px; }
+  .sign-block { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="agreement-box">
+
+  <div class="agreement-header">
+    <div class="icon">🤝</div>
+    <h2>Student Recruitment Agreement</h2>
+    <p>Please read the full agreement carefully before accessing your portal</p>
+  </div>
+
+  <div class="agreement-body">
+    <div class="doc-title">Student Recruitment Agreement</div>
+    <div class="doc-subtitle">MIATA – Medical Imaging Training Academy</div>
+
+    <div class="terms-box">
+
+      <p>This Agreement is made between:</p>
+
+      <div class="party-block">
+        <strong>MIATA – Medical Imaging Training Academy</strong>
+        Address: Level 3, 51 Queen St, Melbourne Victoria 3000<br>
+        (Hereinafter referred to as "MIATA")
+      </div>
+
+      <div class="party-block">
+        <strong>Agent / Agency</strong>
+        (Hereinafter referred to as "Agent")<br>
+        Collectively referred to as "the Parties".
+      </div>
+
+      <hr class="divider">
+      <h3>1. Appointment</h3>
+      <p>1.1 MIATA appoints the Agent on a non-exclusive, non-transferable basis to promote and recruit eligible students for MIATA's Professional / Post Graduate Diploma in Medical Imaging program.</p>
+      <p>1.2 This Agreement does not create a partnership, joint venture, employment, franchise, or agency relationship beyond student referral activities.</p>
+      <p>1.3 The Agent has no authority to bind MIATA contractually or financially.</p>
+
+      <hr class="divider">
+      <h3>2. Program Description</h3>
+      <p><strong>Program Duration: 1 Year</strong></p>
+      <ul>
+        <li>6 Months Online Theory</li>
+        <li>3 Months Practical Hands-on Training</li>
+        <li>6 Months Internship (with stipend)</li>
+      </ul>
+      <p>Eligibility includes MBBS (including foreign medical graduates), BHMS, BAMS, BNYS, and other approved health science qualifications.</p>
+
+      <hr class="divider">
+      <h3>3. Strict Prohibition on Fee Collection</h3>
+      <div class="highlight">⚠️ The Agent shall NOT collect any fees from students on behalf of MIATA.</div>
+      <p>3.1 The Agent shall not collect, receive, demand, or accept any monetary payment from prospective students on behalf of MIATA.</p>
+      <p>3.2 The Agent shall not charge service fees, admission fees, processing fees, or "guarantee fees" in MIATA's name.</p>
+      <p>3.3 All tuition fees must be paid directly to MIATA's official bank account.</p>
+      <p>3.4 Any breach of this clause shall result in:</p>
+      <ul>
+        <li>Immediate termination</li>
+        <li>Forfeiture of unpaid commission</li>
+        <li>Legal action for misrepresentation and damages</li>
+      </ul>
+
+      <hr class="divider">
+      <h3>4. Commission Structure</h3>
+      <p>Commission shall be calculated on tuition fees actually received by MIATA, excluding taxes and refunds.</p>
+      <table class="commission-table">
+        <thead><tr><th>Enrolled Students</th><th>Commission Rate</th></tr></thead>
+        <tbody>
+          <tr><td>First 5–10 students</td><td>10%</td></tr>
+          <tr><td>11–30 students</td><td>12%</td></tr>
+          <tr><td>31–50 students</td><td>15%</td></tr>
+          <tr><td>Above 50 students</td><td>Separate written agreement</td></tr>
+        </tbody>
+      </table>
+      <p>Commission is payable only after: (a) Student enrollment is confirmed, (b) Tuition fees are received by MIATA in full, (c) Cooling-off period (if applicable) has expired.</p>
+      <p>If a student withdraws or receives a refund, the corresponding commission shall not be payable or shall be clawed back.</p>
+
+      <hr class="divider">
+      <h3>5. Industry Standard Commission Disclosure</h3>
+      <p>The Parties acknowledge that Australian higher education institutions commonly offer commission structures ranging between 10% to 20% of tuition fees, depending on volume and performance.</p>
+
+      <hr class="divider">
+      <h3>6. Agent Obligations</h3>
+      <p>The Agent shall:</p>
+      <ul>
+        <li>6.1 Provide accurate, current, and written information approved by MIATA.</li>
+        <li>6.2 Avoid false representations regarding immigration outcomes, income guarantees, or employment assurances.</li>
+        <li>6.3 Comply with Australian Consumer Law and fair-trading standards.</li>
+        <li>6.4 Maintain proper records of student communications.</li>
+        <li>6.5 Protect student data in accordance with Australian privacy principles.</li>
+      </ul>
+      <p>The Agent shall indemnify MIATA against claims arising from misrepresentation, negligence, or unlawful conduct.</p>
+
+      <hr class="divider">
+      <h3>7. Compliance with Australian Law</h3>
+      <p>7.1 This Agreement shall be governed by and interpreted in accordance with the laws of the Commonwealth of Australia.</p>
+      <p>7.2 Any dispute shall first be resolved through good-faith negotiation.</p>
+      <p>7.3 If unresolved, disputes shall be submitted to arbitration in Australia.</p>
+      <p>7.4 Courts of Australia shall have exclusive jurisdiction.</p>
+
+      <hr class="divider">
+      <h3>8. Intellectual Property</h3>
+      <p>8.1 MIATA retains full ownership of all course materials, branding, trademarks, curriculum, and marketing content.</p>
+      <p>8.2 The Agent may use MIATA branding strictly for approved recruitment activities only during the term of this Agreement.</p>
+
+      <hr class="divider">
+      <h3>9. Confidentiality</h3>
+      <p>All commercial information, fee structures, student data, and training materials are confidential. This obligation survives termination for a period of five (5) years.</p>
+
+      <hr class="divider">
+      <h3>10. Term and Termination</h3>
+      <p>10.1 Term: 1 year from signing date.</p>
+      <p>10.2 Either Party may terminate with 30 days written notice.</p>
+      <p>10.3 Immediate termination applies in case of:</p>
+      <ul>
+        <li>Fee collection violation</li>
+        <li>Fraud or misrepresentation</li>
+        <li>Reputational damage</li>
+        <li>Breach of confidentiality</li>
+      </ul>
+      <p>Upon termination, the Agent must cease using MIATA branding immediately.</p>
+
+      <hr class="divider">
+      <h3>11. Indemnity</h3>
+      <p>The Agent agrees to indemnify and hold harmless MIATA from any losses, claims, penalties, regulatory fines, or reputational damage arising from the Agent's misconduct or breach.</p>
+
+      <hr class="divider">
+      <h3>12. Non-Solicitation</h3>
+      <p>The Agent shall not independently offer competing medical imaging programs using MIATA's materials or confidential information during the term and for 12 months thereafter.</p>
+
+      <hr class="divider">
+      <h3>13. Entire Agreement</h3>
+      <p>This Agreement constitutes the entire understanding between the Parties and supersedes prior discussions. Amendments must be in writing and signed by both Parties.</p>
+
+      <hr class="divider">
+
+      <div class="sign-block">
+
+        <div class="sign-item">
+          <span class="sign-label">Signed for MIATA</span>
+          <div style="margin:10px 0; min-height:70px; display:flex; align-items:center;">
+            <img
+              src="{% static 'myapp/sign1.jpeg' %}"
+              alt="Wanda Cox Signature"
+              style="max-width:200px; height:70px; object-fit:contain;"
+            >
+          </div>
+          <p style="font-size:11px; color:#2e7d32; font-style:italic; margin-bottom:6px;">
+            <i class="fas fa-check-circle"></i> Electronically Signed
+          </p>
+          <p><strong>Name:</strong> Ms. Wanda Cox</p>
+          <p><strong>Title:</strong> Director of Education</p>
+          <p><strong>On behalf of:</strong> MIATA</p>
+          <p style="font-size:11px; color:#999; margin-top:8px;">This is a legally binding electronic signature.</p>
+        </div>
+
+        <div class="sign-item">
+          <span class="sign-label">Signed for Agent</span>
+          <div class="sig-blank"></div>
+          <p><strong>Name:</strong> ___________________</p>
+          <p><strong>Signature:</strong> ___________________</p>
+          <p><strong>Date:</strong> ___________________</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <form method="POST" action="{% url 'agent_agreement' %}">
+      {% csrf_token %}
+      <div class="checkbox-row">
+        <input type="checkbox" id="agree-check" onchange="toggleBtn(this)">
+        <label for="agree-check">I have read, understood, and agree to the MIATA Student Recruitment Agreement. I understand my responsibilities and obligations as an Agent.</label>
+      </div>
+      <button type="submit" class="accept-btn" id="accept-btn">
+        <i class="fas fa-check-circle"></i> Accept & Continue to Dashboard
+      </button>
+    </form>
+    <a href="{% url 'logout' %}" class="decline-link">Decline & Logout</a>
+  </div>
+
+</div>
+
+<script>
+function toggleBtn(checkbox) {
+  document.getElementById('accept-btn').classList.toggle('enabled', checkbox.checked);
+}
+</script>
+</body>
+</html>

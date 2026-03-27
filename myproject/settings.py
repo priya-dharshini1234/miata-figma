@@ -74,12 +74,21 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# Keep the default sqlite3 for Django's internal tables
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# MongoDB Atlas connection via pymongo
+import pymongo
+
+MONGO_CLIENT = pymongo.MongoClient(
+    'mongodb+srv://miataorg:miatawebsite@cluster0.ntfbcdf.mongodb.net/miata_db?retryWrites=true&w=majority&appName=Cluster0'
+)
+MONGO_DB = MONGO_CLIENT['miata_db']
 
 
 # Password validation

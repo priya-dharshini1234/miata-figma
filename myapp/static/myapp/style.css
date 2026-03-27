@@ -1572,3 +1572,68 @@ ul.phase-list li::before {
   .footer-container { grid-template-columns: 1fr; }
   .footer-bottom    { flex-direction: column; gap: 10px; text-align: center; }
 }
+/* Section spacing */
+.info-section {
+    padding: 60px 8%;
+}
+
+/* Optional light background */
+.light-bg {
+    background-color: #f5f7fb;
+}
+
+/* Title */
+.section-title {
+    text-align: center;
+    font-size: 34px;
+    margin-bottom: 40px;
+    color: #0a2a66; /* ink blue */
+    font-weight: 600;
+}
+
+/* Grid container */
+.info-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+/* Card box */
+.info-box {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.info-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+}
+
+/* Headings */
+.info-box h2 {
+    color: #0a2a66;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+/* Text */
+.info-box p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Links */
+.info-box a {
+    color: #0a2a66;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.info-box a:hover {
+    text-decoration: underline;
+}

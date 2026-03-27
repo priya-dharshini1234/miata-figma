@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - MIATA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Poppins',sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#0a2641,#053b72);
+  padding:20px;
+}
+
+.wrapper {
+  display:flex;
+  width:850px;
+  max-width:100%;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 15px 50px rgba(0,0,0,0.3);
+}
+
+.left-panel {
+  background:linear-gradient(160deg,#aeb1b3,#1565c0);
+  width:45%;
+  padding:50px 35px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+}
+
+.left-panel img {
+  width:110px;
+  margin-bottom:25px;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+}
+
+.left-panel h1 {
+  font-size:26px;
+  font-weight:700;
+  margin-bottom:12px;
+  letter-spacing:1px;
+}
+
+.left-panel p {
+  font-size:13px;
+  color:rgba(255,255,255,0.75);
+  line-height:1.7;
+}
+
+.left-panel .tagline {
+  margin-top:30px;
+  font-size:12px;
+  color:rgba(255,255,255,0.5);
+  border-top:1px solid rgba(255,255,255,0.2);
+  padding-top:20px;
+  width:100%;
+}
+
+.right-panel {
+  background:#fff;
+  width:55%;
+  padding:50px 45px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.right-panel h2 {
+  font-size:22px;
+  color:#0a2641;
+  margin-bottom:8px;
+  font-weight:600;
+}
+
+.right-panel p {
+  color:#888;
+  font-size:13px;
+  margin-bottom:28px;
+}
+
+.messages { list-style:none; margin-bottom:16px; }
+.messages li { padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:8px; }
+.messages li.error   { background:#fde8e8; color:#b91c1c; }
+.messages li.success { background:#d1fae5; color:#065f46; }
+.messages li.warning { background:#fef3c7; color:#92400e; }
+.messages li.info    { background:#dbeafe; color:#1e40af; }
+
+.btn {
+  display:block;
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:500;
+  cursor:pointer;
+  text-decoration:none;
+  transition:0.3s;
+  text-align:center;
+  letter-spacing:0.3px;
+  font-family:'Poppins',sans-serif;
+}
+
+.student-btn   { background:#1a6b3c; color:white; }
+.student-btn:hover { background:#0d3b21; transform:translateY(-2px); }
+
+.agent-btn     { background:#b5660a; color:white; }
+.agent-btn:hover { background:#7a3f00; transform:translateY(-2px); }
+
+.professor-btn { background:#1d2671; color:white; }
+.professor-btn:hover { background:#131842; transform:translateY(-2px); }
+
+.divider { border:none; height:1px; background:#eee; margin:18px 0; }
+
+.register-btn {
+  display:block;
+  width:100%;
+  padding:14px;
+  border:2px solid #0a2641;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:500;
+  cursor:pointer;
+  text-decoration:none;
+  transition:0.3s;
+  background:white;
+  color:#0a2641;
+  text-align:center;
+  font-family:'Poppins',sans-serif;
+}
+
+.register-btn:hover { background:#0a2641; color:white; transform:translateY(-2px); }
+
+.home-link { margin-top:18px; font-size:12px; color:#aaa; text-align:center; }
+.home-link a { color:#0a2641; font-weight:600; text-decoration:none; }
+.home-link a:hover { text-decoration:underline; }
+
+@media (max-width: 768px) {
+  .wrapper { flex-direction:column; width:100%; max-width:440px; }
+  .left-panel { width:100%; padding:35px 25px; }
+  .left-panel h1 { font-size:20px; }
+  .right-panel { width:100%; padding:35px 25px; }
+}
+
+@media (max-width: 480px) {
+  .wrapper { border-radius:14px; }
+  .left-panel { padding:25px 20px; }
+  .left-panel img { width:80px; }
+  .right-panel { padding:25px 20px; }
+  .btn, .register-btn { font-size:14px; padding:12px; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <img src="{% static 'myapp/miatalogo.png' %}" alt="MIATA Logo">
+    <h1>MIATA</h1>
+    <p>Medical Imaging and Advanced Technology Academy</p>
+    <div class="tagline">Advancing Healthcare Education Through Innovation</div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <h2>Welcome Back 👋</h2>
+    <p>Please select your portal to continue</p>
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <a href="{% url 'login_student' %}" class="btn student-btn">🎓 Student Login</a>
+    <a href="{% url 'login_agent' %}" class="btn agent-btn">🤝 Agent Login</a>
+    <a href="{% url 'login_professor' %}" class="btn professor-btn">👨‍🏫 Professor Login</a>
+
+    <hr class="divider">
+
+    
+    <div class="home-link">
+      <a href="{% url 'home' %}">← Back to Home</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
