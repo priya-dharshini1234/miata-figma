@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FAQ Section</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+            color: #222;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .faq-item {
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        .faq-question {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .faq-question::after {
+            content: "+";
+            position: absolute;
+            right: 20px;
+            font-size: 18px;
+        }
+
+        .faq-item.active .faq-question::after {
+            content: "-";
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 15px;
+            transition: 0.3s ease;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 15px;
+        }
+    </style>
+
+</head>
+<body>
+
+<h2>Frequently Asked Questions</h2>
+
+<div class="faq-container">
+
+    <!-- LOGIN -->
+    <div class="faq-item">
+        <div class="faq-question">How do I log in to MiataEdu.org?</div>
+        <div class="faq-answer">
+            Students can log in using their registered email ID and password provided during enrollment. Check your email for login credentials.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">What should I do if I forget my password?</div>
+        <div class="faq-answer">
+            Click on "Forgot Password" on the login page and follow the reset instructions sent to your email.
+        </div>
+    </div>
+
+    <!-- ACCESS -->
+    <div class="faq-item">
+        <div class="faq-question">Can I access the platform on mobile?</div>
+        <div class="faq-answer">
+            Yes, the platform is mobile-friendly and works on Android and iOS browsers.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">What resources are available after login?</div>
+        <div class="faq-answer">
+            You get access to course materials, lectures, assignments, medical resources, discussion forums, and assessments.
+        </div>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="faq-item">
+        <div class="faq-question">How can I contact support?</div>
+        <div class="faq-answer">
+            Use the Contact Us section and include your student ID with issue details.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">Is my data secure?</div>
+        <div class="faq-answer">
+            Yes, the platform uses secure login protocols and encryption to protect student data.
+        </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="faq-item">
+        <div class="faq-question">Can I update my profile?</div>
+        <div class="faq-answer">
+            Yes, go to your profile settings to update personal details and preferences.
+        </div>
+    </div>
+
+    <!-- COURSE -->
+    <div class="faq-item">
+        <div class="faq-question">Does MIATA offer a diploma in ultrasound imaging?</div>
+        <div class="faq-answer">
+            Yes, MIATA offers a Professional Diploma in Medical Imaging (Ultrasound) with blended learning and clinical training.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">Is the course accredited?</div>
+        <div class="faq-answer">
+            The program is designed to meet CASE standards and AIUM/ACR international guidelines. Students are eligible for ARDMS exams.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">What about clinical placements?</div>
+        <div class="faq-answer">
+            MIATA provides clinical placements with mentor support and global partnerships with hospitals and clinics.
+        </div>
+    </div>
+
+    <!-- CAREER -->
+    <div class="faq-item">
+        <div class="faq-question">Is there demand for ultrasound professionals?</div>
+        <div class="faq-answer">
+            Yes, there is strong global demand due to increased use of ultrasound in healthcare.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">Are jobs available after completion?</div>
+        <div class="faq-answer">
+            Yes, graduates can work in hospitals, clinics, maternity wards, and diagnostic centers.
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-question">What is MIATA’s biggest advantage?</div>
+        <div class="faq-answer">
+            MIATA offers an international curriculum with blended learning and strong clinical exposure.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    faqItems.forEach(item => {
+        item.addEventListener("click", () => {
+            item.classList.toggle("active");
+        });
+    });
+</script>
+
+</body>
+</html>

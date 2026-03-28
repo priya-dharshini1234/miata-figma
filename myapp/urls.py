@@ -22,4 +22,5 @@ urlpatterns = [
     path('chap1/result/',       views.result1,           name='result1'),
     path('chap1/submit/',       views.submit_coursework, name='submit_coursework'),
     path('agent/agreement/view/', views.view_agreement, name='view_agreement'),
+    path('faq/', views.faq, name='faq'),
 ]

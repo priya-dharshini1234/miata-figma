@@ -15,6 +15,9 @@ def index(request):
 
 def apply(request):
     return render(request, 'myapp/apply.html')
+def faq(request):
+    return render(request, 'myapp/faq.html')
+
 
 def login(request):
     return render(request, 'myapp/login.html')
