@@ -5,60 +5,182 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Agreement – MIATA</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Poppins',sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; background:#f4f4f4; padding:30px 20px; }
-.agreement-box { background:white; width:100%; max-width:750px; border-radius:4px; box-shadow:0 4px 24px rgba(0,0,0,0.10); overflow:hidden; border:1px solid #ddd; }
-.agreement-header { background:#1b2a4e; padding:35px 40px; color:white; text-align:center; }
-.agreement-header .icon { font-size:36px; margin-bottom:10px; }
-.agreement-header h2 { font-size:20px; font-weight:700; margin-bottom:5px; letter-spacing:0.5px; }
-.agreement-header p { font-size:12px; opacity:0.75; letter-spacing:0.3px; }
-.agreement-body { padding:35px 40px; }
-.doc-title { font-size:16px; font-weight:700; color:#1b2a4e; text-align:center; margin-bottom:4px; letter-spacing:0.5px; text-transform:uppercase; }
-.doc-subtitle { font-size:12px; color:#888; text-align:center; margin-bottom:22px; }
-.terms-box {
-  background:#fafafa;
-  border:1px solid #e0e0e0;
-  border-radius:4px;
-  padding:24px 28px;
-  max-height:400px;
-  overflow-y:auto;
-  margin-bottom:24px;
-  font-size:13px;
-  color:#333;
-  line-height:1.8;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Times New Roman", serif;
+  background: #ffffff;
+  padding: 40px 20px;
+  color: #000000;
+  line-height: 1.7;
 }
-.terms-box h3 { font-size:13px; font-weight:700; color:#1b2a4e; margin:18px 0 8px 0; text-transform:uppercase; letter-spacing:0.6px; }
-.terms-box h3:first-child { margin-top:0; }
-.terms-box p { margin-bottom:10px; }
-.terms-box ul { padding-left:20px; margin-bottom:10px; }
-.terms-box ul li { margin-bottom:6px; }
-.party-block { background:white; border:1px solid #e0e0e0; border-radius:3px; padding:12px 16px; margin:10px 0; font-size:13px; }
-.party-block strong { color:#1b2a4e; display:block; margin-bottom:4px; }
-.highlight { background:#f5f5f5; border-left:3px solid #1b2a4e; padding:8px 12px; border-radius:2px; margin:10px 0; font-weight:600; color:#333; font-size:13px; }
-.commission-table { width:100%; border-collapse:collapse; margin:10px 0; }
-.commission-table th, .commission-table td { border:1px solid #e0e0e0; padding:8px 12px; text-align:left; font-size:12px; }
-.commission-table th { background:#f0f2f7; font-weight:700; color:#1b2a4e; }
-.divider { border:none; border-top:1px solid #e8e8e8; margin:16px 0; }
-.sign-block { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
-.sign-item { background:white; border:1px solid #e0e0e0; border-radius:4px; padding:16px; }
-.sign-item .sign-label { font-size:11px; font-weight:700; color:#1b2a4e; text-transform:uppercase; letter-spacing:0.7px; display:block; margin-bottom:10px; border-bottom:1px solid #e8e8e8; padding-bottom:8px; }
-.sign-item p { font-size:12px; color:#555; margin-bottom:4px; }
-.sig-blank { min-height:72px; border-bottom:1px solid #bbb; margin:10px 0 12px 0; }
-.checkbox-row { display:flex; align-items:flex-start; gap:12px; margin-bottom:24px; cursor:pointer; }
-.checkbox-row input[type="checkbox"] { width:16px; height:16px; margin-top:3px; accent-color:#1b2a4e; cursor:pointer; flex-shrink:0; }
-.checkbox-row label { font-size:13px; color:#444; cursor:pointer; line-height:1.6; }
-.accept-btn { width:100%; padding:13px; background:#1b2a4e; color:white; border:none; border-radius:4px; font-size:15px; font-weight:600; cursor:pointer; transition:0.2s; font-family:'Poppins',sans-serif; opacity:0.4; pointer-events:none; letter-spacing:0.3px; }
-.accept-btn.enabled { opacity:1; pointer-events:all; }
-.accept-btn.enabled:hover { background:#0f1e38; }
-.decline-link { display:block; text-align:center; margin-top:14px; font-size:12px; color:#aaa; text-decoration:none; }
-.decline-link:hover { color:#1b2a4e; }
-@media(max-width:600px){
-  .agreement-body { padding:20px; }
-  .agreement-header { padding:25px 20px; }
-  .sign-block { grid-template-columns:1fr; }
+
+.agreement-box {
+  max-width: 800px;
+  margin: auto;
+  padding: 40px 50px;
+  border: 1px solid #000;
+}
+
+.agreement-header { text-align: center; margin-bottom: 30px; }
+.agreement-header h2 { font-size: 20px; font-weight: bold; text-transform: uppercase; }
+.agreement-header p { font-size: 13px; margin-top: 5px; }
+
+.doc-title { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+.doc-subtitle { text-align: center; font-size: 13px; margin-bottom: 25px; }
+
+.terms-box { font-size: 14px; }
+.terms-box h3 { font-size: 14px; font-weight: bold; margin-top: 20px; text-transform: uppercase; }
+.terms-box p { margin: 8px 0; text-align: justify; }
+.terms-box ul { margin: 8px 0 10px 20px; }
+.terms-box ul li { margin-bottom: 5px; }
+
+.party-block { margin: 10px 0; }
+.party-block strong { display: block; }
+.highlight { font-weight: bold; margin: 10px 0; }
+
+.commission-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+.commission-table th,
+.commission-table td { border: 1px solid #000; padding: 8px; font-size: 13px; }
+.commission-table th { font-weight: bold; }
+
+.divider { border: none; border-top: 1px solid #000; margin: 15px 0; }
+
+.sign-block {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  gap: 40px;
+  align-items: flex-start;
+}
+.sign-item { width: 100%; }
+.sign-label { font-weight: bold; margin-bottom: 10px; display: block; font-size: 14px; }
+.e-signed-note { font-size: 11px; font-style: italic; margin-bottom: 6px; }
+.legal-note { font-size: 11px; color: #555; margin-top: 8px; }
+
+.esign-panel { border: 1px solid #000; padding: 16px; }
+
+.esign-tabs { display: flex; border-bottom: 1px solid #000; margin-bottom: 14px; }
+.esign-tab {
+  padding: 6px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #fff;
+  border: none;
+  border-right: 1px solid #000;
+  font-family: "Times New Roman", serif;
+  color: #000;
+}
+.esign-tab:last-child { border-right: none; }
+.esign-tab.active { background: #000; color: #fff; }
+
+.canvas-wrap {
+  position: relative;
+  border: 1px solid #000;
+  background: #fff;
+  cursor: crosshair;
+}
+#sig-canvas { display: block; width: 100%; height: 110px; touch-action: none; }
+.canvas-hint {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px; color: #aaa;
+  pointer-events: none; white-space: nowrap; font-style: italic;
+}
+
+#panel-type { display: none; }
+#panel-type input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000;
+  font-family: "Dancing Script", cursive;
+  font-size: 28px;
+  padding: 6px 2px;
+  outline: none;
+  background: #fff;
+  color: #000;
+}
+
+#panel-upload { display: none; }
+.upload-label {
+  display: block;
+  border: 1px dashed #000;
+  padding: 20px;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+#sig-upload-input { display: none; }
+#upload-preview {
+  max-width: 100%; max-height: 80px;
+  margin-top: 8px; display: none;
+  filter: grayscale(100%);
+}
+
+.esign-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+.esign-controls button {
+  font-size: 11px; padding: 4px 10px;
+  border: 1px solid #000; background: #fff;
+  cursor: pointer; font-family: "Times New Roman", serif; color: #000;
+}
+.esign-controls button:hover { background: #000; color: #fff; }
+#sig-status { font-size: 11px; font-style: italic; }
+
+.sig-confirmed-msg {
+  display: none;
+  margin-top: 10px;
+  font-size: 12px;
+  font-style: italic;
+  border-top: 1px solid #000;
+  padding-top: 8px;
+}
+.sig-confirmed-msg.visible { display: block; }
+
+.agent-fields { margin-top: 14px; }
+.agent-fields p { font-size: 13px; margin-bottom: 8px; }
+.agent-fields input[type="text"],
+.agent-fields input[type="date"] {
+  border: none;
+  border-bottom: 1px solid #000;
+  width: 200px;
+  font-family: "Times New Roman", serif;
+  font-size: 13px;
+  padding: 2px 4px;
+  outline: none;
+  background: #fff;
+  color: #000;
+}
+
+.checkbox-row { margin-top: 30px; display: flex; gap: 10px; font-size: 13px; }
+.checkbox-row input { margin-top: 4px; accent-color: #000; }
+
+.accept-btn {
+  width: 100%; padding: 12px; margin-top: 20px;
+  border: 1px solid #000; background: #fff; color: #000;
+  font-size: 14px; cursor: pointer;
+  font-family: "Times New Roman", serif;
+  opacity: 0.35; pointer-events: none;
+}
+.accept-btn.enabled { opacity: 1; pointer-events: all; }
+.accept-btn:hover { background: #000; color: #fff; }
+
+.decline-link {
+  display: block; text-align: center; margin-top: 15px;
+  font-size: 12px; text-decoration: underline; color: #000;
+}
+
+@media (max-width: 600px) {
+  .agreement-box { padding: 25px; }
+  .sign-block { flex-direction: column; }
+  .agent-fields input[type="text"],
+  .agent-fields input[type="date"] { width: 100%; }
 }
 </style>
 </head>
@@ -66,7 +188,6 @@ body { font-family:'Poppins',sans-serif; min-height:100vh; display:flex; align-i
 <div class="agreement-box">
 
   <div class="agreement-header">
-    <div class="icon">🤝</div>
     <h2>Student Recruitment Agreement</h2>
     <p>Please read the full agreement carefully before accessing your portal</p>
   </div>
@@ -109,7 +230,7 @@ body { font-family:'Poppins',sans-serif; min-height:100vh; display:flex; align-i
 
       <hr class="divider">
       <h3>3. Strict Prohibition on Fee Collection</h3>
-      <div class="highlight">⚠️ The Agent shall NOT collect any fees from students on behalf of MIATA.</div>
+      <div class="highlight">WARNING: The Agent shall NOT collect any fees from students on behalf of MIATA.</div>
       <p>3.1 The Agent shall not collect, receive, demand, or accept any monetary payment from prospective students on behalf of MIATA.</p>
       <p>3.2 The Agent shall not charge service fees, admission fees, processing fees, or "guarantee fees" in MIATA's name.</p>
       <p>3.3 All tuition fees must be paid directly to MIATA's official bank account.</p>
@@ -196,55 +317,271 @@ body { font-family:'Poppins',sans-serif; min-height:100vh; display:flex; align-i
 
       <div class="sign-block">
 
+        <!-- MIATA -->
         <div class="sign-item">
           <span class="sign-label">Signed for MIATA</span>
-          <div style="margin:10px 0; min-height:70px; display:flex; align-items:center;">
-            <img
-              src="{% static 'myapp/sign1.jpeg' %}"
-              alt="Wanda Cox Signature"
-              style="max-width:200px; height:70px; object-fit:contain;"
-            >
+          <div style="margin:10px 0;min-height:70px;display:flex;align-items:center;">
+            <img src="{% static 'myapp/sign1.jpeg' %}" alt="Wanda Cox Signature"
+              style="max-width:200px;height:70px;object-fit:contain;filter:grayscale(100%);">
           </div>
-          <p style="font-size:11px; color:#2e7d32; font-style:italic; margin-bottom:6px;">
-            <i class="fas fa-check-circle"></i> Electronically Signed
-          </p>
+          <p class="e-signed-note">[ Electronically Signed ]</p>
           <p><strong>Name:</strong> Ms. Wanda Cox</p>
           <p><strong>Title:</strong> Director of Education</p>
           <p><strong>On behalf of:</strong> MIATA</p>
-          <p style="font-size:11px; color:#999; margin-top:8px;">This is a legally binding electronic signature.</p>
+          <p class="legal-note">This is a legally binding electronic signature.</p>
         </div>
 
+        <!-- AGENT E-SIGN -->
         <div class="sign-item">
           <span class="sign-label">Signed for Agent</span>
-          <div class="sig-blank"></div>
-          <p><strong>Name:</strong> ___________________</p>
-          <p><strong>Signature:</strong> ___________________</p>
-          <p><strong>Date:</strong> ___________________</p>
-        </div>
 
+          <div class="esign-panel">
+
+            <div class="esign-tabs">
+              <button type="button" class="esign-tab active" onclick="switchTab('draw',this)">Draw</button>
+              <button type="button" class="esign-tab"        onclick="switchTab('type',this)">Type</button>
+              <button type="button" class="esign-tab"        onclick="switchTab('upload',this)">Upload</button>
+            </div>
+
+            <!-- Draw -->
+            <div id="panel-draw">
+              <div class="canvas-wrap">
+                <canvas id="sig-canvas" width="600" height="110"></canvas>
+                <span class="canvas-hint" id="canvas-hint">Draw your signature here</span>
+              </div>
+            </div>
+
+            <!-- Type -->
+            <div id="panel-type">
+              <input type="text" id="type-sig" placeholder="Type your full name" oninput="onTypeInput()" autocomplete="off">
+            </div>
+
+            <!-- Upload -->
+            <div id="panel-upload">
+              <label class="upload-label" for="sig-upload-input">
+                Click to upload your signature image<br>
+                <span style="font-size:10px;">(PNG or JPG recommended)</span>
+              </label>
+              <input type="file" id="sig-upload-input" accept="image/*" onchange="handleUpload(event)">
+              <img id="upload-preview" alt="Uploaded signature">
+            </div>
+
+            <div class="esign-controls">
+              <span id="sig-status">No signature yet</span>
+              <div style="display:flex;gap:6px;">
+                <button type="button" onclick="clearSig()">Clear</button>
+                <button type="button" onclick="confirmSig()">Confirm Signature</button>
+              </div>
+            </div>
+
+            <div class="sig-confirmed-msg" id="sig-confirmed-msg">
+              &#10003; Signature confirmed &mdash; <span id="sig-timestamp"></span>
+            </div>
+
+          </div>
+
+          <div class="agent-fields">
+            <p><strong>Name:</strong>&nbsp;
+              <input type="text" id="agent-name" placeholder="Full legal name">
+            </p>
+            <p><strong>Date:</strong>&nbsp;
+              <input type="date" id="agent-date">
+            </p>
+          </div>
+
+        </div>
       </div>
 
     </div>
 
-    <form method="POST" action="{% url 'agent_agreement' %}">
+    <form method="POST" action="{% url 'agent_agreement' %}" id="agreement-form" onsubmit="return validateForm()">
       {% csrf_token %}
+      <input type="hidden" name="signature_data"  id="sig-data-input">
+      <input type="hidden" name="agent_name"       id="agent-name-hidden">
+      <input type="hidden" name="agent_date"       id="agent-date-hidden">
+      <input type="hidden" name="signed_at"        id="signed-at-hidden">
+
       <div class="checkbox-row">
-        <input type="checkbox" id="agree-check" onchange="toggleBtn(this)">
+        <input type="checkbox" id="agree-check" onchange="checkAllReady()">
         <label for="agree-check">I have read, understood, and agree to the MIATA Student Recruitment Agreement. I understand my responsibilities and obligations as an Agent.</label>
       </div>
+
       <button type="submit" class="accept-btn" id="accept-btn">
-        <i class="fas fa-check-circle"></i> Accept & Continue to Dashboard
+        &#10003; Accept &amp; Continue to Dashboard
       </button>
     </form>
-    <a href="{% url 'logout' %}" class="decline-link">Decline & Logout</a>
+
+    <a href="{% url 'logout' %}" class="decline-link">Decline &amp; Logout</a>
   </div>
 
 </div>
 
 <script>
-function toggleBtn(checkbox) {
-  document.getElementById('accept-btn').classList.toggle('enabled', checkbox.checked);
+let sigConfirmed = false;
+let currentTab   = 'draw';
+let hasDrawn     = false;
+let drawing      = false;
+
+const canvas = document.getElementById('sig-canvas');
+const ctx    = canvas.getContext('2d');
+
+function initCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const w   = canvas.offsetWidth || 340;
+  canvas.width  = w * dpr;
+  canvas.height = 110 * dpr;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr, dpr);
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth   = 1.8;
+  ctx.lineCap     = 'round';
+  ctx.lineJoin    = 'round';
 }
+window.addEventListener('load', initCanvas);
+
+function getPos(e) {
+  const r   = canvas.getBoundingClientRect();
+  const src = e.touches ? e.touches[0] : e;
+  return { x: src.clientX - r.left, y: src.clientY - r.top };
+}
+
+canvas.addEventListener('mousedown',  e => { drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); });
+canvas.addEventListener('mousemove',  e => { if(!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); markDrawn(); });
+canvas.addEventListener('mouseup',    () => { drawing=false; });
+canvas.addEventListener('mouseleave', () => { drawing=false; });
+canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); }, {passive:false});
+canvas.addEventListener('touchmove',  e => { e.preventDefault(); if(!drawing) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); markDrawn(); }, {passive:false});
+canvas.addEventListener('touchend',   () => { drawing=false; });
+
+function markDrawn() {
+  if (!hasDrawn) {
+    hasDrawn = true;
+    document.getElementById('canvas-hint').style.display = 'none';
+    setStatus('Signature drawn — click Confirm');
+  }
+}
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  resetConfirm();
+  document.querySelectorAll('.esign-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-draw').style.display   = tab==='draw'   ? 'block' : 'none';
+  document.getElementById('panel-type').style.display   = tab==='type'   ? 'block' : 'none';
+  document.getElementById('panel-upload').style.display = tab==='upload' ? 'block' : 'none';
+}
+
+function onTypeInput() {
+  resetConfirm();
+  const v = document.getElementById('type-sig').value.trim();
+  setStatus(v ? 'Signature typed — click Confirm' : 'No signature yet');
+}
+
+function handleUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const prev = document.getElementById('upload-preview');
+    prev.src = ev.target.result;
+    prev.style.display = 'block';
+    resetConfirm();
+    setStatus('Image uploaded — click Confirm');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearSig() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hasDrawn = false;
+  document.getElementById('canvas-hint').style.display = 'block';
+  document.getElementById('type-sig').value = '';
+  const prev = document.getElementById('upload-preview');
+  prev.style.display = 'none'; prev.src = '';
+  document.getElementById('sig-upload-input').value = '';
+  resetConfirm();
+  setStatus('No signature yet');
+  checkAllReady();
+}
+
+function resetConfirm() {
+  sigConfirmed = false;
+  document.getElementById('sig-confirmed-msg').classList.remove('visible');
+  document.getElementById('sig-data-input').value = '';
+}
+
+function confirmSig() {
+  let dataURL = '';
+
+  if (currentTab === 'draw') {
+    if (!hasDrawn) { alert('Please draw your signature first.'); return; }
+    dataURL = canvas.toDataURL('image/png');
+
+  } else if (currentTab === 'type') {
+    const v = document.getElementById('type-sig').value.trim();
+    if (!v) { alert('Please type your name first.'); return; }
+    const tc = document.createElement('canvas');
+    tc.width=400; tc.height=80;
+    const tctx = tc.getContext('2d');
+    tctx.fillStyle='#fff'; tctx.fillRect(0,0,400,80);
+    tctx.fillStyle='#000';
+    tctx.font='36px "Dancing Script", cursive';
+    tctx.textBaseline='middle';
+    tctx.fillText(v, 10, 40);
+    dataURL = tc.toDataURL('image/png');
+
+  } else {
+    const prev = document.getElementById('upload-preview');
+    if (!prev.src || prev.style.display==='none') { alert('Please upload a signature image first.'); return; }
+    dataURL = prev.src;
+  }
+
+  document.getElementById('sig-data-input').value = dataURL;
+  sigConfirmed = true;
+
+  const now   = new Date();
+  const stamp = now.toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'})
+              + ' at '
+              + now.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+
+  document.getElementById('sig-timestamp').textContent = stamp;
+  document.getElementById('signed-at-hidden').value    = stamp;
+  document.getElementById('sig-confirmed-msg').classList.add('visible');
+  setStatus('\u2713 Signature confirmed');
+  checkAllReady();
+}
+
+function checkAllReady() {
+  const ok = document.getElementById('agree-check').checked
+          && sigConfirmed
+          && document.getElementById('agent-name').value.trim() !== ''
+          && document.getElementById('agent-date').value !== '';
+  document.getElementById('accept-btn').classList.toggle('enabled', ok);
+}
+
+document.getElementById('agent-name').addEventListener('input',  checkAllReady);
+document.getElementById('agent-date').addEventListener('change', checkAllReady);
+
+function validateForm() {
+  const name = document.getElementById('agent-name').value.trim();
+  const date = document.getElementById('agent-date').value;
+  const sig  = document.getElementById('sig-data-input').value;
+  if (!sig)  { alert('Please confirm your electronic signature before submitting.'); return false; }
+  if (!name) { alert('Please enter your full legal name.'); return false; }
+  if (!date) { alert('Please select the date.'); return false; }
+  if (!document.getElementById('agree-check').checked) { alert('Please accept the agreement.'); return false; }
+  document.getElementById('agent-name-hidden').value = name;
+  document.getElementById('agent-date-hidden').value = date;
+  return true;
+}
+
+function setStatus(txt) {
+  document.getElementById('sig-status').textContent = txt;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('agent-date').value = new Date().toISOString().split('T')[0];
+});
 </script>
 </body>
 </html>
