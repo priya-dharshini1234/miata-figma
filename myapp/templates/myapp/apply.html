@@ -3,705 +3,621 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apply to MIATA</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Student Registration · MIATA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
-
 :root {
-  --navy: #0a1f35;
-  --navy-mid: #0f2f4f;
-  --teal: #1a9e8f;
+  --navy:       #0a1f35;
+  --navy-mid:   #0f2f4f;
+  --teal:       #1a9e8f;
   --teal-light: #22b5a4;
-  --teal-glow: rgba(26,158,143,0.15);
-  --sand: #f5f0e8;
+  --teal-glow:  rgba(26,158,143,0.15);
+  --sand:       #f5f0e8;
   --text-muted: #6b7c8f;
-  --white: #ffffff;
-  --border: rgba(26,158,143,0.2);
-}
-
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--navy);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.bg-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(26,158,143,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 90% 80%, rgba(15,47,79,0.8) 0%, transparent 60%),
-    linear-gradient(160deg, #060f1a 0%, #0a1f35 50%, #0d2840 100%);
-}
-
-.bg-canvas::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(26,158,143,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26,158,143,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-.orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.4;
-  animation: drift 12s ease-in-out infinite alternate;
-  z-index: 0;
-}
-
-.orb-1 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(26,158,143,0.3), transparent 70%);
-  top: -150px; left: -150px;
-  animation-duration: 15s;
-}
-
-.orb-2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(10,37,64,0.6), transparent 70%);
-  bottom: -100px; right: -100px;
-  animation-duration: 18s;
-  animation-delay: -5s;
-}
-
-@keyframes drift {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(40px, 30px) scale(1.05); }
-}
-
-.page-wrap {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 100vh;
-}
-
-.left-panel {
-  padding: 60px 56px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 1px solid rgba(26,158,143,0.1);
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 56px;
-  animation: fadeUp 0.6s ease both;
-}
-
-.brand-mark {
-  width: 44px; height: 44px;
-  background: linear-gradient(135deg, var(--teal), #0d7a6d);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 18px;
-  color: white;
-  box-shadow: 0 8px 24px rgba(26,158,143,0.35);
-}
-
-.brand-text h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 18px;
-  color: var(--white);
-  line-height: 1.1;
-}
-
-.brand-text p {
-  font-size: 11px;
-  color: rgba(255,255,255,0.45);
-  letter-spacing: 0.5px;
-}
-
-.left-headline {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(34px, 4vw, 52px);
-  color: var(--white);
-  line-height: 1.15;
-  margin-bottom: 20px;
-  animation: fadeUp 0.6s 0.1s ease both;
-}
-
-.left-headline em {
-  font-style: italic;
-  color: var(--teal-light);
-}
-
-.left-sub {
-  font-size: 15px;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.75;
-  max-width: 420px;
-  margin-bottom: 48px;
-  animation: fadeUp 0.6s 0.2s ease both;
-}
-
-.stats-row {
-  display: flex;
-  gap: 32px;
-  margin-bottom: 48px;
-  animation: fadeUp 0.6s 0.3s ease both;
-}
-
-.stat-pill {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-pill strong {
-  font-family: 'DM Serif Display', serif;
-  font-size: 28px;
-  color: var(--teal-light);
-  line-height: 1;
-}
-
-.stat-pill span {
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
-  margin-top: 4px;
-}
-
-.testimonial {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(26,158,143,0.15);
-  border-radius: 14px;
-  padding: 24px 28px;
-  animation: fadeUp 0.6s 0.4s ease both;
-  position: relative;
-}
-
-.testimonial::before {
-  content: '"';
-  position: absolute;
-  top: 12px; left: 20px;
-  font-family: 'DM Serif Display', serif;
-  font-size: 60px;
-  color: var(--teal);
-  opacity: 0.3;
-  line-height: 1;
-}
-
-.testimonial p {
-  font-size: 14px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.7;
-  padding-left: 16px;
-  margin-bottom: 16px;
-}
-
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-left: 16px;
-}
-
-.t-avatar {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--teal), #0a5a51);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
-}
-
-.t-info strong {
-  display: block;
-  font-size: 13px;
-  color: rgba(255,255,255,0.8);
-}
-
-.t-info span {
-  font-size: 11px;
-  color: rgba(255,255,255,0.4);
-}
-
-.trust-row {
-  display: flex;
-  gap: 20px;
-  margin-top: 32px;
-  animation: fadeUp 0.6s 0.5s ease both;
-  flex-wrap: wrap;
-}
-
-.trust-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 8px;
-  padding: 8px 14px;
-}
-
-.trust-badge span:first-child { font-size: 16px; }
-.trust-badge span:last-child  { font-size: 12px; color: rgba(255,255,255,0.5); }
-
-.right-panel {
-  padding: 60px 56px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.form-card {
-  background: rgba(255,255,255,0.97);
-  border-radius: 20px;
-  padding: 44px 40px;
-  box-shadow:
-    0 32px 80px rgba(0,0,0,0.4),
-    0 0 0 1px rgba(255,255,255,0.05),
-    inset 0 1px 0 rgba(255,255,255,0.8);
-  animation: slideIn 0.7s 0.2s ease both;
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(30px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-.form-header { margin-bottom: 32px; }
-
-.form-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(26,158,143,0.1);
-  color: var(--teal);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(26,158,143,0.2);
-  margin-bottom: 16px;
-}
-
-.form-tag::before {
-  content: '';
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--teal);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.5; transform: scale(0.8); }
-}
-
-.form-header h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 28px;
-  color: var(--navy);
-  line-height: 1.2;
-  margin-bottom: 8px;
-}
-
-.form-header p {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.steps-bar {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin-bottom: 32px;
-}
-
-.step-dot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  flex: 1;
-}
-
-.step-circle {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-  border: 2px solid #e0e8ef;
-  color: #b0bec8;
-  background: white;
-  transition: all 0.3s;
-  position: relative;
-  z-index: 1;
-}
-
-.step-circle.active {
-  border-color: var(--teal);
-  color: white;
-  background: var(--teal);
-  box-shadow: 0 4px 12px rgba(26,158,143,0.35);
-}
-
-.step-label {
-  font-size: 10px;
-  color: #b0bec8;
-  white-space: nowrap;
-}
-
-.step-label.active { color: var(--teal); font-weight: 600; }
-
-.step-line {
-  flex: 1;
-  height: 2px;
-  background: #e0e8ef;
-  margin-bottom: 18px;
-}
-
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.field { margin-bottom: 18px; }
-
-.field label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--navy-mid);
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.field label .req { color: var(--teal); margin-left: 2px; }
-
-.field input,
-.field select,
-.field textarea {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid #e0e8ef;
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: var(--navy);
-  background: #fafbfc;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-  appearance: none;
-}
-
-.field input::placeholder,
-.field textarea::placeholder { color: #b0bec8; }
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  outline: none;
-  border-color: var(--teal);
-  background: white;
-  box-shadow: 0 0 0 4px rgba(26,158,143,0.08);
-}
-
-.field select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7c8f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 36px;
-  cursor: pointer;
-}
-
-.field textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.checkbox-field {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.checkbox-field input[type="checkbox"] {
-  width: 18px; height: 18px;
-  accent-color: var(--teal);
-  margin-top: 2px;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-
-.checkbox-field label {
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  cursor: pointer;
-}
-
-.checkbox-field label a { color: var(--teal); text-decoration: none; }
-
-.submit-btn {
-  width: 100%;
-  padding: 15px;
-  background: linear-gradient(135deg, var(--teal), #0d8a7b);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  box-shadow: 0 8px 24px rgba(26,158,143,0.35);
-  letter-spacing: 0.3px;
-}
-
-.submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(26,158,143,0.45);
-}
-
-.submit-btn:active { transform: translateY(0); }
-
-.submit-btn svg { transition: transform 0.2s; }
-.submit-btn:hover svg { transform: translateX(4px); }
-
-.form-footer {
-  margin-top: 16px;
-  text-align: center;
-}
-
-.form-footer p {
-  font-size: 12px;
-  color: #b0bec8;
-  line-height: 1.6;
-}
-
-.form-footer .security-badges {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 12px;
-}
-
-.sec-badge {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: #b0bec8;
-}
-
-.contact-row {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-  margin-top: 20px;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.4);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.contact-item:hover { color: var(--teal-light); }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Success Overlay ── */
-.success-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: rgba(6, 15, 26, 0.85);
-  backdrop-filter: blur(8px);
-  align-items: center;
-  justify-content: center;
-}
-
-.success-overlay.show {
-  display: flex;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.success-card {
-  background: white;
-  border-radius: 24px;
-  padding: 56px 48px;
-  max-width: 480px;
-  width: 90%;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-  animation: popIn 0.4s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-@keyframes popIn {
-  from { opacity: 0; transform: scale(0.85) translateY(20px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.success-icon-wrap {
-  width: 80px; height: 80px;
-  background: linear-gradient(135deg, rgba(26,158,143,0.15), rgba(26,158,143,0.05));
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-  border: 2px solid rgba(26,158,143,0.2);
-  animation: scaleIn 0.5s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-@keyframes scaleIn {
-  from { transform: scale(0); }
-  to   { transform: scale(1); }
-}
-
-.success-icon-wrap svg {
-  animation: drawCheck 0.4s 0.6s ease both;
-}
-
-@keyframes drawCheck {
-  from { opacity: 0; transform: scale(0.5); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-.success-card h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 26px;
-  color: #0a1f35;
-  margin-bottom: 12px;
-}
-
-.success-card p {
-  font-size: 14px;
-  color: #6b7c8f;
-  line-height: 1.7;
-  margin-bottom: 8px;
-}
-
-.success-ref {
-  display: inline-block;
-  background: rgba(26,158,143,0.08);
-  color: #1a9e8f;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(26,158,143,0.2);
-  margin: 12px 0 28px;
-  letter-spacing: 0.5px;
-}
-
-.success-details {
-  background: #f8fbfa;
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-bottom: 28px;
-  text-align: left;
-}
-
-.success-details p {
-  font-size: 13px;
-  color: #4a5f78;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.success-details p:last-child { margin-bottom: 0; }
-
-.success-details span.dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #1a9e8f;
-  flex-shrink: 0;
-}
-
-.success-close-btn {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #1a9e8f, #0d8a7b);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 8px 24px rgba(26,158,143,0.3);
-}
-
-.success-close-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(26,158,143,0.4);
-}
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .page-wrap { grid-template-columns: 1fr; }
-  .left-panel { padding: 48px 32px 32px; border-right: none; border-bottom: 1px solid rgba(26,158,143,0.1); }
-  .right-panel { padding: 32px 24px 48px; }
-  .form-card { padding: 32px 24px; }
-  .field-row { grid-template-columns: 1fr; }
-  .stats-row { gap: 24px; }
-  .success-card { padding: 40px 28px; }
-}
-
-@media (max-width: 480px) {
-  .left-panel { padding: 36px 20px 24px; }
-  .brand { margin-bottom: 36px; }
-  .trust-row { gap: 12px; }
-}
+  --white:      #ffffff;
+  --border:     rgba(26,158,143,0.2);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 100vh; overflow-x: hidden; }
+.bg-canvas { position: fixed; inset: 0; z-index: 0; background: radial-gradient(ellipse 80% 60% at 10% 20%, rgba(26,158,143,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 90% 80%, rgba(15,47,79,0.8) 0%, transparent 60%), linear-gradient(160deg, #060f1a 0%, #0a1f35 50%, #0d2840 100%); }
+.bg-canvas::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(26,158,143,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(26,158,143,0.04) 1px, transparent 1px); background-size: 60px 60px; }
+.orb { position:fixed; border-radius:50%; filter:blur(80px); opacity:0.4; animation:drift 12s ease-in-out infinite alternate; z-index:0; }
+.orb-1 { width:500px;height:500px; background:radial-gradient(circle,rgba(26,158,143,0.3),transparent 70%); top:-150px;left:-150px;animation-duration:15s; }
+.orb-2 { width:400px;height:400px; background:radial-gradient(circle,rgba(10,37,64,0.6),transparent 70%); bottom:-100px;right:-100px;animation-duration:18s;animation-delay:-5s; }
+@keyframes drift { from{transform:translate(0,0) scale(1);} to{transform:translate(40px,30px) scale(1.05);} }
+.page-wrap { position:relative;z-index:1; display:grid; grid-template-columns:380px 1fr; min-height:100vh; }
+.left-panel { padding:60px 48px; display:flex; flex-direction:column; border-right:1px solid rgba(26,158,143,0.1); position:sticky;top:0;height:100vh;overflow:hidden; }
+.brand { display:flex;align-items:center;gap:12px;margin-bottom:52px;animation:fadeUp 0.6s ease both; }
+.brand-mark { width:44px;height:44px;background:linear-gradient(135deg,var(--teal),#0d7a6d);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:white;box-shadow:0 8px 24px rgba(26,158,143,0.35); }
+.brand-text h2 { font-family:'DM Serif Display',serif;font-size:18px;color:var(--white);line-height:1.1; }
+.brand-text p  { font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:0.5px; }
+.left-headline { font-family:'DM Serif Display',serif;font-size:clamp(30px,3.2vw,46px);color:var(--white);line-height:1.15;margin-bottom:18px;animation:fadeUp 0.6s 0.1s ease both; }
+.left-headline em { font-style:italic;color:var(--teal-light); }
+.left-sub { font-size:14px;color:rgba(255,255,255,0.5);line-height:1.75;margin-bottom:44px;animation:fadeUp 0.6s 0.2s ease both; }
+.stats-row { display:flex;gap:28px;margin-bottom:44px;animation:fadeUp 0.6s 0.3s ease both; }
+.stat-pill strong { font-family:'DM Serif Display',serif;font-size:26px;color:var(--teal-light);line-height:1;display:block; }
+.stat-pill span { font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;display:block; }
+.testimonial { background:rgba(255,255,255,0.04);border:1px solid rgba(26,158,143,0.15);border-radius:14px;padding:22px 26px;animation:fadeUp 0.6s 0.4s ease both;position:relative;margin-bottom:28px; }
+.testimonial::before { content:'"';position:absolute;top:10px;left:18px;font-family:'DM Serif Display',serif;font-size:56px;color:var(--teal);opacity:0.3;line-height:1; }
+.testimonial p { font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;padding-left:14px;margin-bottom:14px; }
+.testimonial-author { display:flex;align-items:center;gap:10px;padding-left:14px; }
+.t-avatar { width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#0a5a51);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white; }
+.t-info strong { display:block;font-size:12px;color:rgba(255,255,255,0.8); }
+.t-info span   { font-size:11px;color:rgba(255,255,255,0.4); }
+.trust-row { display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp 0.6s 0.5s ease both; }
+.trust-badge { display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:7px 12px; }
+.trust-badge span:first-child { font-size:15px; }
+.trust-badge span:last-child  { font-size:11px;color:rgba(255,255,255,0.5); }
+.right-panel { padding:60px 56px;display:flex;flex-direction:column;animation:slideIn 0.7s 0.2s ease both; }
+@keyframes slideIn { from{opacity:0;transform:translateX(24px);} to{opacity:1;transform:translateX(0);} }
+.section-heading { display:flex;align-items:center;gap:14px;margin:36px 0 22px; }
+.section-heading:first-of-type { margin-top:0; }
+.section-number { width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#0d7a6d);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;box-shadow:0 4px 12px rgba(26,158,143,0.35);flex-shrink:0; }
+.section-heading h3 { font-family:'DM Serif Display',serif;font-size:18px;color:var(--white); }
+.section-line { flex:1;height:1px;background:rgba(26,158,143,0.15); }
+.form-card { background:rgba(255,255,255,0.97);border-radius:20px;padding:44px 40px;box-shadow:0 32px 80px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.05),inset 0 1px 0 rgba(255,255,255,0.8);margin-bottom:28px; }
+.form-tag { display:inline-flex;align-items:center;gap:6px;background:rgba(26,158,143,0.1);color:var(--teal);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:20px;border:1px solid rgba(26,158,143,0.2);margin-bottom:14px; }
+.form-tag::before { content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
+.field-row { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+.field { margin-bottom:18px; }
+.field label { display:block;font-size:11px;font-weight:600;color:var(--navy-mid);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px; }
+.field label .req { color:var(--teal);margin-left:2px; }
+.field label .opt { color:#9baab8;font-weight:400;text-transform:none;font-size:10px;margin-left:4px; }
+.field input[type="text"],.field input[type="email"],.field input[type="tel"],.field textarea { width:100%;padding:12px 16px;border:1.5px solid #e0e8ef;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);background:#fafbfc;transition:border-color 0.2s,box-shadow 0.2s,background 0.2s; }
+.field input::placeholder,.field textarea::placeholder { color:#b0bec8; }
+.field input:focus,.field textarea:focus { outline:none;border-color:var(--teal);background:white;box-shadow:0 0 0 4px rgba(26,158,143,0.08); }
+.field textarea { resize:vertical;min-height:120px; }
+.file-zone { border:2px dashed #d0dbe8;border-radius:12px;padding:18px 20px;background:#f7fafc;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative; }
+.file-zone:hover,.file-zone.dragover { border-color:var(--teal);background:rgba(26,158,143,0.04); }
+.file-zone input[type="file"] { position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer; }
+.file-zone-inner { display:flex;align-items:center;gap:14px;pointer-events:none; }
+.file-icon { width:40px;height:40px;border-radius:10px;background:rgba(26,158,143,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.file-icon svg { stroke:var(--teal); }
+.file-zone-text strong { display:block;font-size:13px;font-weight:600;color:var(--navy-mid); }
+.file-zone-text span { font-size:11px;color:#9baab8; }
+.file-list { margin-top:10px;display:flex;flex-direction:column;gap:6px; }
+.file-item { display:flex;align-items:center;gap:10px;background:rgba(26,158,143,0.07);border:1px solid rgba(26,158,143,0.15);padding:8px 12px;border-radius:8px; }
+.file-item svg { stroke:var(--teal);flex-shrink:0; }
+.file-item-name { font-size:12px;color:var(--navy-mid);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.file-item-size { font-size:11px;color:#9baab8;white-space:nowrap; }
+.file-remove { width:20px;height:20px;border-radius:50%;background:rgba(220,60,60,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s; }
+.file-remove:hover { background:rgba(220,60,60,0.18); }
+.file-remove svg { stroke:#c0392b; }
+.file-note { font-size:11px;color:#9baab8;margin-top:6px; }
+.checkbox-field { display:flex;align-items:flex-start;gap:10px;margin-bottom:24px; }
+.checkbox-field input[type="checkbox"] { width:18px;height:18px;accent-color:var(--teal);margin-top:2px;flex-shrink:0;cursor:pointer; }
+.checkbox-field label { font-size:12px;color:var(--text-muted);line-height:1.6;cursor:pointer; }
+.checkbox-field label a { color:var(--teal);text-decoration:none; }
+.checkbox-field label a:hover { text-decoration:underline; }
+.submit-btn { width:100%;padding:15px;background:linear-gradient(135deg,var(--teal),#0d8a7b);color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:0.3px;transition:transform 0.2s,box-shadow 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 8px 24px rgba(26,158,143,0.35); }
+.submit-btn:hover { transform:translateY(-2px);box-shadow:0 12px 32px rgba(26,158,143,0.45); }
+.submit-btn:active { transform:translateY(0); }
+.submit-btn svg { transition:transform 0.2s; }
+.submit-btn:hover svg { transform:translateX(4px); }
+.submit-btn:disabled { opacity:0.7;cursor:not-allowed;transform:none; }
+.form-footer { text-align:center;margin-top:16px; }
+.form-footer p { font-size:12px;color:#b0bec8;line-height:1.6; }
+.security-badges { display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap; }
+.sec-badge { display:flex;align-items:center;gap:5px;font-size:11px;color:#b0bec8; }
+.contact-row { display:flex;justify-content:center;gap:28px;margin-top:20px;flex-wrap:wrap; }
+.contact-item { display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s; }
+.contact-item:hover { color:var(--teal-light); }
+.progress-bar-wrap { background:rgba(26,158,143,0.1);border-radius:99px;height:4px;margin-bottom:36px;overflow:hidden; }
+.progress-bar-fill { height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--teal-light));border-radius:99px;transition:width 0.4s ease; }
+.success-overlay { display:none;position:fixed;inset:0;z-index:999;background:rgba(6,15,26,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center; }
+.success-overlay.show { display:flex;animation:fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.success-card { background:white;border-radius:24px;padding:56px 48px;max-width:480px;width:90%;text-align:center;box-shadow:0 40px 100px rgba(0,0,0,0.5);animation:popIn 0.4s 0.1s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes popIn { from{opacity:0;transform:scale(0.85) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.success-icon-wrap { width:80px;height:80px;background:linear-gradient(135deg,rgba(26,158,143,0.15),rgba(26,158,143,0.05));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;border:2px solid rgba(26,158,143,0.2);animation:scaleIn 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes scaleIn { from{transform:scale(0)} to{transform:scale(1)} }
+.success-card h2 { font-family:'DM Serif Display',serif;font-size:26px;color:#0a1f35;margin-bottom:12px; }
+.success-card p  { font-size:14px;color:#6b7c8f;line-height:1.7;margin-bottom:8px; }
+.success-ref { display:inline-block;background:rgba(26,158,143,0.08);color:#1a9e8f;font-size:12px;font-weight:600;padding:6px 16px;border-radius:20px;border:1px solid rgba(26,158,143,0.2);margin:12px 0 28px;letter-spacing:0.5px; }
+.success-details { background:#f8fbfa;border-radius:12px;padding:16px 20px;margin-bottom:28px;text-align:left; }
+.success-details p { font-size:13px;color:#4a5f78;margin-bottom:6px;display:flex;align-items:center;gap:8px; }
+.success-details p:last-child { margin-bottom:0; }
+.success-details span.dot { width:6px;height:6px;border-radius:50%;background:#1a9e8f;flex-shrink:0; }
+.success-close-btn { width:100%;padding:14px;background:linear-gradient(135deg,#1a9e8f,#0d8a7b);color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 8px 24px rgba(26,158,143,0.3); }
+.success-close-btn:hover { transform:translateY(-2px);box-shadow:0 12px 32px rgba(26,158,143,0.4); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@media(max-width:1024px){.page-wrap{grid-template-columns:1fr;}.left-panel{position:relative;height:auto;padding:48px 32px 36px;border-right:none;border-bottom:1px solid rgba(26,158,143,0.1);}.right-panel{padding:36px 24px 56px;}}
+@media(max-width:640px){.form-card{padding:28px 20px;}.field-row{grid-template-columns:1fr;}.right-panel{padding:28px 16px 48px;}.success-card{padding:36px 24px;}}
+
+/* ═══════════════════════════════════════
+   TERMS & CONDITIONS MODAL
+═══════════════════════════════════════ */
+.tnc-overlay {
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(4,12,22,0.88);backdrop-filter:blur(10px);
+  align-items:flex-end;justify-content:center;padding:0;
+}
+.tnc-overlay.show { display:flex;animation:fadeIn 0.25s ease; }
+@media(min-width:640px){
+  .tnc-overlay { align-items:center;padding:24px; }
+}
+.tnc-modal {
+  background:#fff;
+  width:100%;max-width:760px;
+  border-radius:24px 24px 0 0;
+  display:flex;flex-direction:column;
+  max-height:92vh;
+  box-shadow:0 -20px 60px rgba(0,0,0,0.5), 0 40px 100px rgba(0,0,0,0.4);
+  animation:slideUp 0.35s cubic-bezier(0.32,0.72,0,1) both;
+  overflow:hidden;
+}
+@media(min-width:640px){
+  .tnc-modal {
+    border-radius:24px;
+    max-height:88vh;
+    animation:popIn 0.35s cubic-bezier(0.34,1.4,0.64,1) both;
+  }
+}
+@keyframes slideUp { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
+
+/* Modal Header */
+.tnc-header {
+  padding:24px 28px 20px;
+  border-bottom:1px solid #eef2f7;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+  flex-shrink:0;position:relative;
+  background:linear-gradient(135deg, #f8fffe 0%, #f0faf9 100%);
+}
+.tnc-header-left { display:flex;align-items:center;gap:14px; }
+.tnc-header-icon {
+  width:46px;height:46px;border-radius:12px;
+  background:linear-gradient(135deg,var(--teal),#0d7a6d);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;box-shadow:0 6px 18px rgba(26,158,143,0.3);
+}
+.tnc-header-icon svg { stroke:white; }
+.tnc-header-text h2 {
+  font-family:'DM Serif Display',serif;font-size:20px;
+  color:var(--navy);line-height:1.2;margin-bottom:3px;
+}
+.tnc-header-text p { font-size:12px;color:#8fa3b3; }
+.tnc-close {
+  width:36px;height:36px;border-radius:50%;
+  background:#f0f4f8;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s,transform 0.2s;flex-shrink:0;margin-top:2px;
+}
+.tnc-close:hover { background:#e0e8f0;transform:rotate(90deg); }
+.tnc-close svg { stroke:#5a6f84; }
+
+/* Tab bar */
+.tnc-tabs {
+  display:flex;padding:0 28px;border-bottom:1px solid #eef2f7;
+  flex-shrink:0;overflow-x:auto;gap:0;background:#fafcfe;
+  scrollbar-width:none;
+}
+.tnc-tabs::-webkit-scrollbar { display:none; }
+.tnc-tab {
+  padding:13px 18px;font-size:12px;font-weight:600;
+  color:#8fa3b3;cursor:pointer;border:none;background:none;
+  font-family:'DM Sans',sans-serif;letter-spacing:0.3px;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  white-space:nowrap;transition:color 0.2s,border-color 0.2s;
+}
+.tnc-tab:hover { color:var(--navy); }
+.tnc-tab.active { color:var(--teal);border-bottom-color:var(--teal); }
+
+/* Scrollable body */
+.tnc-body {
+  flex:1;overflow-y:auto;padding:28px 28px 8px;
+  scroll-behavior:smooth;
+  scrollbar-width:thin;scrollbar-color:rgba(26,158,143,0.2) transparent;
+}
+.tnc-body::-webkit-scrollbar { width:4px; }
+.tnc-body::-webkit-scrollbar-track { background:transparent; }
+.tnc-body::-webkit-scrollbar-thumb { background:rgba(26,158,143,0.25);border-radius:4px; }
+
+/* Tab panels */
+.tnc-panel { display:none; }
+.tnc-panel.active { display:block; }
+
+/* Section blocks */
+.tnc-section { margin-bottom:28px; }
+.tnc-section-title {
+  font-family:'DM Serif Display',serif;font-size:15px;
+  color:var(--navy);margin-bottom:10px;
+  padding-left:12px;border-left:3px solid var(--teal);
+  line-height:1.3;
+}
+.tnc-section-subtitle {
+  font-size:11px;font-weight:600;text-transform:uppercase;
+  letter-spacing:0.5px;color:#8fa3b3;margin-bottom:8px;margin-top:14px;
+}
+.tnc-text {
+  font-size:13px;color:#4a5f78;line-height:1.75;
+}
+.tnc-list {
+  list-style:none;padding:0;margin:0;
+}
+.tnc-list li {
+  font-size:13px;color:#4a5f78;line-height:1.7;
+  padding:5px 0 5px 20px;position:relative;
+}
+.tnc-list li::before {
+  content:'';position:absolute;left:6px;top:13px;
+  width:5px;height:5px;border-radius:50%;
+  background:var(--teal);opacity:0.6;
+}
+.tnc-list.sub li::before { background:#8fa3b3;width:4px;height:4px;top:14px; }
+.tnc-divider { height:1px;background:#eef2f7;margin:24px 0; }
+
+/* Warning callout */
+.tnc-callout {
+  background:rgba(255,200,100,0.08);border:1px solid rgba(230,160,30,0.25);
+  border-radius:10px;padding:12px 16px;margin-bottom:16px;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.tnc-callout-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
+.tnc-callout p { font-size:12px;color:#7a6020;line-height:1.65; }
+
+/* Info callout */
+.tnc-info {
+  background:rgba(26,158,143,0.06);border:1px solid rgba(26,158,143,0.2);
+  border-radius:10px;padding:12px 16px;margin-bottom:16px;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.tnc-info-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
+.tnc-info p { font-size:12px;color:#2a5f58;line-height:1.65; }
+
+/* Footer actions */
+.tnc-footer {
+  padding:20px 28px;border-top:1px solid #eef2f7;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  flex-shrink:0;background:#fafcfe;flex-wrap:wrap;
+}
+.tnc-footer-note { font-size:11px;color:#9baab8;line-height:1.5;flex:1;min-width:160px; }
+.tnc-accept-btn {
+  padding:12px 28px;
+  background:linear-gradient(135deg,var(--teal),#0d8a7b);
+  color:white;border:none;border-radius:10px;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
+  box-shadow:0 6px 18px rgba(26,158,143,0.3);white-space:nowrap;
+}
+.tnc-accept-btn:hover { transform:translateY(-2px);box-shadow:0 10px 24px rgba(26,158,143,0.4); }
+.tnc-decline-btn {
+  padding:12px 20px;background:transparent;
+  color:#8fa3b3;border:1.5px solid #dce6ef;
+  border-radius:10px;font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:500;cursor:pointer;
+  transition:border-color 0.2s,color 0.2s;white-space:nowrap;
+}
+.tnc-decline-btn:hover { border-color:#b0bec8;color:#5a6f84; }
+
+/* Numbered clause */
+.tnc-clause { display:flex;gap:12px;margin-bottom:8px; }
+.tnc-clause-num {
+  font-size:11px;font-weight:700;color:var(--teal);
+  width:22px;flex-shrink:0;padding-top:3px;
+}
+.tnc-clause-text { font-size:13px;color:#4a5f78;line-height:1.7;flex:1; }
 </style>
 </head>
 <body>
-
 <div class="bg-canvas"></div>
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
 
-<!-- ── SUCCESS OVERLAY ── -->
+<!-- ═══════════════════════════════════════
+     TERMS & CONDITIONS MODAL
+═══════════════════════════════════════ -->
+<div class="tnc-overlay" id="tncOverlay" role="dialog" aria-modal="true" aria-label="Terms and Conditions">
+  <div class="tnc-modal">
+
+    <!-- Header -->
+    <div class="tnc-header">
+      <div class="tnc-header-left">
+        <div class="tnc-header-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="tnc-header-text">
+          <h2>Enrolment Terms &amp; Conditions</h2>
+          <p>MIATA Medical Imaging Academy · Please read carefully before enrolling</p>
+        </div>
+      </div>
+      <button class="tnc-close" id="tncClose" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tnc-tabs" role="tablist">
+      <button class="tnc-tab active" data-tab="admission" role="tab">Admission &amp; Fees</button>
+      <button class="tnc-tab" data-tab="conduct" role="tab">Conduct &amp; Delivery</button>
+      <button class="tnc-tab" data-tab="certification" role="tab">Certification &amp; ARDMS</button>
+      <button class="tnc-tab" data-tab="overseas" role="tab">Overseas Training</button>
+      <button class="tnc-tab" data-tab="refund" role="tab">Refunds &amp; Withdrawal</button>
+      <button class="tnc-tab" data-tab="legal" role="tab">Legal &amp; IP</button>
+    </div>
+
+    <!-- Body -->
+    <div class="tnc-body">
+
+      <!-- TAB 1: Admission & Fees -->
+      <div class="tnc-panel active" id="tab-admission">
+        <div class="tnc-section">
+          <div class="tnc-section-title">1. Admission &amp; Eligibility</div>
+          <ul class="tnc-list">
+            <li>Admission is granted based on eligibility criteria defined for each course.</li>
+            <li>Submission of false or misleading information may result in cancellation of enrolment without refund.</li>
+            <li>The Academy reserves the right to accept or reject any application without obligation to provide reasons.</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">2. Fees &amp; Payment</div>
+          <ul class="tnc-list">
+            <li>Course fees must be paid as per the agreed schedule.</li>
+            <li>Fees once paid are <strong>non-refundable and non-transferable</strong>, unless otherwise specified in writing.</li>
+            <li>Taxes and statutory charges, if applicable, are borne by the Student.</li>
+            <li>The Academy may deny access to classes or materials for non-payment.</li>
+          </ul>
+          <div class="tnc-callout" style="margin-top:14px;">
+            <span class="tnc-callout-icon">⚠️</span>
+            <p>Course fees <strong>do not include</strong> ARDMS exam fees, visa costs, travel, accommodation, or any personal/living expenses during overseas training unless explicitly stated in writing.</p>
+          </div>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">3. Placement Disclaimer</div>
+          <ul class="tnc-list">
+            <li>The Academy does not guarantee job placement, employment, salary level, or career advancement.</li>
+            <li>Any placement assistance provided is on a best-effort basis only.</li>
+            <li>Final hiring decisions rest solely with the employer.</li>
+            <li>The Academy is not responsible for employer conduct, job role mismatch, salary disputes, or employment termination.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TAB 2: Conduct & Delivery -->
+      <div class="tnc-panel" id="tab-conduct">
+        <div class="tnc-section">
+          <div class="tnc-section-title">4. Course Delivery</div>
+          <ul class="tnc-list">
+            <li>Courses may be delivered online, offline, or in hybrid mode.</li>
+            <li>The Academy reserves the right to modify schedules, faculty, course content, or delivery mode.</li>
+            <li>Missed classes will not be compensated unless explicitly stated.</li>
+          </ul>
+          <div class="tnc-info" style="margin-top:14px;">
+            <span class="tnc-info-icon">📋</span>
+            <p>The standard course structure comprises <strong>6 months of online theory training</strong> followed by <strong>3 months of hands-on practical training</strong> at an overseas location. Attendance and assessment requirements apply to both phases.</p>
+          </div>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">5. Attendance &amp; Student Conduct</div>
+          <ul class="tnc-list">
+            <li>Minimum attendance may be required for course completion.</li>
+            <li>Students must maintain professional, ethical, and respectful behaviour toward faculty, staff, peers, and patients (where applicable).</li>
+            <li>Harassment, discrimination, plagiarism, cheating, or disruption of classes is strictly prohibited.</li>
+            <li>Misconduct may lead to warning, suspension, or termination of enrolment <em>without refund</em>, and withholding of certificates.</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">6. Online Learning Policy</div>
+          <ul class="tnc-list">
+            <li>Online classes may be delivered through third-party platforms.</li>
+            <li>Students are responsible for a stable internet connection, compatible devices, and technical readiness.</li>
+            <li>The Academy is not responsible for interruptions caused by technical issues beyond its control.</li>
+            <li>Recording, sharing, or redistribution of online classes or materials is <strong>strictly prohibited</strong>.</li>
+            <li>Access credentials are personal and non-shareable.</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">7. Academic &amp; Medical Disclaimer</div>
+          <ul class="tnc-list">
+            <li>Training content is provided for educational purposes only.</li>
+            <li>Any medical, clinical, diagnostic, or technical training is <strong>demonstrative and educational only</strong>.</li>
+            <li>Students are not authorised to practise medicine, diagnosis, or treatment unless legally licensed.</li>
+            <li>The Academy bears no liability for clinical decisions taken by students after course completion.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TAB 3: Certification & ARDMS -->
+      <div class="tnc-panel" id="tab-certification">
+        <div class="tnc-section">
+          <div class="tnc-section-title">8. Course Completion Certificate</div>
+          <ul class="tnc-list">
+            <li>Certificates issued by the Academy are <strong>Course Completion / Training Certificates only</strong>.</li>
+            <li>Such certificates do <strong>not</strong> constitute a license, medical qualification, professional registration, or statutory authorisation to practise.</li>
+            <li>Recognition of certificates by employers, councils, universities, or regulatory authorities is not guaranteed.</li>
+            <li>Students are responsible for verifying acceptance of the certification for their intended purpose.</li>
+          </ul>
+          <div class="tnc-callout" style="margin-top:14px;">
+            <span class="tnc-callout-icon">⚠️</span>
+            <p>Regulatory approvals, if any, must be verified <strong>independently</strong> by the Student. The Academy does not provide statutory licensing or professional registration.</p>
+          </div>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">9. ARDMS &amp; External Certification Disclaimer</div>
+          <ul class="tnc-list">
+            <li>Students are encouraged to apply for external certifications including ARDMS to enhance global employability.</li>
+            <li>The Academy does <strong>not</strong> conduct, control, administer, or award ARDMS certification, and is not affiliated with or endorsed by ARDMS, unless expressly stated in writing.</li>
+            <li>Eligibility for ARDMS is determined solely by the respective certifying authority.</li>
+          </ul>
+          <div class="tnc-section-subtitle">The Academy does not guarantee:</div>
+          <ul class="tnc-list sub">
+            <li>Eligibility for ARDMS or any external certification</li>
+            <li>Successful examination results</li>
+            <li>Certification approval</li>
+            <li>Global recognition or acceptance</li>
+          </ul>
+          <div class="tnc-section-subtitle" style="margin-top:14px;">Student-Borne ARDMS Costs (All of the following are the Student's sole responsibility):</div>
+          <ul class="tnc-list sub">
+            <li>Examination fees and application/registration charges</li>
+            <li>Documentation and verification fees</li>
+            <li>Rescheduling or re-examination fees</li>
+            <li>Travel, accommodation, and related expenses</li>
+          </ul>
+          <div class="tnc-info" style="margin-top:14px;">
+            <span class="tnc-info-icon">ℹ️</span>
+            <p>Any guidance or preparatory support provided by the Academy is <strong>informational and supportive only</strong> and does not ensure certification success. Failure or inability to pay external exam fees does not entitle the Student to any refund or course extension.</p>
+          </div>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">10. Exams &amp; Assessments</div>
+          <ul class="tnc-list">
+            <li>Assessments may be conducted as per Academy policy.</li>
+            <li>Certification is subject to successful completion of attendance and assessments.</li>
+            <li>The Academy reserves the right to withhold certificates for non-compliance.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TAB 4: Overseas Training -->
+      <div class="tnc-panel" id="tab-overseas">
+        <div class="tnc-info">
+          <span class="tnc-info-icon">🌏</span>
+          <p>The practical training component involves <strong>3 months of hands-on training at an overseas location</strong>. Students must read this section carefully before enrolling.</p>
+        </div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">11. Overseas Training Location</div>
+          <ul class="tnc-list">
+            <li>The Academy reserves the <strong>sole and absolute right</strong> to decide, modify, or change the overseas training country, city, institution, or clinical partner based on availability, regulatory conditions, logistics, or other operational considerations.</li>
+            <li>Overseas training locations may include, but are not limited to, Mauritius, Malaysia, or other countries, and may be changed <strong>without prior notice</strong>.</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">12. Visa, Travel &amp; Immigration Disclaimer</div>
+          <ul class="tnc-list">
+            <li>All visa approvals, duration, conditions, and entry permissions are entirely governed by the host country's immigration authorities.</li>
+            <li>Any invitation or training letter issued by the Academy is for training support <strong>only</strong> and does <strong>not guarantee visa approval</strong>.</li>
+            <li>Rejection, delay, cancellation, or modification of visa applications shall not be considered a breach of the Academy's obligations.</li>
+          </ul>
+          <div class="tnc-callout" style="margin-top:14px;">
+            <span class="tnc-callout-icon">⚠️</span>
+            <p>The Academy <strong>does not assure, promise, or guarantee</strong> the grant of any visa, extension, or immigration benefit. Failure to obtain a visa does not entitle the Student to a refund or compensation unless expressly agreed in writing.</p>
+          </div>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">13. Student-Borne Overseas Costs</div>
+          <p class="tnc-text" style="margin-bottom:10px;">All of the following costs are <strong>entirely the Student's responsibility</strong> and are not included in course fees:</p>
+          <ul class="tnc-list sub">
+            <li>Visa application and processing fees</li>
+            <li>International and domestic travel</li>
+            <li>Accommodation</li>
+            <li>Food and daily living expenses</li>
+            <li>Medical insurance</li>
+            <li>Local transportation</li>
+            <li>Any government or statutory fees</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">14. Overseas Training Risk &amp; Liability Waiver</div>
+          <ul class="tnc-list">
+            <li>Participation in overseas training is <strong>voluntary and at the Student's own risk</strong>.</li>
+            <li>The Academy shall not be responsible for any injury, illness, accident, loss, damage, legal issue, or incident occurring during overseas travel or training.</li>
+            <li>The Academy shall not be liable for any death, disability, detention, deportation, or legal action arising from the Student's actions, local laws, or third-party conduct.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TAB 5: Refunds & Withdrawal -->
+      <div class="tnc-panel" id="tab-refund">
+        <div class="tnc-section">
+          <div class="tnc-section-title">15. Refund &amp; Withdrawal Policy</div>
+          <ul class="tnc-list">
+            <li>Course fees once paid are <strong>non-refundable and non-transferable</strong>, except where expressly stated in writing by the Academy.</li>
+            <li>Withdrawal requests must be submitted <strong>in writing</strong> to the Academy.</li>
+          </ul>
+          <div class="tnc-section-subtitle" style="margin-top:14px;">No refund shall be issued for:</div>
+          <ul class="tnc-list sub">
+            <li>Partial attendance or missed classes</li>
+            <li>Change of personal circumstances</li>
+            <li>Dissatisfaction with course content or delivery</li>
+            <li>Visa refusal or inability to travel for overseas training</li>
+            <li>Failure or inability to pay external examination fees</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">16. Academy-Initiated Cancellation</div>
+          <ul class="tnc-list">
+            <li>If the Academy cancels a course due to unforeseen circumstances, a proportionate refund (excluding administrative charges) <em>may</em> be issued at the Academy's discretion.</li>
+            <li>Refunds, if approved, will be processed within <strong>30–45 working days</strong>.</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">17. Limitation of Liability</div>
+          <ul class="tnc-list">
+            <li>The Academy is not liable for indirect or consequential losses.</li>
+            <li>Total liability shall not exceed the course fee paid by the Student.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TAB 6: Legal & IP -->
+      <div class="tnc-panel" id="tab-legal">
+        <div class="tnc-section">
+          <div class="tnc-section-title">18. Intellectual Property</div>
+          <ul class="tnc-list">
+            <li>All course materials, videos, presentations, software, and content are the <strong>intellectual property of the Academy</strong>.</li>
+            <li>Recording, copying, sharing, or distributing materials without written permission is strictly prohibited.</li>
+            <li>Damage to Academy property or misuse of systems may result in penalties.</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">19. Nature of Courses</div>
+          <ul class="tnc-list">
+            <li>Courses are <strong>training and educational programs only</strong> and do not guarantee employment, licensing, registration, or certification unless expressly stated in writing.</li>
+            <li>Any certificate issued is a course completion certificate, not a statutory licence or professional registration.</li>
+            <li>The Academy is not responsible for how students apply the knowledge gained.</li>
+            <li>Students must comply with all applicable professional, legal, and regulatory requirements when practising.</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">20. Governing Law &amp; Amendments</div>
+          <ul class="tnc-list">
+            <li>These Terms are governed by applicable laws. Disputes shall be subject to the jurisdiction of competent courts.</li>
+            <li>The Academy may amend these Terms at any time. Continued participation implies acceptance of revised terms.</li>
+          </ul>
+        </div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section">
+          <div class="tnc-section-title">21. Acceptance</div>
+          <div class="tnc-info">
+            <span class="tnc-info-icon">✅</span>
+            <p>By enrolling, paying fees, attending classes, or submitting this application, the Student confirms they have <strong>read, understood, and accepted</strong> all Terms &amp; Conditions set out in this document.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end .tnc-body -->
+
+    <!-- Footer -->
+    <div class="tnc-footer">
+      <p class="tnc-footer-note">By clicking "Accept &amp; Submit", you confirm you have read and accepted all terms, and authorise submission of your application.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="tnc-decline-btn" id="tncDecline">Cancel</button>
+        <button class="tnc-accept-btn" id="tncAccept">Accept &amp; Submit ✓</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SUCCESS OVERLAY
+═══════════════════════════════════════ -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
     <div class="success-icon-wrap">
@@ -710,250 +626,368 @@ body {
         <polyline points="7 12.5 10.5 16 17 9" stroke="#1a9e8f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-
     <h2>Application Submitted!</h2>
-    <p>Thank you for applying to MIATA. Your application has been received successfully.</p>
-
+    <p>Thank you for registering with MIATA. Your application has been received successfully.</p>
     <div class="success-ref" id="refNumber">REF: MIATA-2026-0001</div>
-
     <div class="success-details">
       <p><span class="dot"></span> Our admissions team will contact you within <strong>24 hours</strong></p>
       <p><span class="dot"></span> A confirmation email will be sent to your inbox</p>
       <p><span class="dot"></span> Next cohort starts: <strong>April 2026</strong></p>
     </div>
-
-    <button class="success-close-btn" onclick="closeSuccess()">
-      Back to Home
-    </button>
+    <button class="success-close-btn" onclick="closeSuccess()">Back to Home</button>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════
+     MAIN PAGE
+═══════════════════════════════════════ -->
 <div class="page-wrap">
-
-  <!-- ── LEFT PANEL ── -->
   <div class="left-panel">
-
     <div class="brand">
       <div class="brand-mark">M</div>
-      <div class="brand-text">
-        <h2>MIATA</h2>
-        <p>Medical Imaging Academy</p>
-      </div>
+      <div class="brand-text"><h2>MIATA</h2><p>Medical Imaging Academy</p></div>
     </div>
-
-    <h1 class="left-headline">
-      Begin Your<br>
-      <em>Global Career</em><br>
-      in Ultrasound
-    </h1>
-
-    <p class="left-sub">
-      Join hundreds of medical professionals who have transformed their careers
-      with MIATA's internationally accredited diagnostic ultrasound program.
-    </p>
-
+    <h1 class="left-headline">Begin Your<br><em>Global Career</em><br>in Ultrasound</h1>
+    <p class="left-sub">Join hundreds of medical professionals who have transformed their careers with MIATA's internationally accredited diagnostic ultrasound program.</p>
     <div class="stats-row">
-      <div class="stat-pill">
-        <strong>500+</strong>
-        <span>Graduates worldwide</span>
-      </div>
-      <div class="stat-pill">
-        <strong>95%</strong>
-        <span>Placement rate</span>
-      </div>
-      <div class="stat-pill">
-        <strong>6+</strong>
-        <span>Countries</span>
-      </div>
+      <div class="stat-pill"><strong>500+</strong><span>Graduates worldwide</span></div>
+      <div class="stat-pill"><strong>95%</strong><span>Placement rate</span></div>
+      <div class="stat-pill"><strong>6+</strong><span>Countries</span></div>
     </div>
-
     <div class="testimonial">
-      <p>MIATA's program gave me the confidence and credentials to practice in Australia. The international clinical training was truly transformative.</p>
+      <p>MIATA's program gave me the confidence and credentials to practise in Australia. The international clinical training was truly transformative.</p>
       <div class="testimonial-author">
         <div class="t-avatar">PS</div>
-        <div class="t-info">
-          <strong>Dr. Priya Sharma</strong>
-          <span>Senior Sonographer · Melbourne, Australia</span>
-        </div>
+        <div class="t-info"><strong>Dr. Priya Sharma</strong><span>Senior Sonographer · Melbourne, Australia</span></div>
       </div>
     </div>
-
     <div class="trust-row">
       <div class="trust-badge"><span>🏅</span><span>ARDMS Pathway</span></div>
       <div class="trust-badge"><span>🌍</span><span>Globally Accredited</span></div>
       <div class="trust-badge"><span>💼</span><span>Paid Internship</span></div>
     </div>
-
   </div>
 
-  <!-- ── RIGHT PANEL ── -->
   <div class="right-panel">
-
-    <div class="form-card">
-
-      <div class="form-header">
-        <div class="form-tag">Admissions Open · April 2026</div>
-        <h1>Apply to MIATA</h1>
-        <p>Complete this form and our admissions team will contact you within 24 hours.</p>
-      </div>
-
-      <div class="steps-bar">
-        <div class="step-dot">
-          <div class="step-circle active">1</div>
-          <div class="step-label active">Your Info</div>
-        </div>
-        <div class="step-line"></div>
-        <div class="step-dot">
-          <div class="step-circle">2</div>
-          <div class="step-label">Review</div>
-        </div>
-        <div class="step-line"></div>
-        <div class="step-dot">
-          <div class="step-circle">3</div>
-          <div class="step-label">Confirm</div>
-        </div>
-      </div>
-
-      <form id="applyForm" onsubmit="handleSubmit(event)">
-
-        <div class="field-row">
-          <div class="field">
-            <label>First Name <span class="req">*</span></label>
-            <input type="text" id="firstName" placeholder="e.g. Priya" required>
-          </div>
-          <div class="field">
-            <label>Last Name <span class="req">*</span></label>
-            <input type="text" id="lastName" placeholder="e.g. Sharma" required>
-          </div>
-        </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label>Email Address <span class="req">*</span></label>
-            <input type="email" id="email" placeholder="your@email.com" required>
-          </div>
-          <div class="field">
-            <label>Phone Number <span class="req">*</span></label>
-            <input type="tel" id="phone" placeholder="+91 99278 29520" required>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Highest Qualification <span class="req">*</span></label>
-          <select id="qualification" required>
-            <option value="" disabled selected>Select your degree</option>
-            <option>MBBS</option>
-            <option>BHMS</option>
-            <option>BAMS</option>
-            <option>Biomedical Sciences</option>
-            <option>Other Medical Degree</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Preferred Training Location</label>
-          <select>
-            <option value="" disabled selected>Select a location</option>
-            <option>United Kingdom</option>
-            <option>Australia</option>
-            <option>United Arab Emirates</option>
-            <option>Malaysia</option>
-            <option>Mauritius</option>
-            <option>India</option>
-            <option>Open to Any Location</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Tell Us About Yourself <span class="req">*</span></label>
-          <textarea id="about" placeholder="Share your background, experience, and why you're interested in MIATA's ultrasound program..." required></textarea>
-        </div>
-
-        <div class="checkbox-field">
-          <input type="checkbox" id="agree" required>
-          <label for="agree">
-            I agree to be contacted by MIATA's admissions team and accept the
-            <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>.
-          </label>
-        </div>
-
-        <button type="submit" class="submit-btn">
-          Submit Application
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"/>
-            <polyline points="12 5 19 12 12 19"/>
-          </svg>
-        </button>
-
-      </form>
-
-      <div class="form-footer">
-        <p>Your information is encrypted and never shared with third parties.</p>
-        <div class="security-badges">
-          <div class="sec-badge">🔒 SSL Secured</div>
-          <div class="sec-badge">🛡 Data Protected</div>
-          <div class="sec-badge">✅ No Spam</div>
-        </div>
-      </div>
-
+    <div style="margin-bottom:28px;">
+      <div class="form-tag">Admissions Open · April 2026</div>
+      <h1 style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--white);line-height:1.2;margin-bottom:8px;">Student Registration</h1>
+      <p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;max-width:520px;">Complete all sections below. Our admissions team will contact you within 24 hours of submission.</p>
     </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+
+    <form id="regForm" novalidate>
+      <!-- SECTION 1 -->
+      <div class="section-heading">
+        <div class="section-number">1</div><h3>Personal Information</h3><div class="section-line"></div>
+      </div>
+      <div class="form-card">
+        <div class="field-row">
+          <div class="field"><label>Full Name <span class="req">*</span></label><input type="text" name="full_name" placeholder="e.g. Priya Sharma" required></div>
+          <div class="field"><label>Email Address <span class="req">*</span></label><input type="email" name="email" placeholder="your@email.com" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Phone Number <span class="req">*</span></label><input type="tel" name="phone" placeholder="+91 99278 29520" required></div>
+          <div class="field"><label>Country <span class="req">*</span></label><input type="text" name="country" placeholder="e.g. India" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Agent Name <span class="opt">(Optional)</span></label><input type="text" name="agent_name" placeholder="e.g. John Doe"></div>
+          <div class="field"><label>Agent Contact / Email <span class="opt">(Optional)</span></label><input type="text" name="agent_contact" placeholder="e.g. agent@agency.com"></div>
+        </div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="section-heading">
+        <div class="section-number">2</div><h3>Academic Documents</h3><div class="section-line"></div>
+      </div>
+      <div class="form-card">
+        <div class="field" style="margin-bottom:24px;">
+          <label>Undergraduate Degree Certificate <span class="req">*</span></label>
+          <div class="file-zone" id="zone-ug_certificate">
+            <input type="file" name="ug_certificate" multiple data-max="2" class="file-input" id="file-ug_certificate" accept=".pdf,.jpg,.jpeg,.png">
+            <div class="file-zone-inner"><div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="file-zone-text"><strong>Click to upload or drag &amp; drop</strong><span>PDF, JPG, PNG · Max 2 files</span></div></div>
+            <div class="file-list" id="list-ug_certificate"></div>
+          </div>
+          <div class="file-note">Maximum 2 files allowed</div>
+        </div>
+        <div class="field">
+          <label>Academic Transcripts <span class="req">*</span></label>
+          <div class="file-zone" id="zone-transcripts">
+            <input type="file" name="transcripts" multiple data-max="6" class="file-input" id="file-transcripts" accept=".pdf,.jpg,.jpeg,.png">
+            <div class="file-zone-inner"><div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="file-zone-text"><strong>Click to upload or drag &amp; drop</strong><span>PDF, JPG, PNG · Max 6 files</span></div></div>
+            <div class="file-list" id="list-transcripts"></div>
+          </div>
+          <div class="file-note">Maximum 6 files allowed</div>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+      <div class="section-heading">
+        <div class="section-number">3</div><h3>Identity &amp; Credentials</h3><div class="section-line"></div>
+      </div>
+      <div class="form-card">
+        <div class="field-row">
+          <div class="field">
+            <label>Passport <span class="req">*</span></label>
+            <div class="file-zone"><input type="file" name="passport" class="file-input" id="file-passport" accept=".pdf,.jpg,.jpeg,.png"><div class="file-zone-inner"><div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 21v-1a5 5 0 0 1 10 0v1"/></svg></div><div class="file-zone-text"><strong>Upload passport</strong><span>PDF or image</span></div></div><div class="file-list" id="list-passport"></div></div>
+          </div>
+          <div class="field">
+            <label>CV / Resume <span class="req">*</span></label>
+            <div class="file-zone"><input type="file" name="cv" class="file-input" id="file-cv" accept=".pdf,.doc,.docx"><div class="file-zone-inner"><div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><div class="file-zone-text"><strong>Upload CV</strong><span>PDF format preferred</span></div></div><div class="file-list" id="list-cv"></div></div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>English Proficiency Proof <span class="req">*</span></label>
+            <div class="file-zone"><input type="file" name="english_proof" class="file-input" id="file-english_proof" accept=".pdf,.jpg,.jpeg,.png"><div class="file-zone-inner"><div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="file-zone-text"><strong>IELTS / TOEFL etc.</strong><span>PDF or image</span></div></div><div class="file-list" id="list-english_proof"></div></div>
+          </div>
+          <div class="field">
+            <label>Reference Letters <span class="req">*</span></label>
+            <div class="file-zone"><input type="file" name="references" class="file-input" id="file-references" accept=".pdf,.jpg,.jpeg,.png"><div class="file-zone-inner"><div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="file-zone-text"><strong>Reference letters</strong><span>PDF format preferred</span></div></div><div class="file-list" id="list-references"></div></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Work Experience Certificates <span class="opt">(Optional)</span></label>
+          <div class="file-zone"><input type="file" name="work_experience" class="file-input" id="file-work_experience" accept=".pdf,.jpg,.jpeg,.png"><div class="file-zone-inner"><div class="file-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div><div class="file-zone-text"><strong>Upload if available</strong><span>Experience certificates, letters</span></div></div><div class="file-list" id="list-work_experience"></div></div>
+        </div>
+      </div>
+
+      <!-- SECTION 4 -->
+      <div class="section-heading">
+        <div class="section-number">4</div><h3>Statement of Purpose</h3><div class="section-line"></div>
+      </div>
+      <div class="form-card">
+        <div class="field" style="margin-bottom:0;">
+          <label>Tell Us About Yourself <span class="req">*</span></label>
+          <textarea name="sop" rows="6" placeholder="Share your background, clinical experience, and why you're passionate about MIATA's diagnostic ultrasound program. What are your career goals?" required></textarea>
+        </div>
+      </div>
+
+      <div style="margin-top:28px;">
+        <!-- Hidden agree flag — set programmatically after T&C modal acceptance -->
+        <input type="checkbox" id="agree" style="display:none;">
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Review &amp; Accept Terms to Submit
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <div class="form-footer">
+          <p>Your information is encrypted and never shared with third parties.</p>
+          <div class="security-badges">
+            <div class="sec-badge">🔒 SSL Secured</div>
+            <div class="sec-badge">🛡 Data Protected</div>
+            <div class="sec-badge">✅ No Spam</div>
+          </div>
+        </div>
+      </div>
+    </form>
 
     <div class="contact-row">
       <a href="mailto:vijayabhaskar.gdmr@gmail.com" class="contact-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="2" y="4" width="20" height="16" rx="2"/>
-          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         vijayabhaskar.gdmr@gmail.com
       </a>
       <a href="tel:+919927829520" class="contact-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         +91 99278 29520
       </a>
     </div>
-
   </div>
 </div>
 
 <script>
-  function generateRef() {
-    const num = Math.floor(1000 + Math.random() * 9000);
-    return 'MIATA-2026-' + num;
+// ══════════════════════════════════════════
+//  ⚙️  EMAILJS CONFIG — fill these in!
+// ══════════════════════════════════════════
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+(function(){ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
+
+/* ── TERMS & CONDITIONS MODAL ── */
+// Holds a pending submit callback when T&C opens mid-submit flow
+let pendingSubmitCallback = null;
+
+function openTnC(e, tabKey) {
+  if(e) e.preventDefault();
+  const overlay = document.getElementById('tncOverlay');
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  switchTab(tabKey || 'admission');
+}
+function closeTnC() {
+  document.getElementById('tncOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+  pendingSubmitCallback = null;
+}
+function switchTab(key) {
+  document.querySelectorAll('.tnc-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === key));
+  document.querySelectorAll('.tnc-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + key));
+  document.querySelector('.tnc-body').scrollTop = 0;
+}
+document.querySelectorAll('.tnc-tab').forEach(tab => {
+  tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+});
+document.getElementById('tncClose').addEventListener('click', closeTnC);
+document.getElementById('tncDecline').addEventListener('click', closeTnC);
+document.getElementById('tncAccept').addEventListener('click', function() {
+  document.getElementById('agree').checked = true;
+  updateProgress();
+  closeTnC();
+  // If opened from a submit attempt, proceed with submission now
+  if(pendingSubmitCallback) {
+    const cb = pendingSubmitCallback;
+    pendingSubmitCallback = null;
+    cb();
   }
+});
+document.getElementById('tncOverlay').addEventListener('click', function(e) {
+  if(e.target === this) closeTnC();
+});
 
-  function handleSubmit(e) {
-    e.preventDefault();
+/* ── FILE STORE ── */
+const fileStore = {};
+function formatSize(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(1)+' MB';}
+function initFileInput(input){
+  const key=input.name,maxFiles=input.dataset.max?parseInt(input.dataset.max):1;
+  const listEl=document.getElementById('list-'+key)||input.parentElement.querySelector('.file-list');
+  const zone=input.closest('.file-zone');
+  fileStore[key]=[];
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('dragover');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('dragover'));
+  zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('dragover');});
+  input.addEventListener('change',function(){
+    const incoming=Array.from(input.files);
+    incoming.forEach(f=>{if(fileStore[key].length<maxFiles)fileStore[key].push(f);});
+    fileStore[key]=fileStore[key].slice(0,maxFiles);
+    syncInput(input,key);renderList(listEl,key);updateProgress();
+  });
+}
+function syncInput(input,key){const dt=new DataTransfer();fileStore[key].forEach(f=>dt.items.add(f));input.files=dt.files;}
+function renderList(listEl,key){
+  if(!listEl)return;listEl.innerHTML='';
+  fileStore[key].forEach((file,idx)=>{
+    const item=document.createElement('div');item.className='file-item';
+    item.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="file-item-name">${file.name}</span><span class="file-item-size">${formatSize(file.size)}</span><button type="button" class="file-remove" title="Remove"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
+    item.querySelector('.file-remove').addEventListener('click',()=>{fileStore[key].splice(idx,1);const inp=document.querySelector(`[name="${key}"]`);syncInput(inp,key);renderList(listEl,key);updateProgress();});
+    listEl.appendChild(item);
+  });
+}
+document.querySelectorAll('.file-input').forEach(initFileInput);
 
-    // Generate unique reference number
-    document.getElementById('refNumber').textContent = 'REF: ' + generateRef();
+/* ── PROGRESS ── */
+function updateProgress(){
+  const required=document.querySelectorAll('[required]');let filled=0;
+  required.forEach(el=>{if(el.type==='checkbox'&&el.checked)filled++;else if(el.type==='file'&&el.files&&el.files.length)filled++;else if(el.value&&el.value.trim())filled++;});
+  document.getElementById('progressBar').style.width=Math.round((filled/required.length)*100)+'%';
+}
+document.querySelectorAll('input,textarea').forEach(el=>{el.addEventListener('input',updateProgress);el.addEventListener('change',updateProgress);});
+updateProgress();
 
-    // Show success overlay
-    const overlay = document.getElementById('successOverlay');
-    overlay.classList.add('show');
-    document.body.style.overflow = 'hidden';
+/* ── REF & DOCS ── */
+function generateRef(){const ex=JSON.parse(localStorage.getItem('miata_applications')||'[]');return'MIATA-2026-'+(1001+ex.length);}
+function buildDocSnapshot(){
+  const fields=['ug_certificate','transcripts','passport','cv','english_proof','references','work_experience'];
+  const s={};fields.forEach(k=>{s[k]=(fileStore[k]||[]).map(f=>f.name);});return s;
+}
+function buildDocList(docs){
+  const labels={'ug_certificate':'UG Certificate','transcripts':'Transcripts','passport':'Passport','cv':'CV/Resume','english_proof':'English Proficiency','references':'Reference Letters','work_experience':'Work Experience'};
+  return Object.entries(docs).map(([k,v])=>v.length?`${labels[k]}: ${v.join(', ')}`:'').filter(Boolean).join('\n');
+}
+
+/* ── SUBMIT ── */
+async function doSubmit(form) {
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  const ref = generateRef();
+  const docs = buildDocSnapshot();
+  const application = {
+    id: ref,
+    full_name:     form.querySelector('[name="full_name"]').value.trim(),
+    email:         form.querySelector('[name="email"]').value.trim(),
+    phone:         form.querySelector('[name="phone"]').value.trim(),
+    country:       form.querySelector('[name="country"]').value.trim(),
+    agent_name:    form.querySelector('[name="agent_name"]').value.trim(),
+    agent_contact: form.querySelector('[name="agent_contact"]').value.trim(),
+    sop:           form.querySelector('[name="sop"]').value.trim(),
+    submittedAt: new Date().toISOString(),
+    status: 'pending', docs, actionLog: []
+  };
+  const existing = JSON.parse(localStorage.getItem('miata_applications') || '[]');
+  existing.unshift(application);
+  localStorage.setItem('miata_applications', JSON.stringify(existing));
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      ref_number:    ref,
+      full_name:     application.full_name,
+      email:         application.email,
+      phone:         application.phone,
+      country:       application.country,
+      agent_name:    application.agent_name || '—',
+      agent_contact: application.agent_contact || '—',
+      submitted_at:  new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}),
+      sop:           application.sop,
+      doc_list:      buildDocList(docs),
+      to_email:      'admissions@miataedu.org'
+    });
+  } catch(err) {
+    console.warn('EmailJS error (check config):', err);
   }
+  document.getElementById('refNumber').textContent = 'REF: ' + ref;
+  document.getElementById('successOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  btn.disabled = false;
+  btn.innerHTML = `Review &amp; Accept Terms to Submit <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+}
 
-  function closeSuccess() {
-    const overlay = document.getElementById('successOverlay');
-    overlay.classList.remove('show');
-    document.body.style.overflow = '';
+document.getElementById('regForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
 
-    // Reset form
-    document.getElementById('applyForm').reset();
-  }
-
-  // Close on backdrop click
-  document.getElementById('successOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeSuccess();
+  // Validate required text fields
+  const requiredFields = ['full_name', 'email', 'phone', 'country', 'sop'];
+  let valid = true;
+  requiredFields.forEach(name => {
+    const el = form.querySelector(`[name="${name}"]`);
+    if(!el || !el.value.trim()) { valid = false; el && (el.style.borderColor = '#e05252'); }
+    else el.style.borderColor = '';
+  });
+  // Validate required file fields
+  ['ug_certificate','transcripts','passport','cv','english_proof','references'].forEach(k => {
+    if(!fileStore[k] || !fileStore[k].length) valid = false;
   });
 
-  // Close on Escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeSuccess();
-  });
+  if(!valid) {
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '⚠ Please fill all required fields & upload documents';
+    setTimeout(() => {
+      btn.innerHTML = `Review &amp; Accept Terms to Submit <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+    }, 2500);
+    return;
+  }
+
+  // If T&C not yet accepted → open modal, queue submission for after acceptance
+  if(!document.getElementById('agree').checked) {
+    pendingSubmitCallback = () => doSubmit(form);
+    openTnC(null, 'admission');
+    return;
+  }
+
+  // Already accepted → submit directly
+  doSubmit(form);
+});
+
+function closeSuccess(){
+  document.getElementById('successOverlay').classList.remove('show');
+  document.body.style.overflow='';
+  document.getElementById('regForm').reset();
+  document.getElementById('agree').checked = false; // require T&C again for next submission
+  Object.keys(fileStore).forEach(k=>{fileStore[k]=[];});
+  document.querySelectorAll('.file-list').forEach(l=>l.innerHTML='');
+  updateProgress();
+}
+document.getElementById('successOverlay').addEventListener('click',function(e){if(e.target===this)closeSuccess();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTnC();closeSuccess();}});
 </script>
-
 </body>
 </html>

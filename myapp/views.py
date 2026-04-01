@@ -33,6 +33,22 @@ def faq(request):
 def login(request):
     return render(request, 'myapp/login.html')
 
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = users_collection.find_one({'username': username, 'role': 'admin'})
+
+        if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):
+            request.session['username'] = username
+            request.session['role'] = 'admin'
+            return redirect('admin_dashboard')
+        else:
+            messages.error(request, 'Invalid admin credentials.')
+
+    return render(request, 'myapp/admin_login.html')
+
 def login_student(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -410,3 +426,16 @@ def init_units(request):
             },
         ])
     return redirect('student_dashboard')
+def admin_dashboard(request):
+    if request.session.get('role') != 'admin':
+        return redirect('login_select')
+
+    students = list(users_collection.find({'role': 'student'}))
+    for s in students:
+        s['_id'] = str(s['_id'])
+        s['status'] = s.get('status', 'pending')
+        s['submittedAt'] = str(s.get('_id'))
+
+    return render(request, 'myapp/admin_dashboard.html', {  # ✅ template path
+        'applications': students
+    })

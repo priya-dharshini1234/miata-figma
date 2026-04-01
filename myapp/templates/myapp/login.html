@@ -180,17 +180,13 @@ body {
     <h2>Welcome Back 👋</h2>
     <p>Please select your portal to continue</p>
 
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
+    {% for message in messages %}{% endfor %}
 
     <a href="{% url 'login_student' %}" class="btn student-btn">🎓 Student Login</a>
     <a href="{% url 'login_agent' %}" class="btn agent-btn">🤝 Agent Login</a>
     <a href="{% url 'login_professor' %}" class="btn professor-btn">👨‍🏫 Professor Login</a>
+    <a href="{% url 'admin_login' %}" class="btn admin-btn">Admin Login</a>
+
 
     <hr class="divider">
 

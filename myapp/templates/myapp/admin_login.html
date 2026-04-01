@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login · MIATA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:       #0a1f35;
+  --navy-mid:   #0f2f4f;
+  --teal:       #1a9e8f;
+  --teal-light: #22b5a4;
+  --white:      #ffffff;
+  --error:      #e05252;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bg-canvas {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(26,158,143,0.12) 0%, transparent 60%),
+    linear-gradient(160deg, #060f1a 0%, #0a1f35 50%, #0d2840 100%);
+}
+.bg-canvas::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(26,158,143,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,158,143,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.orb {
+  position: fixed; border-radius: 50%;
+  filter: blur(80px); opacity: 0.4;
+  animation: drift 12s ease-in-out infinite alternate; z-index: 0;
+}
+.orb-1 { width:500px;height:500px; background:radial-gradient(circle,rgba(26,158,143,0.3),transparent 70%); top:-150px;left:-150px;animation-duration:15s; }
+.orb-2 { width:400px;height:400px; background:radial-gradient(circle,rgba(10,37,64,0.6),transparent 70%); bottom:-100px;right:-100px;animation-duration:18s;animation-delay:-5s; }
+@keyframes drift { from{transform:translate(0,0) scale(1);} to{transform:translate(40px,30px) scale(1.05);} }
+
+.login-wrap {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 440px;
+  padding: 20px;
+  animation: fadeUp 0.6s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.brand {
+  display: flex; align-items: center; gap: 12px;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+.brand-mark {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--teal), #0d7a6d);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 20px; color: white;
+  box-shadow: 0 8px 24px rgba(26,158,143,0.35);
+}
+.brand-text h2 { font-family:'DM Serif Display',serif; font-size:20px; color:var(--white); line-height:1.1; }
+.brand-text p  { font-size:11px; color:rgba(255,255,255,0.45); letter-spacing:0.5px; }
+
+.login-card {
+  background: rgba(255,255,255,0.97);
+  border-radius: 24px;
+  padding: 48px 44px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.login-card h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px; color: var(--navy);
+  margin-bottom: 6px;
+}
+.login-card .sub {
+  font-size: 13px; color: #6b7c8f;
+  margin-bottom: 32px;
+}
+.admin-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(26,158,143,0.1); color: var(--teal);
+  font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(26,158,143,0.2);
+  margin-bottom: 20px;
+}
+.admin-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--teal); }
+
+.field { margin-bottom: 20px; }
+.field label {
+  display: block; font-size: 11px; font-weight: 600;
+  color: var(--navy-mid); letter-spacing: 0.5px;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.field input {
+  width: 100%; padding: 13px 16px;
+  border: 1.5px solid #e0e8ef; border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--navy); background: #fafbfc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field input:focus {
+  outline: none; border-color: var(--teal); background: white;
+  box-shadow: 0 0 0 4px rgba(26,158,143,0.08);
+}
+
+.error-msg {
+  display: none;
+  background: rgba(224,82,82,0.08);
+  border: 1px solid rgba(224,82,82,0.2);
+  color: var(--error);
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  align-items: center;
+  gap: 8px;
+}
+.error-msg.show { display: flex; }
+
+.login-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, var(--teal), #0d8a7b);
+  color: white; border: none; border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 24px rgba(26,158,143,0.35);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 20px;
+}
+.login-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(26,158,143,0.45); }
+.login-btn:active { transform: translateY(0); }
+
+.hint {
+  text-align: center;
+  font-size: 12px; color: #b0bec8;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-canvas"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="login-wrap">
+  <div class="brand">
+    <div class="brand-mark">M</div>
+    <div class="brand-text">
+      <h2>MIATA</h2>
+      <p>Medical Imaging Academy</p>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <div class="admin-badge">Admin Portal</div>
+    <h1>Welcome Back</h1>
+    <p class="sub">Sign in to access the admissions dashboard.</p>
+
+    {% if messages %}
+    <div class="error-msg show">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Invalid username or password.
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/login/admin/">
+      {% csrf_token %}
+
+      <div class="field">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="admin" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="login-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        Sign In
+      </button>
+    </form>
+
+    <div class="hint">Use your admin credentials to sign in.</div>
+  </div>
+</div>
+
+</body>
+</html>
