@@ -137,6 +137,6 @@ EMAIL_HOST = 'smtp.zoho.in'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'info@miataedu.org'
-EMAIL_HOST_PASSWORD = '3j7DgRMh7SgR'
-DEFAULT_FROM_EMAIL = 'info@miataedu.org'
+EMAIL_HOST_USER = 'support@miataedu.org'
+EMAIL_HOST_PASSWORD = 'XhKguPJdtcRm'
+DEFAULT_FROM_EMAIL = 'support@miataedu.org'
