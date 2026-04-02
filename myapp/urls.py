@@ -23,4 +23,6 @@ urlpatterns = [
     path('chap1/submit/',        views.submit_coursework,  name='submit_coursework'),
     path('agent/agreement/view/',views.view_agreement,     name='view_agreement'),
     path('faq/',                 views.faq,                name='faq'),
+    path('api/register/', views.register, name='register'),
+    path('api/update-status/',  views.update_status,  name='update_status'), 
 ]

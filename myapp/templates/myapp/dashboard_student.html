@@ -178,7 +178,7 @@ body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text-
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-icon blue"><i class="fas fa-book-open"></i></div>
-        <div class="stat-info"><h4>3</h4><p>Total Units</p></div>
+        <div class="stat-info"><h4>10</h4><p>Total Units</p></div>
       </div>
       <div class="stat-card">
         <div class="stat-icon teal"><i class="fas fa-check-circle"></i></div>
@@ -186,7 +186,7 @@ body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text-
       </div>
       <div class="stat-card">
         <div class="stat-icon gold"><i class="fas fa-lock"></i></div>
-        <div class="stat-info"><h4>2</h4><p>Locked</p></div>
+        <div class="stat-info"><h4>9</h4><p>Locked</p></div>
       </div>
     </div>
 
@@ -215,7 +215,7 @@ body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text-
 
       {% empty %}
 
-      <!-- UNIT 1 — hardcoded fallback if DB is empty -->
+      <!-- UNIT 1 — Basic Abdominal Ultrasound -->
       <div class="unit-card">
         <div class="unit-left">
           <div class="unit-icon"><i class="fas fa-book-medical"></i></div>
@@ -228,7 +228,7 @@ body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text-
         <a href="{% url 'chap1' %}" class="unit-btn">Open <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <!-- UNIT 2 -->
+      <!-- UNIT 2 — Obstetric Ultrasound -->
       <div class="unit-card locked">
         <div class="unit-left">
           <div class="unit-icon"><i class="fas fa-heartbeat"></i></div>
@@ -241,13 +241,104 @@ body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text-
         <span class="unit-btn locked-btn">Locked 🔒</span>
       </div>
 
-      <!-- UNIT 3 -->
+      <!-- UNIT 3 — Vascular Imaging -->
       <div class="unit-card locked">
         <div class="unit-left">
           <div class="unit-icon"><i class="fas fa-x-ray"></i></div>
           <div class="unit-text">
             <h4>Unit 3 – Vascular Imaging</h4>
             <p>Doppler techniques and vascular assessment procedures.</p>
+            <span class="unit-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+        <span class="unit-btn locked-btn">Locked 🔒</span>
+      </div>
+
+      <!-- UNIT 4 — Small Parts Ultrasound -->
+      <div class="unit-card locked">
+        <div class="unit-left">
+          <div class="unit-icon"><i class="fas fa-microscope"></i></div>
+          <div class="unit-text">
+            <h4>Unit 4 – Small Parts Ultrasound</h4>
+            <p>Thyroid, breast, and musculoskeletal high-resolution scanning.</p>
+            <span class="unit-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+        <span class="unit-btn locked-btn">Locked 🔒</span>
+      </div>
+
+      <!-- UNIT 5 — Cardiac Ultrasound (Echocardiography) -->
+      <div class="unit-card locked">
+        <div class="unit-left">
+          <div class="unit-icon"><i class="fas fa-heart"></i></div>
+          <div class="unit-text">
+            <h4>Unit 5 – Cardiac Ultrasound (Echocardiography)</h4>
+            <p>Cardiac anatomy, ventricular function, and basic echo views.</p>
+            <span class="unit-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+        <span class="unit-btn locked-btn">Locked 🔒</span>
+      </div>
+
+      <!-- UNIT 6 — Ultrasound Physics & Instrumentation -->
+      <div class="unit-card locked">
+        <div class="unit-left">
+          <div class="unit-icon"><i class="fas fa-wave-square"></i></div>
+          <div class="unit-text">
+            <h4>Unit 6 – Ultrasound Physics & Instrumentation</h4>
+            <p>Sound wave principles, transducer types, and image optimisation.</p>
+            <span class="unit-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+        <span class="unit-btn locked-btn">Locked 🔒</span>
+      </div>
+
+      <!-- UNIT 7 — Gynaecological Ultrasound -->
+      <div class="unit-card locked">
+        <div class="unit-left">
+          <div class="unit-icon"><i class="fas fa-venus"></i></div>
+          <div class="unit-text">
+            <h4>Unit 7 – Gynaecological Ultrasound</h4>
+            <p>Uterus, ovary pathology, and transvaginal scanning techniques.</p>
+            <span class="unit-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+        <span class="unit-btn locked-btn">Locked 🔒</span>
+      </div>
+
+      <!-- UNIT 8 — Paediatric Ultrasound -->
+      <div class="unit-card locked">
+        <div class="unit-left">
+          <div class="unit-icon"><i class="fas fa-child"></i></div>
+          <div class="unit-text">
+            <h4>Unit 8 – Paediatric Ultrasound</h4>
+            <p>Age-specific protocols, neonatal brain, and hip assessments.</p>
+            <span class="unit-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+        <span class="unit-btn locked-btn">Locked 🔒</span>
+      </div>
+
+      <!-- UNIT 9 — Interventional & Guided Procedures -->
+      <div class="unit-card locked">
+        <div class="unit-left">
+          <div class="unit-icon"><i class="fas fa-syringe"></i></div>
+          <div class="unit-text">
+            <h4>Unit 9 – Interventional & Guided Procedures</h4>
+            <p>Ultrasound-guided biopsies, aspirations, and drainage techniques.</p>
+            <span class="unit-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+        <span class="unit-btn locked-btn">Locked 🔒</span>
+      </div>
+
+      <!-- UNIT 10 — Professional Practice & Reporting -->
+      <div class="unit-card locked">
+        <div class="unit-left">
+          <div class="unit-icon"><i class="fas fa-file-medical-alt"></i></div>
+          <div class="unit-text">
+            <h4>Unit 10 – Professional Practice & Reporting</h4>
+            <p>Ethics, medicolegal responsibilities, and structured report writing.</p>
             <span class="unit-badge badge-locked">🔒 Locked</span>
           </div>
         </div>

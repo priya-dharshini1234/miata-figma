@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Registration · MIATA</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 :root {
   --navy:       #0a1f35;
@@ -132,173 +130,65 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
 ═══════════════════════════════════════ */
 .tnc-overlay {
   display:none;position:fixed;inset:0;z-index:1000;
-  background:rgba(4,12,22,0.88);backdrop-filter:blur(10px);
+  background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);
   align-items:flex-end;justify-content:center;padding:0;
 }
 .tnc-overlay.show { display:flex;animation:fadeIn 0.25s ease; }
-@media(min-width:640px){
-  .tnc-overlay { align-items:center;padding:24px; }
-}
+@media(min-width:640px){ .tnc-overlay { align-items:center;padding:24px; } }
 .tnc-modal {
-  background:#fff;
-  width:100%;max-width:760px;
-  border-radius:24px 24px 0 0;
-  display:flex;flex-direction:column;
-  max-height:92vh;
-  box-shadow:0 -20px 60px rgba(0,0,0,0.5), 0 40px 100px rgba(0,0,0,0.4);
-  animation:slideUp 0.35s cubic-bezier(0.32,0.72,0,1) both;
-  overflow:hidden;
+  background:#fff;width:100%;max-width:700px;border-radius:4px 4px 0 0;
+  display:flex;flex-direction:column;max-height:92vh;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.25),0 40px 80px rgba(0,0,0,0.35);
+  animation:slideUp 0.3s cubic-bezier(0.32,0.72,0,1) both;overflow:hidden;
 }
-@media(min-width:640px){
-  .tnc-modal {
-    border-radius:24px;
-    max-height:88vh;
-    animation:popIn 0.35s cubic-bezier(0.34,1.4,0.64,1) both;
-  }
-}
+@media(min-width:640px){.tnc-modal{border-radius:4px;max-height:88vh;animation:popIn 0.3s cubic-bezier(0.34,1.3,0.64,1) both;}}
 @keyframes slideUp { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
-
-/* Modal Header */
 .tnc-header {
-  padding:24px 28px 20px;
-  border-bottom:1px solid #eef2f7;
+  padding:22px 32px 18px;border-bottom:2px solid #111;
   display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
-  flex-shrink:0;position:relative;
-  background:linear-gradient(135deg, #f8fffe 0%, #f0faf9 100%);
+  flex-shrink:0;background:#fff;
 }
-.tnc-header-left { display:flex;align-items:center;gap:14px; }
-.tnc-header-icon {
-  width:46px;height:46px;border-radius:12px;
-  background:linear-gradient(135deg,var(--teal),#0d7a6d);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;box-shadow:0 6px 18px rgba(26,158,143,0.3);
-}
-.tnc-header-icon svg { stroke:white; }
-.tnc-header-text h2 {
-  font-family:'DM Serif Display',serif;font-size:20px;
-  color:var(--navy);line-height:1.2;margin-bottom:3px;
-}
-.tnc-header-text p { font-size:12px;color:#8fa3b3; }
-.tnc-close {
-  width:36px;height:36px;border-radius:50%;
-  background:#f0f4f8;border:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:background 0.2s,transform 0.2s;flex-shrink:0;margin-top:2px;
-}
-.tnc-close:hover { background:#e0e8f0;transform:rotate(90deg); }
-.tnc-close svg { stroke:#5a6f84; }
-
-/* Tab bar */
-.tnc-tabs {
-  display:flex;padding:0 28px;border-bottom:1px solid #eef2f7;
-  flex-shrink:0;overflow-x:auto;gap:0;background:#fafcfe;
-  scrollbar-width:none;
-}
-.tnc-tabs::-webkit-scrollbar { display:none; }
-.tnc-tab {
-  padding:13px 18px;font-size:12px;font-weight:600;
-  color:#8fa3b3;cursor:pointer;border:none;background:none;
-  font-family:'DM Sans',sans-serif;letter-spacing:0.3px;
-  border-bottom:2px solid transparent;margin-bottom:-1px;
-  white-space:nowrap;transition:color 0.2s,border-color 0.2s;
-}
-.tnc-tab:hover { color:var(--navy); }
-.tnc-tab.active { color:var(--teal);border-bottom-color:var(--teal); }
-
-/* Scrollable body */
-.tnc-body {
-  flex:1;overflow-y:auto;padding:28px 28px 8px;
-  scroll-behavior:smooth;
-  scrollbar-width:thin;scrollbar-color:rgba(26,158,143,0.2) transparent;
-}
-.tnc-body::-webkit-scrollbar { width:4px; }
-.tnc-body::-webkit-scrollbar-track { background:transparent; }
-.tnc-body::-webkit-scrollbar-thumb { background:rgba(26,158,143,0.25);border-radius:4px; }
-
-/* Tab panels */
-.tnc-panel { display:none; }
-.tnc-panel.active { display:block; }
-
-/* Section blocks */
-.tnc-section { margin-bottom:28px; }
-.tnc-section-title {
-  font-family:'DM Serif Display',serif;font-size:15px;
-  color:var(--navy);margin-bottom:10px;
-  padding-left:12px;border-left:3px solid var(--teal);
-  line-height:1.3;
-}
-.tnc-section-subtitle {
-  font-size:11px;font-weight:600;text-transform:uppercase;
-  letter-spacing:0.5px;color:#8fa3b3;margin-bottom:8px;margin-top:14px;
-}
-.tnc-text {
-  font-size:13px;color:#4a5f78;line-height:1.75;
-}
-.tnc-list {
-  list-style:none;padding:0;margin:0;
-}
-.tnc-list li {
-  font-size:13px;color:#4a5f78;line-height:1.7;
-  padding:5px 0 5px 20px;position:relative;
-}
-.tnc-list li::before {
-  content:'';position:absolute;left:6px;top:13px;
-  width:5px;height:5px;border-radius:50%;
-  background:var(--teal);opacity:0.6;
-}
-.tnc-list.sub li::before { background:#8fa3b3;width:4px;height:4px;top:14px; }
-.tnc-divider { height:1px;background:#eef2f7;margin:24px 0; }
-
-/* Warning callout */
-.tnc-callout {
-  background:rgba(255,200,100,0.08);border:1px solid rgba(230,160,30,0.25);
-  border-radius:10px;padding:12px 16px;margin-bottom:16px;
-  display:flex;gap:10px;align-items:flex-start;
-}
-.tnc-callout-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
-.tnc-callout p { font-size:12px;color:#7a6020;line-height:1.65; }
-
-/* Info callout */
-.tnc-info {
-  background:rgba(26,158,143,0.06);border:1px solid rgba(26,158,143,0.2);
-  border-radius:10px;padding:12px 16px;margin-bottom:16px;
-  display:flex;gap:10px;align-items:flex-start;
-}
-.tnc-info-icon { font-size:16px;flex-shrink:0;margin-top:1px; }
-.tnc-info p { font-size:12px;color:#2a5f58;line-height:1.65; }
-
-/* Footer actions */
-.tnc-footer {
-  padding:20px 28px;border-top:1px solid #eef2f7;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  flex-shrink:0;background:#fafcfe;flex-wrap:wrap;
-}
-.tnc-footer-note { font-size:11px;color:#9baab8;line-height:1.5;flex:1;min-width:160px; }
-.tnc-accept-btn {
-  padding:12px 28px;
-  background:linear-gradient(135deg,var(--teal),#0d8a7b);
-  color:white;border:none;border-radius:10px;
-  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
-  cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
-  box-shadow:0 6px 18px rgba(26,158,143,0.3);white-space:nowrap;
-}
-.tnc-accept-btn:hover { transform:translateY(-2px);box-shadow:0 10px 24px rgba(26,158,143,0.4); }
-.tnc-decline-btn {
-  padding:12px 20px;background:transparent;
-  color:#8fa3b3;border:1.5px solid #dce6ef;
-  border-radius:10px;font-family:'DM Sans',sans-serif;
-  font-size:13px;font-weight:500;cursor:pointer;
-  transition:border-color 0.2s,color 0.2s;white-space:nowrap;
-}
-.tnc-decline-btn:hover { border-color:#b0bec8;color:#5a6f84; }
-
-/* Numbered clause */
-.tnc-clause { display:flex;gap:12px;margin-bottom:8px; }
-.tnc-clause-num {
-  font-size:11px;font-weight:700;color:var(--teal);
-  width:22px;flex-shrink:0;padding-top:3px;
-}
-.tnc-clause-text { font-size:13px;color:#4a5f78;line-height:1.7;flex:1; }
+.tnc-header-left{display:flex;align-items:center;gap:14px;}
+.tnc-header-icon{width:40px;height:40px;border-radius:2px;background:#111;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tnc-header-icon svg{stroke:#fff;}
+.tnc-header-text h2{font-family:'DM Serif Display',serif;font-size:17px;color:#111;line-height:1.2;margin-bottom:2px;letter-spacing:-0.2px;}
+.tnc-header-text p{font-size:11px;color:#666;letter-spacing:0.2px;}
+.tnc-close{width:32px;height:32px;border-radius:2px;background:#f2f2f2;border:1px solid #ddd;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s;flex-shrink:0;margin-top:2px;}
+.tnc-close:hover{background:#e0e0e0;}
+.tnc-close svg{stroke:#333;}
+.tnc-tabs{display:none;}
+.tnc-panel{display:block !important;}
+.tnc-body{flex:1;overflow-y:auto;padding:28px 32px 16px;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#bbb transparent;background:#fff;}
+.tnc-body::-webkit-scrollbar{width:5px;}
+.tnc-body::-webkit-scrollbar-track{background:transparent;}
+.tnc-body::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px;}
+.tnc-doc-header{text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid #ddd;}
+.tnc-doc-header h3{font-family:'DM Serif Display',serif;font-size:19px;color:#111;margin-bottom:4px;letter-spacing:-0.3px;}
+.tnc-doc-header p{font-size:11px;color:#888;letter-spacing:0.3px;text-transform:uppercase;}
+.tnc-section{margin-bottom:22px;}
+.tnc-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#111;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #e0e0e0;line-height:1.3;}
+.tnc-section-subtitle{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#555;margin-bottom:6px;margin-top:12px;}
+.tnc-text{font-size:12.5px;color:#333;line-height:1.75;}
+.tnc-list{list-style:none;padding:0;margin:0;}
+.tnc-list li{font-size:12.5px;color:#333;line-height:1.7;padding:3px 0 3px 16px;position:relative;}
+.tnc-list li::before{content:'–';position:absolute;left:0;top:3px;color:#555;font-size:12px;}
+.tnc-list.sub li::before{content:'·';left:2px;color:#888;}
+.tnc-divider{height:1px;background:#e8e8e8;margin:18px 0;}
+.tnc-callout{background:#f7f7f7;border:1px solid #ccc;border-left:3px solid #111;border-radius:2px;padding:10px 14px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start;}
+.tnc-callout-icon{font-size:13px;flex-shrink:0;margin-top:1px;filter:grayscale(1);}
+.tnc-callout p{font-size:12px;color:#333;line-height:1.65;}
+.tnc-info{background:#f7f7f7;border:1px solid #ccc;border-left:3px solid #555;border-radius:2px;padding:10px 14px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start;}
+.tnc-info-icon{font-size:13px;flex-shrink:0;margin-top:1px;filter:grayscale(1);}
+.tnc-info p{font-size:12px;color:#333;line-height:1.65;}
+.tnc-footer{padding:16px 32px;border-top:1px solid #ddd;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-shrink:0;background:#fafafa;flex-wrap:wrap;}
+.tnc-footer-note{font-size:11px;color:#888;line-height:1.5;flex:1;min-width:160px;}
+.tnc-accept-btn{padding:11px 26px;background:#111;color:#fff;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background 0.15s;white-space:nowrap;letter-spacing:0.2px;}
+.tnc-accept-btn:hover{background:#333;}
+.tnc-decline-btn{padding:11px 20px;background:#fff;color:#555;border:1px solid #ccc;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:border-color 0.15s,color 0.15s;white-space:nowrap;}
+.tnc-decline-btn:hover{border-color:#888;color:#111;}
+.tnc-clause{display:flex;gap:12px;margin-bottom:8px;}
+.tnc-clause-num{font-size:11px;font-weight:700;color:#333;width:22px;flex-shrink:0;padding-top:3px;}
+.tnc-clause-text{font-size:12.5px;color:#333;line-height:1.7;flex:1;}
 </style>
 </head>
 <body>
@@ -306,13 +196,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
 
-<!-- ═══════════════════════════════════════
-     TERMS & CONDITIONS MODAL
-═══════════════════════════════════════ -->
+<!-- TERMS & CONDITIONS MODAL -->
 <div class="tnc-overlay" id="tncOverlay" role="dialog" aria-modal="true" aria-label="Terms and Conditions">
   <div class="tnc-modal">
-
-    <!-- Header -->
     <div class="tnc-header">
       <div class="tnc-header-left">
         <div class="tnc-header-icon">
@@ -327,297 +213,38 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-
-    <!-- Tab bar -->
-    <div class="tnc-tabs" role="tablist">
-      <button class="tnc-tab active" data-tab="admission" role="tab">Admission &amp; Fees</button>
-      <button class="tnc-tab" data-tab="conduct" role="tab">Conduct &amp; Delivery</button>
-      <button class="tnc-tab" data-tab="certification" role="tab">Certification &amp; ARDMS</button>
-      <button class="tnc-tab" data-tab="overseas" role="tab">Overseas Training</button>
-      <button class="tnc-tab" data-tab="refund" role="tab">Refunds &amp; Withdrawal</button>
-      <button class="tnc-tab" data-tab="legal" role="tab">Legal &amp; IP</button>
-    </div>
-
-    <!-- Body -->
     <div class="tnc-body">
-
-      <!-- TAB 1: Admission & Fees -->
-      <div class="tnc-panel active" id="tab-admission">
-        <div class="tnc-section">
-          <div class="tnc-section-title">1. Admission &amp; Eligibility</div>
-          <ul class="tnc-list">
-            <li>Admission is granted based on eligibility criteria defined for each course.</li>
-            <li>Submission of false or misleading information may result in cancellation of enrolment without refund.</li>
-            <li>The Academy reserves the right to accept or reject any application without obligation to provide reasons.</li>
-          </ul>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">2. Fees &amp; Payment</div>
-          <ul class="tnc-list">
-            <li>Course fees must be paid as per the agreed schedule.</li>
-            <li>Fees once paid are <strong>non-refundable and non-transferable</strong>, unless otherwise specified in writing.</li>
-            <li>Taxes and statutory charges, if applicable, are borne by the Student.</li>
-            <li>The Academy may deny access to classes or materials for non-payment.</li>
-          </ul>
-          <div class="tnc-callout" style="margin-top:14px;">
-            <span class="tnc-callout-icon">⚠️</span>
-            <p>Course fees <strong>do not include</strong> ARDMS exam fees, visa costs, travel, accommodation, or any personal/living expenses during overseas training unless explicitly stated in writing.</p>
-          </div>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">3. Placement Disclaimer</div>
-          <ul class="tnc-list">
-            <li>The Academy does not guarantee job placement, employment, salary level, or career advancement.</li>
-            <li>Any placement assistance provided is on a best-effort basis only.</li>
-            <li>Final hiring decisions rest solely with the employer.</li>
-            <li>The Academy is not responsible for employer conduct, job role mismatch, salary disputes, or employment termination.</li>
-          </ul>
-        </div>
+      <div class="tnc-doc-header">
+        <h3>Enrolment Terms &amp; Conditions</h3>
+        <p>MIATA Medical Imaging Academy &nbsp;&middot;&nbsp; Effective: April 2026</p>
       </div>
-
-      <!-- TAB 2: Conduct & Delivery -->
-      <div class="tnc-panel" id="tab-conduct">
-        <div class="tnc-section">
-          <div class="tnc-section-title">4. Course Delivery</div>
-          <ul class="tnc-list">
-            <li>Courses may be delivered online, offline, or in hybrid mode.</li>
-            <li>The Academy reserves the right to modify schedules, faculty, course content, or delivery mode.</li>
-            <li>Missed classes will not be compensated unless explicitly stated.</li>
-          </ul>
-          <div class="tnc-info" style="margin-top:14px;">
-            <span class="tnc-info-icon">📋</span>
-            <p>The standard course structure comprises <strong>6 months of online theory training</strong> followed by <strong>3 months of hands-on practical training</strong> at an overseas location. Attendance and assessment requirements apply to both phases.</p>
-          </div>
-        </div>
+      <div class="tnc-panel">
+        <div class="tnc-section"><div class="tnc-section-title">1. Admission &amp; Eligibility</div><ul class="tnc-list"><li>Admission is granted based on eligibility criteria defined for each course.</li><li>Submission of false or misleading information may result in cancellation of enrolment without refund.</li><li>The Academy reserves the right to accept or reject any application without obligation to provide reasons.</li></ul></div>
         <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">5. Attendance &amp; Student Conduct</div>
-          <ul class="tnc-list">
-            <li>Minimum attendance may be required for course completion.</li>
-            <li>Students must maintain professional, ethical, and respectful behaviour toward faculty, staff, peers, and patients (where applicable).</li>
-            <li>Harassment, discrimination, plagiarism, cheating, or disruption of classes is strictly prohibited.</li>
-            <li>Misconduct may lead to warning, suspension, or termination of enrolment <em>without refund</em>, and withholding of certificates.</li>
-          </ul>
-        </div>
+        <div class="tnc-section"><div class="tnc-section-title">2. Fees &amp; Payment</div><ul class="tnc-list"><li>Course fees must be paid as per the agreed schedule.</li><li>Fees once paid are <strong>non-refundable and non-transferable</strong>, unless otherwise specified in writing.</li><li>The Academy may deny access to classes or materials for non-payment.</li></ul><div class="tnc-callout" style="margin-top:14px;"><span class="tnc-callout-icon">⚠️</span><p>Course fees <strong>do not include</strong> ARDMS exam fees, visa costs, travel, accommodation, or any personal expenses unless explicitly stated in writing.</p></div></div>
         <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">6. Online Learning Policy</div>
-          <ul class="tnc-list">
-            <li>Online classes may be delivered through third-party platforms.</li>
-            <li>Students are responsible for a stable internet connection, compatible devices, and technical readiness.</li>
-            <li>The Academy is not responsible for interruptions caused by technical issues beyond its control.</li>
-            <li>Recording, sharing, or redistribution of online classes or materials is <strong>strictly prohibited</strong>.</li>
-            <li>Access credentials are personal and non-shareable.</li>
-          </ul>
-        </div>
+        <div class="tnc-section"><div class="tnc-section-title">3. Placement Disclaimer</div><ul class="tnc-list"><li>The Academy does not guarantee job placement, employment, salary level, or career advancement.</li><li>Final hiring decisions rest solely with the employer.</li></ul></div>
         <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">7. Academic &amp; Medical Disclaimer</div>
-          <ul class="tnc-list">
-            <li>Training content is provided for educational purposes only.</li>
-            <li>Any medical, clinical, diagnostic, or technical training is <strong>demonstrative and educational only</strong>.</li>
-            <li>Students are not authorised to practise medicine, diagnosis, or treatment unless legally licensed.</li>
-            <li>The Academy bears no liability for clinical decisions taken by students after course completion.</li>
-          </ul>
-        </div>
+        <div class="tnc-section"><div class="tnc-section-title">4. Course Delivery</div><ul class="tnc-list"><li>Courses may be delivered online, offline, or in hybrid mode.</li><li>The Academy reserves the right to modify schedules, faculty, course content, or delivery mode.</li></ul></div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section"><div class="tnc-section-title">5. Attendance &amp; Student Conduct</div><ul class="tnc-list"><li>Students must maintain professional, ethical, and respectful behaviour.</li><li>Misconduct may lead to warning, suspension, or termination without refund.</li></ul></div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section"><div class="tnc-section-title">6. Refund &amp; Withdrawal Policy</div><ul class="tnc-list"><li>Course fees once paid are <strong>non-refundable and non-transferable</strong>.</li><li>No refund for visa refusal, partial attendance, or dissatisfaction.</li></ul></div>
+        <div class="tnc-divider"></div>
+        <div class="tnc-section"><div class="tnc-section-title">7. Acceptance</div><div class="tnc-info"><span class="tnc-info-icon">✅</span><p>By enrolling or submitting this application, the Student confirms they have <strong>read, understood, and accepted</strong> all Terms &amp; Conditions.</p></div></div>
       </div>
-
-      <!-- TAB 3: Certification & ARDMS -->
-      <div class="tnc-panel" id="tab-certification">
-        <div class="tnc-section">
-          <div class="tnc-section-title">8. Course Completion Certificate</div>
-          <ul class="tnc-list">
-            <li>Certificates issued by the Academy are <strong>Course Completion / Training Certificates only</strong>.</li>
-            <li>Such certificates do <strong>not</strong> constitute a license, medical qualification, professional registration, or statutory authorisation to practise.</li>
-            <li>Recognition of certificates by employers, councils, universities, or regulatory authorities is not guaranteed.</li>
-            <li>Students are responsible for verifying acceptance of the certification for their intended purpose.</li>
-          </ul>
-          <div class="tnc-callout" style="margin-top:14px;">
-            <span class="tnc-callout-icon">⚠️</span>
-            <p>Regulatory approvals, if any, must be verified <strong>independently</strong> by the Student. The Academy does not provide statutory licensing or professional registration.</p>
-          </div>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">9. ARDMS &amp; External Certification Disclaimer</div>
-          <ul class="tnc-list">
-            <li>Students are encouraged to apply for external certifications including ARDMS to enhance global employability.</li>
-            <li>The Academy does <strong>not</strong> conduct, control, administer, or award ARDMS certification, and is not affiliated with or endorsed by ARDMS, unless expressly stated in writing.</li>
-            <li>Eligibility for ARDMS is determined solely by the respective certifying authority.</li>
-          </ul>
-          <div class="tnc-section-subtitle">The Academy does not guarantee:</div>
-          <ul class="tnc-list sub">
-            <li>Eligibility for ARDMS or any external certification</li>
-            <li>Successful examination results</li>
-            <li>Certification approval</li>
-            <li>Global recognition or acceptance</li>
-          </ul>
-          <div class="tnc-section-subtitle" style="margin-top:14px;">Student-Borne ARDMS Costs (All of the following are the Student's sole responsibility):</div>
-          <ul class="tnc-list sub">
-            <li>Examination fees and application/registration charges</li>
-            <li>Documentation and verification fees</li>
-            <li>Rescheduling or re-examination fees</li>
-            <li>Travel, accommodation, and related expenses</li>
-          </ul>
-          <div class="tnc-info" style="margin-top:14px;">
-            <span class="tnc-info-icon">ℹ️</span>
-            <p>Any guidance or preparatory support provided by the Academy is <strong>informational and supportive only</strong> and does not ensure certification success. Failure or inability to pay external exam fees does not entitle the Student to any refund or course extension.</p>
-          </div>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">10. Exams &amp; Assessments</div>
-          <ul class="tnc-list">
-            <li>Assessments may be conducted as per Academy policy.</li>
-            <li>Certification is subject to successful completion of attendance and assessments.</li>
-            <li>The Academy reserves the right to withhold certificates for non-compliance.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- TAB 4: Overseas Training -->
-      <div class="tnc-panel" id="tab-overseas">
-        <div class="tnc-info">
-          <span class="tnc-info-icon">🌏</span>
-          <p>The practical training component involves <strong>3 months of hands-on training at an overseas location</strong>. Students must read this section carefully before enrolling.</p>
-        </div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">11. Overseas Training Location</div>
-          <ul class="tnc-list">
-            <li>The Academy reserves the <strong>sole and absolute right</strong> to decide, modify, or change the overseas training country, city, institution, or clinical partner based on availability, regulatory conditions, logistics, or other operational considerations.</li>
-            <li>Overseas training locations may include, but are not limited to, Mauritius, Malaysia, or other countries, and may be changed <strong>without prior notice</strong>.</li>
-          </ul>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">12. Visa, Travel &amp; Immigration Disclaimer</div>
-          <ul class="tnc-list">
-            <li>All visa approvals, duration, conditions, and entry permissions are entirely governed by the host country's immigration authorities.</li>
-            <li>Any invitation or training letter issued by the Academy is for training support <strong>only</strong> and does <strong>not guarantee visa approval</strong>.</li>
-            <li>Rejection, delay, cancellation, or modification of visa applications shall not be considered a breach of the Academy's obligations.</li>
-          </ul>
-          <div class="tnc-callout" style="margin-top:14px;">
-            <span class="tnc-callout-icon">⚠️</span>
-            <p>The Academy <strong>does not assure, promise, or guarantee</strong> the grant of any visa, extension, or immigration benefit. Failure to obtain a visa does not entitle the Student to a refund or compensation unless expressly agreed in writing.</p>
-          </div>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">13. Student-Borne Overseas Costs</div>
-          <p class="tnc-text" style="margin-bottom:10px;">All of the following costs are <strong>entirely the Student's responsibility</strong> and are not included in course fees:</p>
-          <ul class="tnc-list sub">
-            <li>Visa application and processing fees</li>
-            <li>International and domestic travel</li>
-            <li>Accommodation</li>
-            <li>Food and daily living expenses</li>
-            <li>Medical insurance</li>
-            <li>Local transportation</li>
-            <li>Any government or statutory fees</li>
-          </ul>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">14. Overseas Training Risk &amp; Liability Waiver</div>
-          <ul class="tnc-list">
-            <li>Participation in overseas training is <strong>voluntary and at the Student's own risk</strong>.</li>
-            <li>The Academy shall not be responsible for any injury, illness, accident, loss, damage, legal issue, or incident occurring during overseas travel or training.</li>
-            <li>The Academy shall not be liable for any death, disability, detention, deportation, or legal action arising from the Student's actions, local laws, or third-party conduct.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- TAB 5: Refunds & Withdrawal -->
-      <div class="tnc-panel" id="tab-refund">
-        <div class="tnc-section">
-          <div class="tnc-section-title">15. Refund &amp; Withdrawal Policy</div>
-          <ul class="tnc-list">
-            <li>Course fees once paid are <strong>non-refundable and non-transferable</strong>, except where expressly stated in writing by the Academy.</li>
-            <li>Withdrawal requests must be submitted <strong>in writing</strong> to the Academy.</li>
-          </ul>
-          <div class="tnc-section-subtitle" style="margin-top:14px;">No refund shall be issued for:</div>
-          <ul class="tnc-list sub">
-            <li>Partial attendance or missed classes</li>
-            <li>Change of personal circumstances</li>
-            <li>Dissatisfaction with course content or delivery</li>
-            <li>Visa refusal or inability to travel for overseas training</li>
-            <li>Failure or inability to pay external examination fees</li>
-          </ul>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">16. Academy-Initiated Cancellation</div>
-          <ul class="tnc-list">
-            <li>If the Academy cancels a course due to unforeseen circumstances, a proportionate refund (excluding administrative charges) <em>may</em> be issued at the Academy's discretion.</li>
-            <li>Refunds, if approved, will be processed within <strong>30–45 working days</strong>.</li>
-          </ul>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">17. Limitation of Liability</div>
-          <ul class="tnc-list">
-            <li>The Academy is not liable for indirect or consequential losses.</li>
-            <li>Total liability shall not exceed the course fee paid by the Student.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- TAB 6: Legal & IP -->
-      <div class="tnc-panel" id="tab-legal">
-        <div class="tnc-section">
-          <div class="tnc-section-title">18. Intellectual Property</div>
-          <ul class="tnc-list">
-            <li>All course materials, videos, presentations, software, and content are the <strong>intellectual property of the Academy</strong>.</li>
-            <li>Recording, copying, sharing, or distributing materials without written permission is strictly prohibited.</li>
-            <li>Damage to Academy property or misuse of systems may result in penalties.</li>
-          </ul>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">19. Nature of Courses</div>
-          <ul class="tnc-list">
-            <li>Courses are <strong>training and educational programs only</strong> and do not guarantee employment, licensing, registration, or certification unless expressly stated in writing.</li>
-            <li>Any certificate issued is a course completion certificate, not a statutory licence or professional registration.</li>
-            <li>The Academy is not responsible for how students apply the knowledge gained.</li>
-            <li>Students must comply with all applicable professional, legal, and regulatory requirements when practising.</li>
-          </ul>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">20. Governing Law &amp; Amendments</div>
-          <ul class="tnc-list">
-            <li>These Terms are governed by applicable laws. Disputes shall be subject to the jurisdiction of competent courts.</li>
-            <li>The Academy may amend these Terms at any time. Continued participation implies acceptance of revised terms.</li>
-          </ul>
-        </div>
-        <div class="tnc-divider"></div>
-        <div class="tnc-section">
-          <div class="tnc-section-title">21. Acceptance</div>
-          <div class="tnc-info">
-            <span class="tnc-info-icon">✅</span>
-            <p>By enrolling, paying fees, attending classes, or submitting this application, the Student confirms they have <strong>read, understood, and accepted</strong> all Terms &amp; Conditions set out in this document.</p>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end .tnc-body -->
-
-    <!-- Footer -->
+    </div>
     <div class="tnc-footer">
-      <p class="tnc-footer-note">By clicking "Accept &amp; Submit", you confirm you have read and accepted all terms, and authorise submission of your application.</p>
+      <p class="tnc-footer-note">By clicking "Accept &amp; Submit", you confirm you have read and accepted all terms.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <button class="tnc-decline-btn" id="tncDecline">Cancel</button>
         <button class="tnc-accept-btn" id="tncAccept">Accept &amp; Submit ✓</button>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
-     SUCCESS OVERLAY
-═══════════════════════════════════════ -->
+<!-- SUCCESS OVERLAY -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
     <div class="success-icon-wrap">
@@ -638,9 +265,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
-     MAIN PAGE
-═══════════════════════════════════════ -->
+<!-- MAIN PAGE -->
 <div class="page-wrap">
   <div class="left-panel">
     <div class="brand">
@@ -764,7 +389,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
       </div>
 
       <div style="margin-top:28px;">
-        <!-- Hidden agree flag — set programmatically after T&C modal acceptance -->
         <input type="checkbox" id="agree" style="display:none;">
         <button type="submit" class="submit-btn" id="submitBtn">
           Review &amp; Accept Terms to Submit
@@ -784,7 +408,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
     <div class="contact-row">
       <a href="mailto:vijayabhaskar.gdmr@gmail.com" class="contact-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-        vijayabhaskar.gdmr@gmail.com
+        info@miataedu.org
       </a>
       <a href="tel:+919927829520" class="contact-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -795,80 +419,56 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
 </div>
 
 <script>
-// ══════════════════════════════════════════
-//  ⚙️  EMAILJS CONFIG — fill these in!
-// ══════════════════════════════════════════
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-(function(){ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
-
 /* ── TERMS & CONDITIONS MODAL ── */
-// Holds a pending submit callback when T&C opens mid-submit flow
 let pendingSubmitCallback = null;
 
-function openTnC(e, tabKey) {
+function openTnC(e) {
   if(e) e.preventDefault();
-  const overlay = document.getElementById('tncOverlay');
-  overlay.classList.add('show');
+  document.getElementById('tncOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
-  switchTab(tabKey || 'admission');
+  document.querySelector('.tnc-body').scrollTop = 0;
 }
 function closeTnC() {
   document.getElementById('tncOverlay').classList.remove('show');
   document.body.style.overflow = '';
   pendingSubmitCallback = null;
 }
-function switchTab(key) {
-  document.querySelectorAll('.tnc-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === key));
-  document.querySelectorAll('.tnc-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + key));
-  document.querySelector('.tnc-body').scrollTop = 0;
-}
-document.querySelectorAll('.tnc-tab').forEach(tab => {
-  tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-});
 document.getElementById('tncClose').addEventListener('click', closeTnC);
 document.getElementById('tncDecline').addEventListener('click', closeTnC);
 document.getElementById('tncAccept').addEventListener('click', function() {
   document.getElementById('agree').checked = true;
   updateProgress();
   closeTnC();
-  // If opened from a submit attempt, proceed with submission now
-  if(pendingSubmitCallback) {
-    const cb = pendingSubmitCallback;
-    pendingSubmitCallback = null;
-    cb();
-  }
+  if(pendingSubmitCallback) { const cb = pendingSubmitCallback; pendingSubmitCallback = null; cb(); }
 });
-document.getElementById('tncOverlay').addEventListener('click', function(e) {
-  if(e.target === this) closeTnC();
-});
+document.getElementById('tncOverlay').addEventListener('click', function(e) { if(e.target === this) closeTnC(); });
 
 /* ── FILE STORE ── */
 const fileStore = {};
-function formatSize(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(1)+' MB';}
+function formatSize(b){ if(b<1024) return b+' B'; if(b<1048576) return (b/1024).toFixed(1)+' KB'; return (b/1048576).toFixed(1)+' MB'; }
 function initFileInput(input){
-  const key=input.name,maxFiles=input.dataset.max?parseInt(input.dataset.max):1;
-  const listEl=document.getElementById('list-'+key)||input.parentElement.querySelector('.file-list');
-  const zone=input.closest('.file-zone');
-  fileStore[key]=[];
-  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('dragover');});
-  zone.addEventListener('dragleave',()=>zone.classList.remove('dragover'));
-  zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('dragover');});
-  input.addEventListener('change',function(){
-    const incoming=Array.from(input.files);
-    incoming.forEach(f=>{if(fileStore[key].length<maxFiles)fileStore[key].push(f);});
-    fileStore[key]=fileStore[key].slice(0,maxFiles);
-    syncInput(input,key);renderList(listEl,key);updateProgress();
+  const key = input.name;
+  const maxFiles = input.dataset.max ? parseInt(input.dataset.max) : 1;
+  const listEl = document.getElementById('list-'+key) || input.parentElement.querySelector('.file-list');
+  const zone = input.closest('.file-zone');
+  fileStore[key] = [];
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); });
+  input.addEventListener('change', function(){
+    const incoming = Array.from(input.files);
+    incoming.forEach(f => { if(fileStore[key].length < maxFiles) fileStore[key].push(f); });
+    fileStore[key] = fileStore[key].slice(0, maxFiles);
+    syncInput(input, key); renderList(listEl, key); updateProgress();
   });
 }
-function syncInput(input,key){const dt=new DataTransfer();fileStore[key].forEach(f=>dt.items.add(f));input.files=dt.files;}
-function renderList(listEl,key){
-  if(!listEl)return;listEl.innerHTML='';
-  fileStore[key].forEach((file,idx)=>{
-    const item=document.createElement('div');item.className='file-item';
-    item.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="file-item-name">${file.name}</span><span class="file-item-size">${formatSize(file.size)}</span><button type="button" class="file-remove" title="Remove"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
-    item.querySelector('.file-remove').addEventListener('click',()=>{fileStore[key].splice(idx,1);const inp=document.querySelector(`[name="${key}"]`);syncInput(inp,key);renderList(listEl,key);updateProgress();});
+function syncInput(input, key){ const dt = new DataTransfer(); fileStore[key].forEach(f => dt.items.add(f)); input.files = dt.files; }
+function renderList(listEl, key){
+  if(!listEl) return; listEl.innerHTML = '';
+  fileStore[key].forEach((file, idx) => {
+    const item = document.createElement('div'); item.className = 'file-item';
+    item.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="file-item-name">${file.name}</span><span class="file-item-size">${formatSize(file.size)}</span><button type="button" class="file-remove" title="Remove"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
+    item.querySelector('.file-remove').addEventListener('click', () => { fileStore[key].splice(idx, 1); const inp = document.querySelector(`[name="${key}"]`); syncInput(inp, key); renderList(listEl, key); updateProgress(); });
     listEl.appendChild(item);
   });
 }
@@ -876,83 +476,112 @@ document.querySelectorAll('.file-input').forEach(initFileInput);
 
 /* ── PROGRESS ── */
 function updateProgress(){
-  const required=document.querySelectorAll('[required]');let filled=0;
-  required.forEach(el=>{if(el.type==='checkbox'&&el.checked)filled++;else if(el.type==='file'&&el.files&&el.files.length)filled++;else if(el.value&&el.value.trim())filled++;});
-  document.getElementById('progressBar').style.width=Math.round((filled/required.length)*100)+'%';
+  const required = document.querySelectorAll('[required]'); let filled = 0;
+  required.forEach(el => {
+    if(el.type==='checkbox'&&el.checked) filled++;
+    else if(el.type==='file'&&el.files&&el.files.length) filled++;
+    else if(el.value&&el.value.trim()) filled++;
+  });
+  document.getElementById('progressBar').style.width = Math.round((filled/required.length)*100)+'%';
 }
-document.querySelectorAll('input,textarea').forEach(el=>{el.addEventListener('input',updateProgress);el.addEventListener('change',updateProgress);});
+document.querySelectorAll('input,textarea').forEach(el => { el.addEventListener('input', updateProgress); el.addEventListener('change', updateProgress); });
 updateProgress();
 
-/* ── REF & DOCS ── */
-function generateRef(){const ex=JSON.parse(localStorage.getItem('miata_applications')||'[]');return'MIATA-2026-'+(1001+ex.length);}
-function buildDocSnapshot(){
-  const fields=['ug_certificate','transcripts','passport','cv','english_proof','references','work_experience'];
-  const s={};fields.forEach(k=>{s[k]=(fileStore[k]||[]).map(f=>f.name);});return s;
-}
-function buildDocList(docs){
-  const labels={'ug_certificate':'UG Certificate','transcripts':'Transcripts','passport':'Passport','cv':'CV/Resume','english_proof':'English Proficiency','references':'Reference Letters','work_experience':'Work Experience'};
-  return Object.entries(docs).map(([k,v])=>v.length?`${labels[k]}: ${v.join(', ')}`:'').filter(Boolean).join('\n');
-}
+/* ── REF ── */
+function generateRef(){ const ex = JSON.parse(localStorage.getItem('miata_applications')||'[]'); return 'MIATA-2026-'+(1001+ex.length); }
 
 /* ── SUBMIT ── */
 async function doSubmit(form) {
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.textContent = 'Submitting…';
+
   const ref = generateRef();
-  const docs = buildDocSnapshot();
+
+  const fd = new FormData();
+  fd.append('ref_number',    ref);
+  fd.append('full_name',     form.querySelector('[name="full_name"]').value.trim());
+  fd.append('email',         form.querySelector('[name="email"]').value.trim());
+  fd.append('phone',         form.querySelector('[name="phone"]').value.trim());
+  fd.append('country',       form.querySelector('[name="country"]').value.trim());
+  fd.append('agent_name',    form.querySelector('[name="agent_name"]').value.trim());
+  fd.append('agent_contact', form.querySelector('[name="agent_contact"]').value.trim());
+  fd.append('sop',           form.querySelector('[name="sop"]').value.trim());
+
+  // ── FILE FIELDS ──────────────────────────────────────────────────────────
+  const fileFields = ['ug_certificate','transcripts','passport','cv','english_proof','references','work_experience'];
+  fileFields.forEach(key => {
+    (fileStore[key] || []).forEach(file => fd.append(key, file));
+  });
+
+  // ── BUILD docs MAP for localStorage so admin dashboard shows filenames ───
+  // This maps each field to an array of file names uploaded by the student.
+  const docsMap = {};
+  fileFields.forEach(key => {
+    docsMap[key] = (fileStore[key] || []).map(f => f.name);
+  });
+
+  // ── SAVE TO LOCALSTORAGE (with docs) ─────────────────────────────────────
   const application = {
-    id: ref,
-    full_name:     form.querySelector('[name="full_name"]').value.trim(),
-    email:         form.querySelector('[name="email"]').value.trim(),
-    phone:         form.querySelector('[name="phone"]').value.trim(),
-    country:       form.querySelector('[name="country"]').value.trim(),
-    agent_name:    form.querySelector('[name="agent_name"]').value.trim(),
-    agent_contact: form.querySelector('[name="agent_contact"]').value.trim(),
-    sop:           form.querySelector('[name="sop"]').value.trim(),
-    submittedAt: new Date().toISOString(),
-    status: 'pending', docs, actionLog: []
+    id:            ref,
+    status:        'pending',
+    submittedAt:   new Date().toISOString(),
+    full_name:     fd.get('full_name'),
+    email:         fd.get('email'),
+    phone:         fd.get('phone'),
+    country:       fd.get('country'),
+    agent_name:    fd.get('agent_name')    || '',
+    agent_contact: fd.get('agent_contact') || '',
+    sop:           fd.get('sop')           || '',
+    docs:          docsMap,   // ← file names per category — read by admin_dashboard
   };
   const existing = JSON.parse(localStorage.getItem('miata_applications') || '[]');
   existing.unshift(application);
   localStorage.setItem('miata_applications', JSON.stringify(existing));
+
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      ref_number:    ref,
-      full_name:     application.full_name,
-      email:         application.email,
-      phone:         application.phone,
-      country:       application.country,
-      agent_name:    application.agent_name || '—',
-      agent_contact: application.agent_contact || '—',
-      submitted_at:  new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}),
-      sop:           application.sop,
-      doc_list:      buildDocList(docs),
-      to_email:      'admissions@miataedu.org'
+    const csrfToken = getCookie('csrftoken');
+    const res = await fetch('/api/register/', {
+      method: 'POST',
+      headers: csrfToken ? { 'X-CSRFToken': csrfToken } : {},
+      body: fd,
     });
+
+    if(!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Server error ${res.status}`);
+    }
+
+    document.getElementById('refNumber').textContent = 'REF: ' + ref;
+    document.getElementById('successOverlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+
   } catch(err) {
-    console.warn('EmailJS error (check config):', err);
+    console.error('Submission error:', err);
+    alert('Submission failed: ' + err.message + '\n\nPlease try again or contact admissions@miataedu.org');
   }
-  document.getElementById('refNumber').textContent = 'REF: ' + ref;
-  document.getElementById('successOverlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
+
   btn.disabled = false;
   btn.innerHTML = `Review &amp; Accept Terms to Submit <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+}
+
+/* ── CSRF ── */
+function getCookie(name){
+  const val = `; ${document.cookie}`; const parts = val.split(`; ${name}=`);
+  if(parts.length === 2) return parts.pop().split(';').shift(); return null;
 }
 
 document.getElementById('regForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const form = e.target;
 
-  // Validate required text fields
-  const requiredFields = ['full_name', 'email', 'phone', 'country', 'sop'];
+  const requiredFields = ['full_name','email','phone','country','sop'];
   let valid = true;
   requiredFields.forEach(name => {
     const el = form.querySelector(`[name="${name}"]`);
     if(!el || !el.value.trim()) { valid = false; el && (el.style.borderColor = '#e05252'); }
     else el.style.borderColor = '';
   });
-  // Validate required file fields
   ['ug_certificate','transcripts','passport','cv','english_proof','references'].forEach(k => {
     if(!fileStore[k] || !fileStore[k].length) valid = false;
   });
@@ -966,28 +595,26 @@ document.getElementById('regForm').addEventListener('submit', function(e) {
     return;
   }
 
-  // If T&C not yet accepted → open modal, queue submission for after acceptance
   if(!document.getElementById('agree').checked) {
     pendingSubmitCallback = () => doSubmit(form);
-    openTnC(null, 'admission');
+    openTnC(null);
     return;
   }
 
-  // Already accepted → submit directly
   doSubmit(form);
 });
 
 function closeSuccess(){
   document.getElementById('successOverlay').classList.remove('show');
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
   document.getElementById('regForm').reset();
-  document.getElementById('agree').checked = false; // require T&C again for next submission
-  Object.keys(fileStore).forEach(k=>{fileStore[k]=[];});
-  document.querySelectorAll('.file-list').forEach(l=>l.innerHTML='');
+  document.getElementById('agree').checked = false;
+  Object.keys(fileStore).forEach(k => { fileStore[k] = []; });
+  document.querySelectorAll('.file-list').forEach(l => l.innerHTML = '');
   updateProgress();
 }
-document.getElementById('successOverlay').addEventListener('click',function(e){if(e.target===this)closeSuccess();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTnC();closeSuccess();}});
+document.getElementById('successOverlay').addEventListener('click', function(e){ if(e.target===this) closeSuccess(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeTnC(); closeSuccess(); } });
 </script>
 </body>
 </html>

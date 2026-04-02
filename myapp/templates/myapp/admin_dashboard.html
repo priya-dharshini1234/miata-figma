@@ -94,7 +94,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .td-agent strong{font-size:12px;color:var(--white);}
 .td-agent span{font-size:11px;color:var(--muted);}
 .td-agent .none{font-size:11px;color:rgba(255,255,255,0.2);font-style:italic;}
-.country-flag{font-size:16px;margin-right:6px;}
 .status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;}
 .status-badge.pending{background:rgba(245,158,11,0.12);color:#f59e0b;border:1px solid rgba(245,158,11,0.25);}
 .status-badge.reviewing{background:rgba(59,130,246,0.12);color:#3b82f6;border:1px solid rgba(59,130,246,0.25);}
@@ -109,7 +108,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .drawer-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(6,15,26,0.7);backdrop-filter:blur(6px);}
 .drawer-overlay.open{display:flex;justify-content:flex-end;animation:fadeIn 0.2s ease;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.drawer{width:min(520px,100vw);height:100vh;background:linear-gradient(180deg,#0d2540 0%,#0a1f35 100%);border-left:1px solid var(--border);overflow-y:auto;animation:slideDrawer 0.3s ease;}
+.drawer{width:min(540px,100vw);height:100vh;background:linear-gradient(180deg,#0d2540 0%,#0a1f35 100%);border-left:1px solid var(--border);overflow-y:auto;animation:slideDrawer 0.3s ease;}
 @keyframes slideDrawer{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
 .drawer::-webkit-scrollbar{width:6px;}
 .drawer::-webkit-scrollbar-thumb{background:rgba(26,158,143,0.2);border-radius:3px;}
@@ -134,13 +133,38 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .doc-tag-label{font-size:11px;color:var(--muted);width:140px;flex-shrink:0;}
 .doc-tag-files{font-size:12px;color:rgba(255,255,255,0.8);flex:1;}
 .doc-tag-files .missing{color:rgba(255,255,255,0.2);font-style:italic;}
-.status-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+
+/* ── Status buttons ── */
+.status-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .status-btn{flex:1;padding:9px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);}
-.status-btn:hover,.status-btn.active{opacity:1;}
+.status-btn:disabled{opacity:0.5;cursor:not-allowed;}
 .status-btn.s-pending.active{background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.4);color:#f59e0b;}
 .status-btn.s-reviewing.active{background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.4);color:#3b82f6;}
 .status-btn.s-accepted.active{background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.4);color:#10b981;}
 .status-btn.s-rejected.active{background:rgba(224,82,82,0.15);border-color:rgba(224,82,82,0.4);color:#e05252;}
+
+/* ── Email note area (shown only for accept/reject) ── */
+.email-note-wrap{margin-bottom:16px;display:none;}
+.email-note-wrap.visible{display:block;animation:fadeIn 0.2s ease;}
+.email-note-label{font-size:11px;color:var(--teal);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.email-note-label svg{stroke:var(--teal);}
+.email-note-area{width:100%;padding:11px 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--white);resize:vertical;min-height:70px;outline:none;}
+.email-note-area:focus{border-color:var(--teal);}
+.email-note-hint{font-size:11px;color:var(--muted);margin-top:6px;}
+
+/* ── Confirm send button ── */
+.confirm-status-btn{width:100%;padding:11px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;display:none;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;}
+.confirm-status-btn.visible{display:flex;animation:fadeIn 0.2s ease;}
+.confirm-status-btn.for-accepted{background:linear-gradient(135deg,#059669,#047857);color:white;box-shadow:0 4px 16px rgba(5,150,105,0.3);}
+.confirm-status-btn.for-rejected{background:linear-gradient(135deg,#e05252,#c0392b);color:white;box-shadow:0 4px 16px rgba(224,82,82,0.3);}
+.confirm-status-btn.for-other{background:rgba(26,158,143,0.2);border:1px solid rgba(26,158,143,0.4);color:var(--teal-lt);}
+.confirm-status-btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+/* ── Email sent toast ── */
+.email-toast{display:none;align-items:center;gap:8px;background:rgba(5,150,105,0.12);border:1px solid rgba(5,150,105,0.3);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#34d399;}
+.email-toast.show{display:flex;animation:fadeIn 0.3s ease;}
+.email-toast svg{stroke:#34d399;flex-shrink:0;}
+
 .note-area{width:100%;padding:11px 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--white);resize:vertical;min-height:80px;outline:none;}
 .note-area:focus{border-color:var(--teal);}
 .save-note-btn{margin-top:8px;padding:9px 20px;background:rgba(26,158,143,0.15);border:1px solid rgba(26,158,143,0.3);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--teal-lt);cursor:pointer;transition:all 0.2s;}
@@ -156,17 +180,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .pag-btn:hover,.pag-btn.active{background:rgba(26,158,143,0.15);border-color:rgba(26,158,143,0.3);color:var(--teal-lt);}
 .pag-btn:disabled{opacity:0.3;cursor:not-allowed;}
 
-@media(max-width:1100px){
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .table-header,.tr{grid-template-columns:120px 1fr 120px 100px 110px 0px 100px 80px;}
-  .th:nth-child(6),.td:nth-child(6){display:none;}
-}
-@media(max-width:768px){
-  .main{padding:16px;}
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .table-header,.tr{grid-template-columns:110px 1fr 90px 80px;}
-  .th:nth-child(n+5),.td:nth-child(n+5){display:none;}
-}
+@media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr);}.table-header,.tr{grid-template-columns:120px 1fr 120px 100px 110px 0px 100px 80px;}.th:nth-child(6),.td:nth-child(6){display:none;}}
+@media(max-width:768px){.main{padding:16px;}.stats-grid{grid-template-columns:1fr 1fr;}.table-header,.tr{grid-template-columns:110px 1fr 90px 80px;}.th:nth-child(n+5),.td:nth-child(n+5){display:none;}}
 </style>
 </head>
 <body>
@@ -205,7 +220,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
   </nav>
 
   <div class="main">
-    <!-- Stats -->
     <div class="stats-grid" id="statsGrid">
       <div class="stat-card teal"><div class="label">Total Applications</div><div class="value" id="s-total">0</div><div class="sub">All time</div></div>
       <div class="stat-card"><div class="label">Pending Review</div><div class="value" id="s-pending">0</div><div class="sub">Awaiting action</div></div>
@@ -213,7 +227,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
       <div class="stat-card"><div class="label">Via Agent</div><div class="value" id="s-agent">0</div><div class="sub">Agent-referred</div></div>
     </div>
 
-    <!-- Toolbar -->
     <div class="toolbar">
       <div class="search-wrap">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -232,7 +245,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
       </button>
     </div>
 
-    <!-- Table -->
     <div class="table-wrap">
       <div class="table-header">
         <div class="th">Ref #</div>
@@ -247,7 +259,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
       <div class="table-body" id="tableBody"></div>
     </div>
 
-    <!-- Pagination -->
     <div class="pagination">
       <span id="pagInfo">Showing 0 of 0</span>
       <div class="pag-btns" id="pagBtns"></div>
@@ -260,7 +271,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
   <div class="drawer" id="drawer">
     <div class="drawer-head">
       <h3 id="drawerTitle">Application Details</h3>
-      <button class="drawer-close" onclick="closeDrawer()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <button class="drawer-close" onclick="closeDrawer()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
     <div class="drawer-body" id="drawerBody"></div>
   </div>
@@ -268,97 +281,103 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 
 <script>
 // ══════════════════════════════════════
-//  AUTH — change credentials here
+//  CONFIG  — update credentials here
 // ══════════════════════════════════════
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'miata2026';
 
+// Django API endpoints
+const API_REGISTER     = '/api/register/';
+const API_UPDATE_STATUS = '/api/update-status/';   // ← new endpoint in views.py
+
+// ══════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════
 function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value;
-  if(u===ADMIN_USER&&p===ADMIN_PASS){
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('dashboard').style.display='block';
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  if(u === ADMIN_USER && p === ADMIN_PASS){
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display   = 'block';
     init();
   } else {
-    document.getElementById('loginError').style.display='block';
+    document.getElementById('loginError').style.display = 'block';
   }
 }
-document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
 
 function doLogout(){
-  document.getElementById('dashboard').style.display='none';
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('loginUser').value='';
-  document.getElementById('loginPass').value='';
+  document.getElementById('dashboard').style.display   = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
 }
 
 // ══════════════════════════════════════
-//  DATA
+//  DATA  (localStorage as local cache)
 // ══════════════════════════════════════
-function getApps(){return JSON.parse(localStorage.getItem('miata_applications')||'[]');}
-function saveApps(apps){localStorage.setItem('miata_applications',JSON.stringify(apps));}
+function getApps(){ return JSON.parse(localStorage.getItem('miata_applications') || '[]'); }
+function saveApps(apps){ localStorage.setItem('miata_applications', JSON.stringify(apps)); }
 
-const PAGE_SIZE=15;
-let currentPage=1;
-let filteredApps=[];
+const PAGE_SIZE = 15;
+let currentPage  = 1;
+let filteredApps = [];
 
 function init(){
   renderStats();
   renderTable();
-  // Poll for new submissions every 10s
-  setInterval(()=>{renderStats();renderTable();},10000);
+  setInterval(() => { renderStats(); renderTable(); }, 10000);
 }
 
 function renderStats(){
-  const apps=getApps();
-  const pending=apps.filter(a=>a.status==='pending').length;
-  const accepted=apps.filter(a=>a.status==='accepted').length;
-  const withAgent=apps.filter(a=>a.agent_name&&a.agent_name.trim()).length;
-  document.getElementById('s-total').textContent=apps.length;
-  document.getElementById('s-pending').textContent=pending;
-  document.getElementById('s-accepted').textContent=accepted;
-  document.getElementById('s-agent').textContent=withAgent;
-  document.getElementById('liveCount').textContent=apps.length+' Application'+(apps.length!==1?'s':'');
+  const apps     = getApps();
+  const pending  = apps.filter(a => a.status === 'pending').length;
+  const accepted = apps.filter(a => a.status === 'accepted').length;
+  const withAgent = apps.filter(a => a.agent_name && a.agent_name.trim()).length;
+  document.getElementById('s-total').textContent    = apps.length;
+  document.getElementById('s-pending').textContent  = pending;
+  document.getElementById('s-accepted').textContent = accepted;
+  document.getElementById('s-agent').textContent    = withAgent;
+  document.getElementById('liveCount').textContent  = apps.length + ' Application' + (apps.length !== 1 ? 's' : '');
 }
 
 function renderTable(){
-  const apps=getApps();
-  const q=document.getElementById('searchInput').value.toLowerCase();
-  const sf=document.getElementById('statusFilter').value;
+  const apps = getApps();
+  const q    = document.getElementById('searchInput').value.toLowerCase();
+  const sf   = document.getElementById('statusFilter').value;
 
-  filteredApps=apps.filter(a=>{
-    const matchQ=!q||[a.full_name,a.email,a.country,a.phone,a.id,a.agent_name,a.agent_contact].some(v=>v&&v.toLowerCase().includes(q));
-    const matchS=!sf||a.status===sf;
-    return matchQ&&matchS;
+  filteredApps = apps.filter(a => {
+    const matchQ = !q || [a.full_name, a.email, a.country, a.phone, a.id, a.agent_name, a.agent_contact].some(v => v && v.toLowerCase().includes(q));
+    const matchS = !sf || a.status === sf;
+    return matchQ && matchS;
   });
 
-  const total=filteredApps.length;
-  const pages=Math.max(1,Math.ceil(total/PAGE_SIZE));
-  if(currentPage>pages)currentPage=1;
+  const total = filteredApps.length;
+  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if(currentPage > pages) currentPage = 1;
 
-  const slice=filteredApps.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE);
-  const body=document.getElementById('tableBody');
+  const slice = filteredApps.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const body  = document.getElementById('tableBody');
 
-  if(slice.length===0){
-    body.innerHTML='<div class="no-data">No applications found.</div>';
+  if(slice.length === 0){
+    body.innerHTML = '<div class="no-data">No applications found.</div>';
   } else {
-    body.innerHTML=slice.map(a=>rowHTML(a)).join('');
-    body.querySelectorAll('.tr').forEach(row=>{
-      row.addEventListener('click',()=>openDrawer(row.dataset.id));
+    body.innerHTML = slice.map(a => rowHTML(a)).join('');
+    body.querySelectorAll('.tr').forEach(row => {
+      row.addEventListener('click', () => openDrawer(row.dataset.id));
     });
   }
 
-  document.getElementById('pagInfo').textContent=`Showing ${Math.min((currentPage-1)*PAGE_SIZE+1,total)}–${Math.min(currentPage*PAGE_SIZE,total)} of ${total}`;
+  document.getElementById('pagInfo').textContent = `Showing ${Math.min((currentPage-1)*PAGE_SIZE+1,total)}–${Math.min(currentPage*PAGE_SIZE,total)} of ${total}`;
   renderPag(pages);
 }
 
 function rowHTML(a){
-  const date=new Date(a.submittedAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'});
-  const docCount=Object.values(a.docs||{}).flat().length;
-  const agentHTML=a.agent_name
-    ?`<strong>${esc(a.agent_name)}</strong><span>${esc(a.agent_contact||'—')}</span>`
-    :`<span class="none">—</span>`;
+  const date     = new Date(a.submittedAt).toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'2-digit'});
+  const docCount = Object.values(a.docs || {}).flat().length;
+  const agentHTML = a.agent_name
+    ? `<strong>${esc(a.agent_name)}</strong><span>${esc(a.agent_contact || '—')}</span>`
+    : `<span class="none">—</span>`;
   return `<div class="tr" data-id="${a.id}">
     <div class="td"><span class="td-ref">${a.id}</span></div>
     <div class="td td-name"><strong>${esc(a.full_name)}</strong><span>${esc(a.email)}</span></div>
@@ -372,37 +391,79 @@ function rowHTML(a){
 }
 
 function renderPag(pages){
-  const c=document.getElementById('pagBtns');c.innerHTML='';
-  const prev=document.createElement('button');prev.className='pag-btn';prev.textContent='← Prev';prev.disabled=currentPage===1;prev.onclick=()=>{currentPage--;renderTable();};c.appendChild(prev);
-  for(let i=1;i<=Math.min(pages,7);i++){const b=document.createElement('button');b.className='pag-btn'+(i===currentPage?' active':'');b.textContent=i;b.onclick=(()=>{const p=i;return()=>{currentPage=p;renderTable();};})();c.appendChild(b);}
-  const next=document.createElement('button');next.className='pag-btn';next.textContent='Next →';next.disabled=currentPage===pages;next.onclick=()=>{currentPage++;renderTable();};c.appendChild(next);
+  const c = document.getElementById('pagBtns'); c.innerHTML = '';
+  const prev = document.createElement('button'); prev.className = 'pag-btn'; prev.textContent = '← Prev'; prev.disabled = currentPage === 1; prev.onclick = () => { currentPage--; renderTable(); }; c.appendChild(prev);
+  for(let i = 1; i <= Math.min(pages, 7); i++){ const b = document.createElement('button'); b.className = 'pag-btn' + (i === currentPage ? ' active' : ''); b.textContent = i; b.onclick = (()=>{ const p=i; return ()=>{ currentPage=p; renderTable(); }; })(); c.appendChild(b); }
+  const next = document.createElement('button'); next.className = 'pag-btn'; next.textContent = 'Next →'; next.disabled = currentPage === pages; next.onclick = () => { currentPage++; renderTable(); }; c.appendChild(next);
 }
 
 // ══════════════════════════════════════
 //  DRAWER
 // ══════════════════════════════════════
+let _drawerCurrentId = null;
+let _pendingStatus   = null;   // status the admin has clicked but not yet confirmed
+
 function openDrawer(id){
-  const apps=getApps();
-  const a=apps.find(x=>x.id===id);
-  if(!a)return;
+  _drawerCurrentId = id;
+  _pendingStatus   = null;
+  const apps = getApps();
+  const a    = apps.find(x => x.id === id);
+  if(!a) return;
 
-  document.getElementById('drawerTitle').textContent=a.id;
-  const docLabels={ug_certificate:'UG Certificate',transcripts:'Transcripts',passport:'Passport',cv:'CV / Resume',english_proof:'English Proficiency',references:'Reference Letters',work_experience:'Work Experience'};
+  document.getElementById('drawerTitle').textContent = a.id;
 
-  const docHTML=Object.entries(docLabels).map(([k,label])=>{
-    const files=(a.docs&&a.docs[k])||[];
-    return `<div class="doc-tag"><span class="doc-tag-label">${label}</span><span class="doc-tag-files">${files.length?esc(files.join(', ')):'<span class="missing">Not uploaded</span>'}</span></div>`;
+  const docLabels = {
+    ug_certificate: 'UG Certificate', transcripts: 'Transcripts',
+    passport: 'Passport', cv: 'CV / Resume',
+    english_proof: 'English Proficiency', references: 'Reference Letters',
+    work_experience: 'Work Experience',
+  };
+
+  const docHTML = Object.entries(docLabels).map(([k, label]) => {
+    const files = (a.docs && a.docs[k]) || [];
+    return `<div class="doc-tag"><span class="doc-tag-label">${label}</span><span class="doc-tag-files">${files.length ? esc(files.join(', ')) : '<span class="missing">Not uploaded</span>'}</span></div>`;
   }).join('');
 
-  const logHTML=(a.actionLog||[]).slice(0,10).map(l=>`<div class="log-item"><time>${new Date(l.at).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</time><span>${esc(l.note)}</span></div>`).join('')||'<div class="log-item"><span style="color:rgba(255,255,255,0.2)">No activity yet.</span></div>';
+  const logHTML = (a.actionLog || []).slice(0, 10).map(l =>
+    `<div class="log-item"><time>${new Date(l.at).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</time><span>${esc(l.note)}</span></div>`
+  ).join('') || '<div class="log-item"><span style="color:rgba(255,255,255,0.2)">No activity yet.</span></div>';
 
-  document.getElementById('drawerBody').innerHTML=`
+  document.getElementById('drawerBody').innerHTML = `
+    <!-- ── Status Selector ── -->
     <div class="d-section">
-      <div class="d-section-title">Status</div>
-      <div class="status-row">
-        ${['pending','reviewing','accepted','rejected'].map(s=>`<button class="status-btn s-${s}${a.status===s?' active':''}" onclick="setStatus('${id}','${s}')">${cap(s)}</button>`).join('')}
+      <div class="d-section-title">Update Status</div>
+
+      <div class="status-row" id="statusRow">
+        ${['pending','reviewing','accepted','rejected'].map(s =>
+          `<button class="status-btn s-${s}${a.status===s?' active':''}" id="sbtn-${s}"
+            onclick="selectStatus('${id}','${s}')">${cap(s)}</button>`
+        ).join('')}
+      </div>
+
+      <!-- Note field — only visible for accept/reject -->
+      <div class="email-note-wrap" id="emailNoteWrap">
+        <div class="email-note-label">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Optional message to include in the email
+        </div>
+        <textarea class="email-note-area" id="emailNoteArea" placeholder="e.g. Please complete fee payment within 7 days to secure your seat…" rows="3"></textarea>
+        <div class="email-note-hint">This message will appear in the email sent to the applicant.</div>
+      </div>
+
+      <!-- Confirm & Send button -->
+      <button class="confirm-status-btn" id="confirmStatusBtn" onclick="confirmStatus('${id}')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="confirmBtnLabel">Confirm &amp; Save</span>
+      </button>
+
+      <!-- Success toast -->
+      <div class="email-toast" id="emailToast">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="emailToastMsg">Status updated successfully.</span>
       </div>
     </div>
+
+    <!-- ── Personal Info ── -->
     <div class="d-section">
       <div class="d-section-title">Personal Information</div>
       <div class="d-grid">
@@ -414,61 +475,169 @@ function openDrawer(id){
         <div class="d-field"><label>Ref Number</label><span>${a.id}</span></div>
       </div>
     </div>
+
+    <!-- ── Agent ── -->
     <div class="d-section">
       <div class="d-section-title">Agent Details</div>
       <div class="d-grid">
-        <div class="d-field agent-highlight"><label>Agent Name</label><span${!a.agent_name?' class="none"':''}>${a.agent_name?esc(a.agent_name):'Not provided'}</span></div>
-        <div class="d-field agent-highlight"><label>Agent Contact</label><span${!a.agent_contact?' class="none"':''}>${a.agent_contact?esc(a.agent_contact):'Not provided'}</span></div>
+        <div class="d-field agent-highlight"><label>Agent Name</label><span${!a.agent_name?' class="none"':''}>${a.agent_name ? esc(a.agent_name) : 'Not provided'}</span></div>
+        <div class="d-field agent-highlight"><label>Agent Contact</label><span${!a.agent_contact?' class="none"':''}>${a.agent_contact ? esc(a.agent_contact) : 'Not provided'}</span></div>
       </div>
     </div>
+
+    <!-- ── SOP ── -->
     <div class="d-section">
       <div class="d-section-title">Statement of Purpose</div>
-      <div class="sop-text">${esc(a.sop)}</div>
+      <div class="sop-text">${esc(a.sop || '—')}</div>
     </div>
+
+    <!-- ── Documents ── -->
     <div class="d-section">
       <div class="d-section-title">Uploaded Documents</div>
       <div class="doc-tags">${docHTML}</div>
     </div>
+
+    <!-- ── Notes / Activity ── -->
     <div class="d-section">
-      <div class="d-section-title">Notes & Activity</div>
-      <textarea class="note-area" id="noteArea" placeholder="Add a note about this applicant…">${(a.actionLog&&a.actionLog[0]&&a.actionLog[0].note)||''}</textarea>
+      <div class="d-section-title">Notes &amp; Activity</div>
+      <textarea class="note-area" id="noteArea" placeholder="Add a note about this applicant…">${(a.actionLog && a.actionLog[0] && a.actionLog[0].note) || ''}</textarea>
       <button class="save-note-btn" onclick="saveNote('${id}')">Save Note</button>
       <div class="action-log">${logHTML}</div>
     </div>
   `;
 
   document.getElementById('drawerOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
 
 function closeDrawer(e){
-  if(e&&e.target!==document.getElementById('drawerOverlay')&&!e.target.closest('.drawer-close'))return;
+  if(e && e.target !== document.getElementById('drawerOverlay') && !e.target.closest('.drawer-close')) return;
   document.getElementById('drawerOverlay').classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
+  _drawerCurrentId = null;
+  _pendingStatus   = null;
   renderTable();
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer({target:document.getElementById('drawerOverlay')});});
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer({target: document.getElementById('drawerOverlay')}); });
 
-function setStatus(id,status){
-  const apps=getApps();
-  const a=apps.find(x=>x.id===id);
-  if(!a)return;
-  a.status=status;
-  a.actionLog=a.actionLog||[];
-  a.actionLog.unshift({at:new Date().toISOString(),note:`Status changed to ${status}`});
+// ── Called when admin clicks a status button ──────────────────────────────────
+function selectStatus(id, status){
+  _pendingStatus = status;
+
+  // Update button highlights
+  ['pending','reviewing','accepted','rejected'].forEach(s => {
+    const btn = document.getElementById(`sbtn-${s}`);
+    if(btn) btn.classList.toggle('active', s === status);
+  });
+
+  // Show note field + confirm button only for accept/reject
+  const noteWrap  = document.getElementById('emailNoteWrap');
+  const confirmBtn = document.getElementById('confirmStatusBtn');
+  const btnLabel  = document.getElementById('confirmBtnLabel');
+
+  if(status === 'accepted'){
+    noteWrap.classList.add('visible');
+    confirmBtn.classList.add('visible', 'for-accepted');
+    confirmBtn.classList.remove('for-rejected', 'for-other');
+    btnLabel.textContent = '✓ Accept & Send Email';
+  } else if(status === 'rejected'){
+    noteWrap.classList.add('visible');
+    confirmBtn.classList.add('visible', 'for-rejected');
+    confirmBtn.classList.remove('for-accepted', 'for-other');
+    btnLabel.textContent = '✗ Reject & Send Email';
+  } else {
+    noteWrap.classList.remove('visible');
+    confirmBtn.classList.add('visible', 'for-other');
+    confirmBtn.classList.remove('for-accepted', 'for-rejected');
+    btnLabel.textContent = '✓ Save Status';
+  }
+
+  // Hide previous toast
+  document.getElementById('emailToast').classList.remove('show');
+}
+
+// ── Called when admin clicks the confirm button ───────────────────────────────
+async function confirmStatus(id){
+  if(!_pendingStatus) return;
+
+  const apps = getApps();
+  const a    = apps.find(x => x.id === id);
+  if(!a) return;
+
+  const status     = _pendingStatus;
+  const note       = (document.getElementById('emailNoteArea') || {}).value || '';
+  const confirmBtn = document.getElementById('confirmStatusBtn');
+  const btnLabel   = document.getElementById('confirmBtnLabel');
+
+  // Disable button while working
+  confirmBtn.disabled = true;
+  const origLabel = btnLabel.textContent;
+  btnLabel.textContent = 'Sending…';
+
+  // ── 1. Update local cache immediately ────────────────────────────────────
+  a.status    = status;
+  a.actionLog = a.actionLog || [];
+  a.actionLog.unshift({at: new Date().toISOString(), note: `Status changed to ${status}` + (note ? ` · Note: ${note}` : '')});
   saveApps(apps);
-  openDrawer(id);
+
+  // ── 2. Call Django API ────────────────────────────────────────────────────
+  let emailSent = false;
+  let apiOk     = false;
+  try {
+    const csrfToken = getCookie('csrftoken');
+    const res = await fetch(API_UPDATE_STATUS, {
+      method:  'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(csrfToken ? {'X-CSRFToken': csrfToken} : {}),
+      },
+      body: JSON.stringify({ref_id: id, status, note}),
+    });
+    const data = await res.json();
+    apiOk     = data.ok;
+    emailSent = data.email_sent;
+  } catch(err){
+    console.warn('API call failed (offline?), status saved locally.', err);
+  }
+
+  // ── 3. Show toast feedback ────────────────────────────────────────────────
+  const toast    = document.getElementById('emailToast');
+  const toastMsg = document.getElementById('emailToastMsg');
+
+  if(status === 'accepted'){
+    toastMsg.textContent = emailSent
+      ? '✓ Application accepted — confirmation email sent to student.'
+      : '✓ Status updated to Accepted. (Email may not have sent — check server logs.)';
+  } else if(status === 'rejected'){
+    toastMsg.textContent = emailSent
+      ? '✓ Application rejected — notification email sent to student.'
+      : '✓ Status updated to Rejected. (Email may not have sent — check server logs.)';
+  } else {
+    toastMsg.textContent = `✓ Status updated to ${cap(status)}.`;
+  }
+  toast.classList.add('show');
+
+  // Reset button
+  confirmBtn.disabled = false;
+  btnLabel.textContent = origLabel;
+
+  // Hide confirm button & note after success
+  confirmBtn.classList.remove('visible');
+  document.getElementById('emailNoteWrap').classList.remove('visible');
+  _pendingStatus = null;
+
+  // Refresh stats row
   renderStats();
 }
 
 function saveNote(id){
-  const note=document.getElementById('noteArea').value.trim();
-  if(!note)return;
-  const apps=getApps();
-  const a=apps.find(x=>x.id===id);
-  if(!a)return;
-  a.actionLog=a.actionLog||[];
-  a.actionLog.unshift({at:new Date().toISOString(),note});
+  const note = document.getElementById('noteArea').value.trim();
+  if(!note) return;
+  const apps = getApps();
+  const a    = apps.find(x => x.id === id);
+  if(!a) return;
+  a.actionLog = a.actionLog || [];
+  a.actionLog.unshift({at: new Date().toISOString(), note});
   saveApps(apps);
   openDrawer(id);
 }
@@ -477,12 +646,12 @@ function saveNote(id){
 //  EXPORT CSV
 // ══════════════════════════════════════
 function exportCSV(){
-  const apps=filteredApps.length?filteredApps:getApps();
-  const headers=['Ref','Full Name','Email','Phone','Country','Agent Name','Agent Contact','Status','Submitted','UG Cert','Transcripts','Passport','CV','English Proof','References','Work Exp','SOP'];
-  const rows=apps.map(a=>[
-    a.id,a.full_name,a.email,a.phone,a.country,
-    a.agent_name||'',a.agent_contact||'',
-    a.status,new Date(a.submittedAt).toLocaleString('en-IN'),
+  const apps = filteredApps.length ? filteredApps : getApps();
+  const headers = ['Ref','Full Name','Email','Phone','Country','Agent Name','Agent Contact','Status','Submitted','UG Cert','Transcripts','Passport','CV','English Proof','References','Work Exp','SOP'];
+  const rows = apps.map(a => [
+    a.id, a.full_name, a.email, a.phone, a.country,
+    a.agent_name||'', a.agent_contact||'',
+    a.status, new Date(a.submittedAt).toLocaleString('en-IN'),
     (a.docs?.ug_certificate||[]).join('; '),
     (a.docs?.transcripts||[]).join('; '),
     (a.docs?.passport||[]).join('; '),
@@ -490,19 +659,28 @@ function exportCSV(){
     (a.docs?.english_proof||[]).join('; '),
     (a.docs?.references||[]).join('; '),
     (a.docs?.work_experience||[]).join('; '),
-    (a.sop||'').replace(/\n/g,' ')
-  ].map(v=>`"${String(v).replace(/"/g,'""')}"`));
+    (a.sop||'').replace(/\n/g,' '),
+  ].map(v => `"${String(v).replace(/"/g,'""')}"`));
 
-  const csv=[headers.join(','),...rows.map(r=>r.join(','))].join('\n');
-  const blob=new Blob([csv],{type:'text/csv'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=`miata-applications-${new Date().toISOString().slice(0,10)}.csv`;a.click();
+  const csv  = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a'); a.href=url; a.download=`miata-applications-${new Date().toISOString().slice(0,10)}.csv`; a.click();
   URL.revokeObjectURL(url);
 }
 
-// ── Helpers ──
-function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-function cap(s){return s?s[0].toUpperCase()+s.slice(1):'';}
+// ══════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════
+function esc(s){ if(!s) return ''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function cap(s){ return s ? s[0].toUpperCase()+s.slice(1) : ''; }
+
+function getCookie(name){
+  const val   = `; ${document.cookie}`;
+  const parts = val.split(`; ${name}=`);
+  if(parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
 </script>
 </body>
 </html>
