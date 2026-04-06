@@ -14,6 +14,8 @@ users_collection      = db['users']
 units_collection      = db['course_units']
 agreements_collection = db['agreements']
 
+SUPPORT_EMAIL = 'support@miataedu.org'
+
 
 # ─────────────────────────────────────────────
 #  PUBLIC PAGES
@@ -499,7 +501,6 @@ def admin_dashboard(request):
         s['_id']        = str(s['_id'])
         s['status']     = s.get('status', 'pending')
         s['submittedAt'] = s.get('submitted_at', str(s['_id']))
-        # Ensure docs is always a dict so the dashboard never sees undefined
         if 'docs' not in s or not isinstance(s.get('docs'), dict):
             s['docs'] = {k: [] for k in FILE_FIELDS}
 
@@ -529,7 +530,6 @@ FIELD_LABELS = {
     'work_experience': 'Work Experience Certificates',
 }
 
-# ── Email that goes to the student on submission ───────────────────────────────
 
 def _build_student_html(data: dict, doc_summary: dict) -> str:
     doc_rows = ''.join(
@@ -573,7 +573,7 @@ def _build_student_html(data: dict, doc_summary: dict) -> str:
           </table>
           <p style="font-size:13px;color:#4a5f78;line-height:1.7;margin:0 0 6px;">
             If you have any questions, reply to this email or contact us at:<br>
-            <a href="mailto:admissions@miataedu.org" style="color:#1a9e8f;">admissions@miataedu.org</a> &nbsp;·&nbsp;
+            <a href="mailto:support@miataedu.org" style="color:#1a9e8f;">support@miataedu.org</a> &nbsp;·&nbsp;
             <a href="tel:+919927829520" style="color:#1a9e8f;">+91 99278 29520</a>
           </p>
         </td></tr>
@@ -587,8 +587,6 @@ def _build_student_html(data: dict, doc_summary: dict) -> str:
 </html>
 """
 
-
-# ── Email that goes to the admin team on submission ────────────────────────────
 
 def _build_admin_html(data: dict, doc_summary: dict) -> str:
     doc_rows = ''.join(
@@ -617,8 +615,6 @@ def _build_admin_html(data: dict, doc_summary: dict) -> str:
 """
 
 
-# ── Email sent to student when their application is ACCEPTED ──────────────────
-
 def _build_accepted_html(full_name: str, ref_number: str, note: str = '') -> str:
     note_block = f"""
       <div style="background:#f0faf9;border-left:4px solid #1a9e8f;border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:28px;">
@@ -635,8 +631,6 @@ def _build_accepted_html(full_name: str, ref_number: str, note: str = '') -> str
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;padding:40px 0;">
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-
-        <!-- Header — green acceptance banner -->
         <tr><td style="background:linear-gradient(135deg,#064e3b,#065f46);padding:40px;text-align:center;">
           <div style="width:72px;height:72px;background:rgba(255,255,255,0.12);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:18px;">
             <span style="font-size:36px;">🎉</span>
@@ -644,58 +638,41 @@ def _build_accepted_html(full_name: str, ref_number: str, note: str = '') -> str
           <h1 style="color:#ffffff;font-size:26px;margin:0 0 8px;font-family:Georgia,serif;">Congratulations!</h1>
           <p style="color:rgba(255,255,255,0.75);font-size:14px;margin:0;">Your application has been accepted</p>
         </td></tr>
-
-        <!-- Body -->
         <tr><td style="padding:36px 40px;">
           <p style="font-size:15px;color:#0a1f35;margin:0 0 12px;">Dear <strong>{full_name}</strong>,</p>
           <p style="font-size:14px;color:#4a5f78;line-height:1.75;margin:0 0 24px;">
             We are delighted to inform you that your application to <strong>MIATA's Diagnostic Ultrasound Programme</strong>
             has been <strong style="color:#059669;">accepted</strong>. Welcome to the MIATA family!
           </p>
-
-          <!-- Ref badge -->
           <div style="background:#f0faf9;border:1px solid rgba(26,158,143,0.25);border-radius:10px;padding:14px 20px;margin-bottom:24px;text-align:center;">
             <span style="font-size:11px;color:#8fa3b3;letter-spacing:1px;text-transform:uppercase;">Reference Number</span><br>
             <span style="font-size:20px;font-weight:700;color:#1a9e8f;">{ref_number}</span>
           </div>
-
           {note_block}
-
-          <!-- Next steps -->
           <p style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#8fa3b3;margin:0 0 14px;">Your Next Steps</p>
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
-            <tr>
-              <td style="padding:10px 14px;background:#f8fbfa;border:1px solid #eef2f7;border-radius:10px 10px 0 0;">
-                <span style="font-size:13px;color:#059669;font-weight:700;">Step 1 &nbsp;·</span>
-                <span style="font-size:13px;color:#4a5f78;"> Our admissions team will contact you shortly with onboarding details.</span>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:10px 14px;background:#ffffff;border:1px solid #eef2f7;border-top:none;">
-                <span style="font-size:13px;color:#059669;font-weight:700;">Step 2 &nbsp;·</span>
-                <span style="font-size:13px;color:#4a5f78;"> Complete the enrolment formalities and fee payment as communicated.</span>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:10px 14px;background:#f8fbfa;border:1px solid #eef2f7;border-top:none;border-radius:0 0 10px 10px;">
-                <span style="font-size:13px;color:#059669;font-weight:700;">Step 3 &nbsp;·</span>
-                <span style="font-size:13px;color:#4a5f78;"> Access your student portal and begin your learning journey.</span>
-              </td>
-            </tr>
+            <tr><td style="padding:10px 14px;background:#f8fbfa;border:1px solid #eef2f7;border-radius:10px 10px 0 0;">
+              <span style="font-size:13px;color:#059669;font-weight:700;">Step 1 &nbsp;·</span>
+              <span style="font-size:13px;color:#4a5f78;"> Our admissions team will contact you shortly with onboarding details.</span>
+            </td></tr>
+            <tr><td style="padding:10px 14px;background:#ffffff;border:1px solid #eef2f7;border-top:none;">
+              <span style="font-size:13px;color:#059669;font-weight:700;">Step 2 &nbsp;·</span>
+              <span style="font-size:13px;color:#4a5f78;"> Complete the enrolment formalities and fee payment as communicated.</span>
+            </td></tr>
+            <tr><td style="padding:10px 14px;background:#f8fbfa;border:1px solid #eef2f7;border-top:none;border-radius:0 0 10px 10px;">
+              <span style="font-size:13px;color:#059669;font-weight:700;">Step 3 &nbsp;·</span>
+              <span style="font-size:13px;color:#4a5f78;"> Access your student portal and begin your learning journey.</span>
+            </td></tr>
           </table>
-
           <p style="font-size:13px;color:#4a5f78;line-height:1.7;margin:0;">
             For any queries, reach us at:<br>
-            <a href="mailto:admissions@miataedu.org" style="color:#1a9e8f;">admissions@miataedu.org</a> &nbsp;·&nbsp;
+            <a href="mailto:support@miataedu.org" style="color:#1a9e8f;">support@miataedu.org</a> &nbsp;·&nbsp;
             <a href="tel:+919927829520" style="color:#1a9e8f;">+91 99278 29520</a>
           </p>
         </td></tr>
-
-        <!-- Footer -->
         <tr><td style="background:#f8fbfa;border-top:1px solid #eef2f7;padding:20px 40px;text-align:center;">
           <p style="font-size:11px;color:#9baab8;margin:0;">© 2026 MIATA Medical Imaging Academy · All rights reserved</p>
         </td></tr>
-
       </table>
     </td></tr>
   </table>
@@ -703,8 +680,6 @@ def _build_accepted_html(full_name: str, ref_number: str, note: str = '') -> str
 </html>
 """
 
-
-# ── Email sent to student when their application is REJECTED ──────────────────
 
 def _build_rejected_html(full_name: str, ref_number: str, note: str = '') -> str:
     note_block = f"""
@@ -722,15 +697,11 @@ def _build_rejected_html(full_name: str, ref_number: str, note: str = '') -> str
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;padding:40px 0;">
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-
-        <!-- Header — neutral dark banner -->
         <tr><td style="background:linear-gradient(135deg,#0a1f35,#1c2e3f);padding:40px;text-align:center;">
           <div style="display:inline-block;background:linear-gradient(135deg,#1a9e8f,#0d7a6d);border-radius:10px;width:44px;height:44px;line-height:44px;text-align:center;font-weight:700;font-size:20px;color:white;margin-bottom:16px;">M</div>
           <h1 style="color:#ffffff;font-size:22px;margin:0 0 6px;font-family:Georgia,serif;">Application Update</h1>
           <p style="color:rgba(255,255,255,0.55);font-size:13px;margin:0;">MIATA Medical Imaging Academy</p>
         </td></tr>
-
-        <!-- Body -->
         <tr><td style="padding:36px 40px;">
           <p style="font-size:15px;color:#0a1f35;margin:0 0 12px;">Dear <strong>{full_name}</strong>,</p>
           <p style="font-size:14px;color:#4a5f78;line-height:1.75;margin:0 0 24px;">
@@ -738,32 +709,24 @@ def _build_rejected_html(full_name: str, ref_number: str, note: str = '') -> str
             to submit your application. After careful review, we regret to inform you that we are unable to
             offer you a place in the current intake.
           </p>
-
-          <!-- Ref badge -->
           <div style="background:#fafafa;border:1px solid #e8ecf0;border-radius:10px;padding:14px 20px;margin-bottom:24px;text-align:center;">
             <span style="font-size:11px;color:#8fa3b3;letter-spacing:1px;text-transform:uppercase;">Reference Number</span><br>
             <span style="font-size:18px;font-weight:700;color:#6b7c8f;">{ref_number}</span>
           </div>
-
           {note_block}
-
           <p style="font-size:14px;color:#4a5f78;line-height:1.75;margin:0 0 24px;">
             This decision does not preclude you from applying to a future intake. We encourage you to
             reapply once you have had the opportunity to address any areas highlighted by our admissions team.
           </p>
-
           <p style="font-size:13px;color:#4a5f78;line-height:1.7;margin:0;">
             If you have any questions or would like feedback, please contact:<br>
-            <a href="mailto:admissions@miataedu.org" style="color:#1a9e8f;">admissions@miataedu.org</a> &nbsp;·&nbsp;
+            <a href="mailto:support@miataedu.org" style="color:#1a9e8f;">support@miataedu.org</a> &nbsp;·&nbsp;
             <a href="tel:+919927829520" style="color:#1a9e8f;">+91 99278 29520</a>
           </p>
         </td></tr>
-
-        <!-- Footer -->
         <tr><td style="background:#f8fbfa;border-top:1px solid #eef2f7;padding:20px 40px;text-align:center;">
           <p style="font-size:11px;color:#9baab8;margin:0;">© 2026 MIATA Medical Imaging Academy · All rights reserved</p>
         </td></tr>
-
       </table>
     </td></tr>
   </table>
@@ -799,26 +762,31 @@ def register(request):
             'submitted_at':  datetime.now(timezone.utc).strftime('%d %b %Y, %H:%M UTC'),
         }
 
-        # 3. File summary (names only — files are not stored server-side here)
-        doc_summary = {k: [f.name for f in request.FILES.getlist(k)] for k in FILE_FIELDS}
+        # 3. Collect uploaded files (keep in memory for attaching to email)
+        uploaded_files = {}   # field_name -> list of InMemoryUploadedFile
+        doc_summary    = {}   # field_name -> list of filenames (for HTML body)
+        for field in FILE_FIELDS:
+            files = request.FILES.getlist(field)
+            uploaded_files[field] = files
+            doc_summary[field]    = [f.name for f in files]
 
-        # 4. Save to MongoDB — include docs so admin dashboard can display filenames
+        # 4. Save to MongoDB
         try:
             users_collection.insert_one({
                 **data,
-                'docs':   doc_summary,   # ← file names keyed by field name
+                'docs':   doc_summary,
                 'role':   'student',
                 'status': 'pending',
             })
         except Exception as db_error:
             print("DB ERROR:", str(db_error))
 
-        # 5. Email → Student (confirmation of submission)
+        # 5. Email → Student confirmation (no attachments needed for student)
         try:
             msg = EmailMultiAlternatives(
                 subject=f"[MIATA] Application Received — {data['ref_number']}",
                 body=f"Dear {data['full_name']}, your application has been received. Ref: {data['ref_number']}",
-                from_email=settings.DEFAULT_FROM_EMAIL,
+                from_email=SUPPORT_EMAIL,
                 to=[data['email']],
             )
             msg.attach_alternative(_build_student_html(data, doc_summary), 'text/html')
@@ -826,20 +794,26 @@ def register(request):
         except Exception as e:
             print("STUDENT EMAIL ERROR:", str(e))
 
-        # 6. Email → Admin team (new application notification)
+        # 6. Email → support@miataedu.org with ALL uploaded documents attached
         try:
-            admin_addr = getattr(settings, 'ADMISSIONS_EMAIL', 'admissions@miataedu.org')
             msg = EmailMultiAlternatives(
                 subject=f"[MIATA] New Application — {data['ref_number']}",
                 body="New application received.",
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                to=[admin_addr],
+                from_email=SUPPORT_EMAIL,
+                to=[SUPPORT_EMAIL],
                 reply_to=[data['email']],
             )
             msg.attach_alternative(_build_admin_html(data, doc_summary), 'text/html')
-            msg.send(fail_silently=True)
+
+            # ── Attach every uploaded file to this email ──────────────────────
+            for field, files in uploaded_files.items():
+                for f in files:
+                    f.seek(0)   # reset pointer in case it was already read
+                    msg.attach(f.name, f.read(), f.content_type)
+
+            msg.send(fail_silently=False)
         except Exception as e:
-            print("ADMIN EMAIL ERROR:", str(e))
+            print("SUPPORT EMAIL ERROR:", str(e))
 
         return JsonResponse({'ok': True, 'message': 'Application submitted successfully!', 'ref': data['ref_number']})
 
@@ -850,28 +824,16 @@ def register(request):
 
 # ─────────────────────────────────────────────
 #  STATUS UPDATE VIEW   POST /api/update-status/
-#  Called by admin_dashboard.html when the admin
-#  clicks Accept / Reject (or any other status).
-#  Sends an email to the student for accepted /
-#  rejected decisions only.
 # ─────────────────────────────────────────────
 
 @csrf_exempt
 @require_POST
 def update_status(request):
-    """
-    Expected JSON body:
-    {
-        "ref_id":    "MIATA-2026-1001",   // the application ref / id field
-        "status":    "accepted",           // pending | reviewing | accepted | rejected
-        "note":      "Optional admin note shown in the email"
-    }
-    """
     try:
-        body      = json.loads(request.body)
-        ref_id    = body.get('ref_id', '').strip()
+        body       = json.loads(request.body)
+        ref_id     = body.get('ref_id', '').strip()
         new_status = body.get('status', '').strip().lower()
-        note      = body.get('note', '').strip()
+        note       = body.get('note', '').strip()
 
         if not ref_id or not new_status:
             return JsonResponse({'ok': False, 'message': 'ref_id and status are required.'}, status=400)
@@ -879,10 +841,9 @@ def update_status(request):
         if new_status not in ('pending', 'reviewing', 'accepted', 'rejected'):
             return JsonResponse({'ok': False, 'message': f'Invalid status: {new_status}'}, status=400)
 
-        # ── Find applicant in MongoDB ────────────────────────────────────────
+        # ── Find applicant ────────────────────────────────────────────────────
         applicant = users_collection.find_one({'ref_number': ref_id, 'role': 'student'})
         if not applicant:
-            # Fallback: some records may use the Mongo _id string as ref
             from bson import ObjectId
             try:
                 applicant = users_collection.find_one({'_id': ObjectId(ref_id), 'role': 'student'})
@@ -896,14 +857,13 @@ def update_status(request):
         full_name     = applicant.get('full_name', 'Applicant')
         ref_number    = applicant.get('ref_number', ref_id)
 
-        # ── Update status in MongoDB ─────────────────────────────────────────
-        from datetime import datetime, timezone
+        # ── Update MongoDB ────────────────────────────────────────────────────
         users_collection.update_one(
             {'_id': applicant['_id']},
             {'$set': {'status': new_status}}
         )
 
-        # ── Send email only for accepted / rejected ──────────────────────────
+        # ── Send email for accepted / rejected ────────────────────────────────
         email_sent = False
         if new_status in ('accepted', 'rejected') and student_email:
             try:
@@ -916,11 +876,13 @@ def update_status(request):
                     html_body = _build_rejected_html(full_name, ref_number, note)
                     plain     = f"Dear {full_name}, we regret to inform you that your MIATA application ({ref_number}) was not successful at this time."
 
+                # ── To: student   CC: support (so support gets a copy too) ───
                 msg = EmailMultiAlternatives(
                     subject=subject,
                     body=plain,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[student_email],
+                    from_email=SUPPORT_EMAIL,        # sent FROM support@
+                    to=[student_email],              # primary recipient = student
+                    cc=[SUPPORT_EMAIL],              # support gets a CC copy
                 )
                 msg.attach_alternative(html_body, 'text/html')
                 msg.send(fail_silently=False)
@@ -929,8 +891,8 @@ def update_status(request):
                 print(f"STATUS EMAIL ERROR ({new_status}):", str(e))
 
         return JsonResponse({
-            'ok':        True,
-            'message':   f'Status updated to {new_status}.',
+            'ok':         True,
+            'message':    f'Status updated to {new_status}.',
             'email_sent': email_sent,
         })
 
