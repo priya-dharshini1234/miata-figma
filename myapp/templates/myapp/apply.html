@@ -123,7 +123,101 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
 .success-close-btn:hover { transform:translateY(-2px);box-shadow:0 12px 32px rgba(26,158,143,0.4); }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 @media(max-width:1024px){.page-wrap{grid-template-columns:1fr;}.left-panel{position:relative;height:auto;padding:48px 32px 36px;border-right:none;border-bottom:1px solid rgba(26,158,143,0.1);}.right-panel{padding:36px 24px 56px;}}
-@media(max-width:640px){.form-card{padding:28px 20px;}.field-row{grid-template-columns:1fr;}.right-panel{padding:28px 16px 48px;}.success-card{padding:36px 24px;}}
+@media(max-width:640px){.form-card{padding:28px 20px;}.field-row{grid-template-columns:1fr;}.right-panel{padding:28px 16px 48px;}.success-card{padding:36px 24px;}.mode-grid{grid-template-columns:1fr !important;}}
+
+/* ── MODE OF STUDY CARDS ── */
+.mode-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.mode-card {
+  border:2px solid #e0e8ef;
+  border-radius:14px;
+  padding:22px 20px;
+  cursor:pointer;
+  transition:border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  position:relative;
+  background:#fafbfc;
+  user-select:none;
+}
+.mode-card:hover { border-color:var(--teal); background:rgba(26,158,143,0.03); }
+.mode-card.selected {
+  border-color:var(--teal);
+  background:rgba(26,158,143,0.06);
+  box-shadow:0 0 0 4px rgba(26,158,143,0.10);
+}
+.mode-card input[type="radio"] { position:absolute;opacity:0;width:0;height:0; }
+.mode-check {
+  width:20px; height:20px; border-radius:50%;
+  border:2px solid #d0dbe8;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:14px;
+  transition:border-color 0.2s, background 0.2s;
+  flex-shrink:0;
+}
+.mode-card.selected .mode-check {
+  border-color:var(--teal);
+  background:var(--teal);
+}
+.mode-check-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:white;
+  opacity:0;
+  transition:opacity 0.2s;
+}
+.mode-card.selected .mode-check-dot { opacity:1; }
+.mode-icon {
+  font-size:28px;
+  margin-bottom:10px;
+  display:block;
+}
+.mode-title {
+  font-size:15px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:4px;
+}
+.mode-duration {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  color:var(--teal);
+  background:rgba(26,158,143,0.10);
+  border:1px solid rgba(26,158,143,0.2);
+  border-radius:20px;
+  padding:3px 10px;
+  margin-bottom:10px;
+}
+.mode-desc {
+  font-size:12.5px;
+  color:#5a6e82;
+  line-height:1.65;
+}
+.mode-features {
+  list-style:none;
+  padding:0;
+  margin:10px 0 0;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.mode-features li {
+  font-size:12px;
+  color:#5a6e82;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.mode-features li::before {
+  content:'';
+  width:5px; height:5px;
+  border-radius:50%;
+  background:var(--teal);
+  opacity:0.6;
+  flex-shrink:0;
+}
+.mode-error { font-size:11px; color:#c0392b; margin-top:8px; display:none; }
 
 /* ═══════════════════════════════════════
    TERMS & CONDITIONS MODAL
@@ -302,7 +396,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
 
     <form id="regForm" novalidate>
-      <!-- SECTION 1 -->
+
+      <!-- SECTION 1: Personal Information -->
       <div class="section-heading">
         <div class="section-number">1</div><h3>Personal Information</h3><div class="section-line"></div>
       </div>
@@ -321,9 +416,44 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
         </div>
       </div>
 
-      <!-- SECTION 2 -->
+      <!-- SECTION 2: Mode of Study (NEW) -->
       <div class="section-heading">
-        <div class="section-number">2</div><h3>Academic Documents</h3><div class="section-line"></div>
+        <div class="section-number">2</div><h3>Mode of Study</h3><div class="section-line"></div>
+      </div>
+      <div class="form-card" style="padding-bottom:32px;">
+        <div style="margin-bottom:20px;">
+          <div class="form-tag" style="margin-bottom:12px;">Select your preferred programme</div>
+          <p style="font-size:13px;color:#6b7c8f;line-height:1.6;">Choose the study mode that best suits your schedule and location. Both pathways lead to ARDMS certification eligibility.</p>
+        </div>
+        <div class="mode-grid" id="modeGrid">
+
+          <!-- Option A: Hybrid -->
+          <label class="mode-card" id="card-hybrid" for="mode-hybrid">
+            <input type="radio" name="mode_of_study" id="mode-hybrid" value="Hybrid – 6 Months Online" required>
+            <div class="mode-check"><div class="mode-check-dot"></div></div>
+           
+            <div class="mode-title">Hybrid</div>
+            <div class="mode-duration">6 Months · Online</div>
+            
+          </label>
+
+          <!-- Option B: On Shore -->
+          <label class="mode-card" id="card-onshore" for="mode-onshore">
+            <input type="radio" name="mode_of_study" id="mode-onshore" value="On Shore – 1 Year Full-Time" required>
+            <div class="mode-check"><div class="mode-check-dot"></div></div>
+           
+            <div class="mode-title">On Shore</div>
+            <div class="mode-duration">1 Year · Full-Time</div>
+            
+          </label>
+
+        </div>
+        <div class="mode-error" id="modeError">Please select a mode of study to continue.</div>
+      </div>
+
+      <!-- SECTION 3: Academic Documents -->
+      <div class="section-heading">
+        <div class="section-number">3</div><h3>Academic Documents</h3><div class="section-line"></div>
       </div>
       <div class="form-card">
         <div class="field" style="margin-bottom:24px;">
@@ -346,9 +476,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
         </div>
       </div>
 
-      <!-- SECTION 3 -->
+      <!-- SECTION 4: Identity & Credentials -->
       <div class="section-heading">
-        <div class="section-number">3</div><h3>Identity &amp; Credentials</h3><div class="section-line"></div>
+        <div class="section-number">4</div><h3>Identity &amp; Credentials</h3><div class="section-line"></div>
       </div>
       <div class="form-card">
         <div class="field-row">
@@ -377,9 +507,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
         </div>
       </div>
 
-      <!-- SECTION 4 -->
+      <!-- SECTION 5: Statement of Purpose -->
       <div class="section-heading">
-        <div class="section-number">4</div><h3>Statement of Purpose</h3><div class="section-line"></div>
+        <div class="section-number">5</div><h3>Statement of Purpose</h3><div class="section-line"></div>
       </div>
       <div class="form-card">
         <div class="field" style="margin-bottom:0;">
@@ -410,12 +540,23 @@ body { font-family: 'DM Sans', sans-serif; background: var(--navy); min-height: 
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         info@miataedu.org
       </a>
-      
     </div>
   </div>
 </div>
 
 <script>
+/* ── MODE OF STUDY CARD INTERACTION ── */
+document.querySelectorAll('.mode-card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.mode-card').forEach(function(c) { c.classList.remove('selected'); });
+    card.classList.add('selected');
+    var radio = card.querySelector('input[type="radio"]');
+    if(radio) radio.checked = true;
+    document.getElementById('modeError').style.display = 'none';
+    updateProgress();
+  });
+});
+
 /* ── TERMS & CONDITIONS MODAL ── */
 let pendingSubmitCallback = null;
 
@@ -436,7 +577,7 @@ document.getElementById('tncAccept').addEventListener('click', function() {
   document.getElementById('agree').checked = true;
   updateProgress();
   closeTnC();
-  if(pendingSubmitCallback) { const cb = pendingSubmitCallback; pendingSubmitCallback = null; cb(); }
+  if(pendingSubmitCallback) { var cb = pendingSubmitCallback; pendingSubmitCallback = null; cb(); }
 });
 document.getElementById('tncOverlay').addEventListener('click', function(e) { if(e.target === this) closeTnC(); });
 
@@ -473,13 +614,21 @@ document.querySelectorAll('.file-input').forEach(initFileInput);
 
 /* ── PROGRESS ── */
 function updateProgress(){
-  const required = document.querySelectorAll('[required]'); let filled = 0;
-  required.forEach(el => {
-    if(el.type==='checkbox'&&el.checked) filled++;
-    else if(el.type==='file'&&el.files&&el.files.length) filled++;
-    else if(el.value&&el.value.trim()) filled++;
+  const textRequired = document.querySelectorAll('input[required]:not([type="radio"]):not([type="checkbox"]), textarea[required]');
+  let filled = 0; let total = 0;
+  textRequired.forEach(el => {
+    total++;
+    if(el.type==='file' && el.files && el.files.length) filled++;
+    else if(el.value && el.value.trim()) filled++;
   });
-  document.getElementById('progressBar').style.width = Math.round((filled/required.length)*100)+'%';
+  // count mode of study
+  total++;
+  if(document.querySelector('input[name="mode_of_study"]:checked')) filled++;
+  // count required file fields
+  ['ug_certificate','transcripts','passport','cv','english_proof','references'].forEach(k => {
+    // already counted via input[required]:file above if they have required attr
+  });
+  document.getElementById('progressBar').style.width = Math.round((filled/total)*100)+'%';
 }
 document.querySelectorAll('input,textarea').forEach(el => { el.addEventListener('input', updateProgress); el.addEventListener('change', updateProgress); });
 updateProgress();
@@ -494,6 +643,7 @@ async function doSubmit(form) {
   btn.textContent = 'Submitting…';
 
   const ref = generateRef();
+  const modeSelected = document.querySelector('input[name="mode_of_study"]:checked');
 
   const fd = new FormData();
   fd.append('ref_number',    ref);
@@ -503,22 +653,15 @@ async function doSubmit(form) {
   fd.append('country',       form.querySelector('[name="country"]').value.trim());
   fd.append('agent_name',    form.querySelector('[name="agent_name"]').value.trim());
   fd.append('agent_contact', form.querySelector('[name="agent_contact"]').value.trim());
+  fd.append('mode_of_study', modeSelected ? modeSelected.value : '');
   fd.append('sop',           form.querySelector('[name="sop"]').value.trim());
 
-  // ── FILE FIELDS ──────────────────────────────────────────────────────────
   const fileFields = ['ug_certificate','transcripts','passport','cv','english_proof','references','work_experience'];
-  fileFields.forEach(key => {
-    (fileStore[key] || []).forEach(file => fd.append(key, file));
-  });
+  fileFields.forEach(key => { (fileStore[key] || []).forEach(file => fd.append(key, file)); });
 
-  // ── BUILD docs MAP for localStorage so admin dashboard shows filenames ───
-  // This maps each field to an array of file names uploaded by the student.
   const docsMap = {};
-  fileFields.forEach(key => {
-    docsMap[key] = (fileStore[key] || []).map(f => f.name);
-  });
+  fileFields.forEach(key => { docsMap[key] = (fileStore[key] || []).map(f => f.name); });
 
-  // ── SAVE TO LOCALSTORAGE (with docs) ─────────────────────────────────────
   const application = {
     id:            ref,
     status:        'pending',
@@ -529,8 +672,9 @@ async function doSubmit(form) {
     country:       fd.get('country'),
     agent_name:    fd.get('agent_name')    || '',
     agent_contact: fd.get('agent_contact') || '',
+    mode_of_study: fd.get('mode_of_study') || '',
     sop:           fd.get('sop')           || '',
-    docs:          docsMap,   // ← file names per category — read by admin_dashboard
+    docs:          docsMap,
   };
   const existing = JSON.parse(localStorage.getItem('miata_applications') || '[]');
   existing.unshift(application);
@@ -579,6 +723,17 @@ document.getElementById('regForm').addEventListener('submit', function(e) {
     if(!el || !el.value.trim()) { valid = false; el && (el.style.borderColor = '#e05252'); }
     else el.style.borderColor = '';
   });
+
+  // Validate mode of study
+  const modeSelected = document.querySelector('input[name="mode_of_study"]:checked');
+  if(!modeSelected) {
+    valid = false;
+    document.getElementById('modeError').style.display = 'block';
+    document.getElementById('modeGrid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    document.getElementById('modeError').style.display = 'none';
+  }
+
   ['ug_certificate','transcripts','passport','cv','english_proof','references'].forEach(k => {
     if(!fileStore[k] || !fileStore[k].length) valid = false;
   });
@@ -606,6 +761,7 @@ function closeSuccess(){
   document.body.style.overflow = '';
   document.getElementById('regForm').reset();
   document.getElementById('agree').checked = false;
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
   Object.keys(fileStore).forEach(k => { fileStore[k] = []; });
   document.querySelectorAll('.file-list').forEach(l => l.innerHTML = '');
   updateProgress();
