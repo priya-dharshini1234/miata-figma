@@ -127,7 +127,7 @@ def agent_dashboard(request):
     agreement = agreements_collection.find_one({'username': username, 'accepted': True})
     if not agreement:
         return redirect('agent_agreement')
-    students = list(users_collection.find({'role': 'student'}, {'password': 0}))
+    students = list(users_collection.find({'role': 'student', 'agent_name': username}, {'password': 0}))
     for s in students:
         s['_id'] = str(s['_id'])
     active_count  = sum(1 for s in students if s.get('status', 'active') == 'active')

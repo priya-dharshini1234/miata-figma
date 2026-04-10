@@ -146,42 +146,48 @@ tbody td { padding:16px 20px; font-size:14px; border-bottom:1px solid #f9f9f9; }
         </div>
       </div>
       <table id="studentTable">
-        <thead>
-          <tr>
-            <th>Student</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for student in students %}
-          <tr>
-            <td>
-              <div class="user-cell">
-                <div class="user-avatar">{{ student.username|first|upper }}</div>
-                <div>
-                  <div class="user-name">{{ student.username }}</div>
-                  <div class="user-email">{{ student.email|default:"No email" }}</div>
-                </div>
-              </div>
-            </td>
-            <td>{{ student.username }}</td>
-            <td>🎓 Student</td>
-            <td><span class="status-badge status-{{ student.status|default:'active' }}">{{ student.status|default:"Active"|capfirst }}</span></td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="4">
-              <div class="empty-state">
-                <i class="fas fa-users"></i>
-                <p>No students enrolled yet.</p>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Ref Number</th>
+      <th>Country</th>
+      <th>Phone</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+    <tr>
+      <td>
+        <div class="user-cell">
+          <div class="user-avatar">{{ student.full_name|first|upper }}</div>
+          <div>
+            <div class="user-name">{{ student.full_name|default:"Unknown" }}</div>
+            <div class="user-email">{{ student.email|default:"No email" }}</div>
+          </div>
+        </div>
+      </td>
+      <td><code>{{ student.ref_number|default:"—" }}</code></td>
+      <td>{{ student.country|default:"—" }}</td>
+      <td>{{ student.phone|default:"—" }}</td>
+      <td>
+        <span class="status-badge status-{{ student.status|default:'pending' }}">
+          {{ student.status|default:"Pending"|capfirst }}
+        </span>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">
+        <div class="empty-state">
+          <i class="fas fa-users"></i>
+          <p>No students assigned to you yet.</p>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
     </div>
   </div>
 </div>
