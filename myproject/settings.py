@@ -9,13 +9,12 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -130,6 +129,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "myapp/static",
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_URL  = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -145,3 +146,4 @@ DEFAULT_FROM_EMAIL = 'support@miataedu.org'
 EMAIL_HOST_USER = 'support@miataedu.org'
 EMAIL_HOST_PASSWORD = 'XhKguPJdtcRm'
 DEFAULT_FROM_EMAIL = 'support@miataedu.org'
+WHITENOISE_AUTOREFRESH = True

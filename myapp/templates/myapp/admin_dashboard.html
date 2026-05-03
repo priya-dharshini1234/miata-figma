@@ -91,7 +91,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .drawer-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(5,12,25,0.75);backdrop-filter:blur(6px);}
 .drawer-overlay.open{display:flex;justify-content:flex-end;animation:fadeIn 0.2s ease;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.drawer{width:min(540px,100vw);height:100vh;background:linear-gradient(180deg,#0f2347 0%,#0a1628 100%);border-left:1px solid var(--border);overflow-y:auto;animation:slideDrawer 0.3s ease;}
+.drawer{width:min(580px,100vw);height:100vh;background:linear-gradient(180deg,#0f2347 0%,#0a1628 100%);border-left:1px solid var(--border);overflow-y:auto;animation:slideDrawer 0.3s ease;}
 @keyframes slideDrawer{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
 .drawer::-webkit-scrollbar{width:6px;}
 .drawer::-webkit-scrollbar-thumb{background:rgba(59,130,246,0.25);border-radius:3px;}
@@ -113,11 +113,28 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
 .d-field.agent-highlight{background:rgba(37,99,235,0.08);border:1px solid rgba(59,130,246,0.2);}
 .d-field span.none{color:rgba(255,255,255,0.25);font-style:italic;}
 .sop-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;background:rgba(255,255,255,0.04);border-radius:10px;padding:14px;}
-.doc-tags{display:flex;flex-direction:column;gap:8px;}
-.doc-tag{display:flex;align-items:center;gap:10px;background:rgba(37,99,235,0.07);border:1px solid rgba(59,130,246,0.15);border-radius:8px;padding:9px 12px;}
-.doc-tag-label{font-size:11px;color:var(--muted);width:140px;flex-shrink:0;}
-.doc-tag-files{font-size:12px;color:rgba(255,255,255,0.8);flex:1;}
-.doc-tag-files .missing{color:rgba(255,255,255,0.2);font-style:italic;}
+
+/* ── Doc tags with file previews ── */
+.doc-tags{display:flex;flex-direction:column;gap:10px;}
+.doc-tag{background:rgba(37,99,235,0.07);border:1px solid rgba(59,130,246,0.15);border-radius:10px;padding:10px 14px;}
+.doc-tag-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.doc-tag-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;}
+.doc-tag-files{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.doc-file-img{display:inline-block;position:relative;}
+.doc-file-img img{width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid rgba(59,130,246,0.3);cursor:pointer;transition:transform 0.15s,border-color 0.15s;}
+.doc-file-img img:hover{transform:scale(1.05);border-color:var(--blue-lt);}
+.doc-file-link{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:7px;font-size:12px;color:rgba(255,255,255,0.7);text-decoration:none;transition:all 0.15s;max-width:180px;}
+.doc-file-link:hover{background:rgba(37,99,235,0.15);border-color:rgba(59,130,246,0.4);color:var(--blue-lt);}
+.doc-file-link span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.doc-file-link svg{flex-shrink:0;stroke:currentColor;}
+.doc-missing{font-size:12px;color:rgba(255,255,255,0.2);font-style:italic;}
+
+/* ── Lightbox ── */
+.lightbox{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.lightbox.open{display:flex;animation:fadeIn 0.2s ease;}
+.lightbox img{max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 8px 48px rgba(0,0,0,0.6);}
+.lightbox-close{position:absolute;top:20px;right:24px;width:36px;height:36px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;line-height:1;}
+.lightbox-name{font-size:13px;color:rgba(255,255,255,0.5);}
 
 /* ── Status buttons ── */
 .status-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -260,19 +277,37 @@ body{font-family:'DM Sans',sans-serif;background:var(--navy);min-height:100vh;co
   </div>
 </div>
 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-name" id="lightboxName"></div>
+</div>
+
+<script id="app-data" type="application/json">
+  {{ applications_json|safe }}
+</script>
 <script>
+const ALL_APPS = JSON.parse(document.getElementById('app-data').textContent);
+
 const API_UPDATE_STATUS = '/api/update-status/';
 const API_DELETE        = '/api/delete-application/';
-
-function getApps(){ return JSON.parse(localStorage.getItem('miata_applications') || '[]'); }
-function saveApps(a){ localStorage.setItem('miata_applications', JSON.stringify(a)); }
 
 const PAGE_SIZE = 15;
 let currentPage  = 1;
 let filteredApps = [];
+let localStatusOverrides = {}; // track status changes made this session
 
 document.addEventListener('DOMContentLoaded', init);
-function init(){ renderStats(); renderTable(); setInterval(()=>{ renderStats(); renderTable(); }, 10000); }
+function init(){ renderStats(); renderTable(); }
+
+// ── Get apps with any local status overrides applied ──────────────────────
+function getApps(){
+  return ALL_APPS.map(a => ({
+    ...a,
+    status: localStatusOverrides[a.id] || a.status
+  }));
+}
 
 function renderStats(){
   const apps = getApps();
@@ -288,7 +323,7 @@ function renderTable(){
   const q    = document.getElementById('searchInput').value.toLowerCase();
   const sf   = document.getElementById('statusFilter').value;
   filteredApps = apps.filter(a=>{
-    const mq = !q||[a.full_name,a.email,a.country,a.phone,a.id,a.agent_name,a.agent_contact].some(v=>v&&v.toLowerCase().includes(q));
+    const mq = !q||[a.full_name,a.email,a.country,a.phone,a.id,a.ref_number,a.agent_name,a.agent_contact].some(v=>v&&String(v).toLowerCase().includes(q));
     const ms = !sf||a.status===sf;
     return mq&&ms;
   });
@@ -309,13 +344,15 @@ function renderTable(){
 }
 
 function rowHTML(a){
-  const date = new Date(a.submittedAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'});
+  const raw  = a.submittedAt || a.submitted_at || '';
+  const date = raw ? new Date(raw).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
   const dc   = Object.values(a.docs||{}).flat().length;
   const ag   = a.agent_name
     ? `<strong>${esc(a.agent_name)}</strong><span>${esc(a.agent_contact||'—')}</span>`
     : `<span class="none">—</span>`;
+  const ref  = a.ref_number || a.id || '—';
   return `<div class="tr" data-id="${a.id}">
-    <div class="td"><span class="td-ref">${a.id}</span></div>
+    <div class="td"><span class="td-ref">${esc(ref)}</span></div>
     <div class="td td-name"><strong>${esc(a.full_name)}</strong><span>${esc(a.email)}</span></div>
     <div class="td">${esc(a.country)}</div>
     <div class="td" style="font-size:12px">${esc(a.phone)}</div>
@@ -335,25 +372,60 @@ function renderPag(pages){
 
 let _drawerCurrentId=null, _pendingStatus=null;
 
+// ── Build file preview HTML for a single doc field ────────────────────────
+function buildFileLinks(paths){
+  if(!paths||!paths.length) return '<span class="doc-missing">Not uploaded</span>';
+  return paths.map(p=>{
+    const name = p.split('/').pop();
+    const url = p.startsWith('http') ? p : `https://res.cloudinary.com/dxuqakxv9/image/upload/${p}`;
+    const isImg = /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(name);
+    if(isImg){
+      return `<div class="doc-file-img">
+        <img src="${url}" alt="${esc(name)}" title="${esc(name)}"
+          onclick="event.stopPropagation();openLightbox('${url}','${esc(name)}')">
+      </div>`;
+    }
+    const isPdf = /\.pdf$/i.test(name);
+    const icon  = isPdf
+      ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`
+      : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+    return `<a class="doc-file-link" href="${url}" target="_blank" onclick="event.stopPropagation()">
+      ${icon}<span>${esc(name)}</span>
+    </a>`;
+  }).join('');
+}
+
 function openDrawer(id){
   _drawerCurrentId=id; _pendingStatus=null;
   const apps=getApps(); const a=apps.find(x=>x.id===id); if(!a) return;
-  document.getElementById('drawerTitle').textContent=a.id;
+  const ref = a.ref_number || a.id || '—';
+  document.getElementById('drawerTitle').textContent = ref;
 
   const docLabels={
-    ug_certificate:'UG Certificate',transcripts:'Transcripts',
-    passport:'Passport',cv:'CV / Resume',
-    english_proof:'English Proficiency',references:'Reference Letters',
+    ug_certificate:'UG Certificate',
+    transcripts:'Transcripts',
+    passport:'Passport',
+    cv:'CV / Resume',
+    english_proof:'English Proficiency',
+    references:'Reference Letters',
     work_experience:'Work Experience'
   };
-  const docHTML=Object.entries(docLabels).map(([k,label])=>{
-    const files=(a.docs&&a.docs[k])||[];
-    return `<div class="doc-tag"><span class="doc-tag-label">${label}</span><span class="doc-tag-files">${files.length?esc(files.join(', ')):'<span class="missing">Not uploaded</span>'}</span></div>`;
+
+  const docHTML = Object.entries(docLabels).map(([k,label])=>{
+    const paths = (a.docs && a.docs[k]) || [];
+    return `<div class="doc-tag">
+      <div class="doc-tag-header"><span class="doc-tag-label">${label}</span></div>
+      <div class="doc-tag-files">${buildFileLinks(paths)}</div>
+    </div>`;
   }).join('');
 
   const logHTML=(a.actionLog||[]).slice(0,10).map(l=>
     `<div class="log-item"><time>${new Date(l.at).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</time><span>${esc(l.note)}</span></div>`
   ).join('')||'<div class="log-item"><span style="color:rgba(255,255,255,0.2)">No activity yet.</span></div>';
+
+  const submittedDisplay = (a.submittedAt||a.submitted_at)
+    ? new Date(a.submittedAt||a.submitted_at).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
+    : '—';
 
   document.getElementById('drawerBody').innerHTML=`
     <div class="d-section">
@@ -388,8 +460,8 @@ function openDrawer(id){
         <div class="d-field"><label>Email</label><span>${esc(a.email)}</span></div>
         <div class="d-field"><label>Phone</label><span>${esc(a.phone)}</span></div>
         <div class="d-field"><label>Country</label><span>${esc(a.country)}</span></div>
-        <div class="d-field"><label>Submitted</label><span>${new Date(a.submittedAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})}</span></div>
-        <div class="d-field"><label>Ref Number</label><span>${a.id}</span></div>
+        <div class="d-field"><label>Submitted</label><span>${submittedDisplay}</span></div>
+        <div class="d-field"><label>Ref Number</label><span>${esc(ref)}</span></div>
       </div>
     </div>
 
@@ -413,7 +485,7 @@ function openDrawer(id){
 
     <div class="d-section">
       <div class="d-section-title">Notes &amp; Activity</div>
-      <textarea class="note-area" id="noteArea" placeholder="Add a note about this applicant…">${(a.actionLog&&a.actionLog[0]&&a.actionLog[0].note)||''}</textarea>
+      <textarea class="note-area" id="noteArea" placeholder="Add a note about this applicant…"></textarea>
       <button class="save-note-btn" onclick="saveNote('${id}')">Save Note</button>
       <div class="action-log">${logHTML}</div>
     </div>
@@ -421,7 +493,7 @@ function openDrawer(id){
     <div class="d-section">
       <div class="d-section-title danger">Delete Application</div>
       <div class="delete-zone">
-        <p>Permanently remove <strong>${esc(a.full_name)}</strong>'s application (${a.id}) including all documents, notes, and activity history. This action cannot be undone.</p>
+        <p>Permanently remove <strong>${esc(a.full_name)}</strong>'s application (${esc(ref)}) including all documents, notes, and activity history. This action cannot be undone.</p>
         <button class="delete-trigger-btn" onclick="showDeleteConfirm()">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
           Delete this application
@@ -445,6 +517,18 @@ function openDrawer(id){
   document.body.style.overflow='hidden';
 }
 
+// ── Lightbox ──────────────────────────────────────────────────────────────
+function openLightbox(url, name){
+  document.getElementById('lightboxImg').src  = url;
+  document.getElementById('lightboxName').textContent = name;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightboxImg').src = '';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeLightbox(); closeDrawer({target:document.getElementById('drawerOverlay')}); }});
+
 function closeDrawer(e){
   if(e&&e.target!==document.getElementById('drawerOverlay')&&!e.target.closest&&!e.target.classList.contains('drawer-close')) return;
   if(e&&e.target&&e.target!==document.getElementById('drawerOverlay')&&!e.target.closest('.drawer-close')) return;
@@ -453,7 +537,6 @@ function closeDrawer(e){
   _drawerCurrentId=null; _pendingStatus=null;
   renderTable();
 }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer({target:document.getElementById('drawerOverlay')}); });
 
 function showDeleteConfirm(){
   document.getElementById('deleteConfirmWrap').classList.add('visible');
@@ -470,8 +553,6 @@ function checkDeleteInput(){
 }
 
 async function confirmDelete(id){
-  const apps=getApps();
-  saveApps(apps.filter(x=>x.id!==id));
   try{
     const csrf=getCookie('csrftoken');
     await fetch(API_DELETE,{
@@ -479,7 +560,10 @@ async function confirmDelete(id){
       headers:{'Content-Type':'application/json',...(csrf?{'X-CSRFToken':csrf}:{})},
       body:JSON.stringify({ref_id:id})
     });
-  }catch(e){ console.warn('Delete API failed (offline?)',e); }
+  }catch(e){ console.warn('Delete API failed',e); }
+  // Remove from in-memory array and re-render
+  const idx = ALL_APPS.findIndex(x=>x.id===id);
+  if(idx>-1) ALL_APPS.splice(idx,1);
   document.getElementById('drawerOverlay').classList.remove('open');
   document.body.style.overflow='';
   _drawerCurrentId=null;
@@ -510,15 +594,19 @@ async function confirmStatus(id){
   const status=_pendingStatus, note=(document.getElementById('emailNoteArea')||{}).value||'';
   const cb=document.getElementById('confirmStatusBtn'), bl=document.getElementById('confirmBtnLabel');
   cb.disabled=true; const orig=bl.textContent; bl.textContent='Sending…';
-  a.status=status; a.actionLog=a.actionLog||[];
-  a.actionLog.unshift({at:new Date().toISOString(),note:`Status changed to ${status}`+(note?` · Note: ${note}`:'')});
-  saveApps(apps);
+
+  // Update in-memory data so UI reflects the change immediately
+  const orig_app = ALL_APPS.find(x=>x.id===id);
+  if(orig_app) orig_app.status = status;
+  localStatusOverrides[id] = status;
+
   let sent=false;
   try{
     const csrf=getCookie('csrftoken');
-    const r=await fetch(API_UPDATE_STATUS,{method:'POST',headers:{'Content-Type':'application/json',...(csrf?{'X-CSRFToken':csrf}:{})},body:JSON.stringify({ref_id:id,status,note})});
+    const r=await fetch(API_UPDATE_STATUS,{method:'POST',headers:{'Content-Type':'application/json',...(csrf?{'X-CSRFToken':csrf}:{})},body:JSON.stringify({ref_id: a.ref_number||id, status, note})});
     const d=await r.json(); sent=d.email_sent;
   }catch(e){ console.warn(e); }
+
   const toast=document.getElementById('emailToast'), msg=document.getElementById('emailToastMsg');
   if(status==='accepted') msg.textContent=sent?'✓ Accepted — confirmation email sent.':'✓ Accepted. (Email may not have sent — check server logs.)';
   else if(status==='rejected') msg.textContent=sent?'✓ Rejected — notification email sent.':'✓ Rejected. (Email may not have sent — check server logs.)';
@@ -531,23 +619,28 @@ async function confirmStatus(id){
 }
 
 function saveNote(id){
-  const note=document.getElementById('noteArea').value.trim(); if(!note) return;
-  const apps=getApps(); const a=apps.find(x=>x.id===id); if(!a) return;
-  a.actionLog=a.actionLog||[]; a.actionLog.unshift({at:new Date().toISOString(),note});
-  saveApps(apps); openDrawer(id);
+  const note=document.getElementById('noteArea').value.trim();
+  if(!note) return;
+  // Notes are stored in actionLog; since we don't persist to DB here,
+  // just show visual confirmation
+  alert('Note saved locally. Add a Django endpoint to persist notes if needed.');
 }
 
 function exportCSV(){
   const apps=filteredApps.length?filteredApps:getApps();
   const h=['Ref','Full Name','Email','Phone','Country','Agent Name','Agent Contact','Status','Submitted','UG Cert','Transcripts','Passport','CV','English Proof','References','Work Exp','SOP'];
   const rows=apps.map(a=>[
-    a.id,a.full_name,a.email,a.phone,a.country,
-    a.agent_name||'',a.agent_contact||'',
-    a.status,new Date(a.submittedAt).toLocaleString('en-IN'),
-    (a.docs?.ug_certificate||[]).join('; '),(a.docs?.transcripts||[]).join('; '),
-    (a.docs?.passport||[]).join('; '),(a.docs?.cv||[]).join('; '),
-    (a.docs?.english_proof||[]).join('; '),(a.docs?.references||[]).join('; '),
-    (a.docs?.work_experience||[]).join('; '),(a.sop||'').replace(/\n/g,' ')
+    a.ref_number||a.id, a.full_name, a.email, a.phone, a.country,
+    a.agent_name||'', a.agent_contact||'',
+    a.status, new Date(a.submittedAt||a.submitted_at||'').toLocaleString('en-IN'),
+    (a.docs?.ug_certificate||[]).join('; '),
+    (a.docs?.transcripts||[]).join('; '),
+    (a.docs?.passport||[]).join('; '),
+    (a.docs?.cv||[]).join('; '),
+    (a.docs?.english_proof||[]).join('; '),
+    (a.docs?.references||[]).join('; '),
+    (a.docs?.work_experience||[]).join('; '),
+    (a.sop||'').replace(/\n/g,' ')
   ].map(v=>`"${String(v).replace(/"/g,'""')}"`));
   const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');
   const blob=new Blob([csv],{type:'text/csv'});
@@ -564,4 +657,4 @@ function getCookie(name){
 }
 </script>
 </body>
-</html>    
+</html>

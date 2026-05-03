@@ -4,10 +4,22 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.urls import reverse
 from django.core.mail import EmailMultiAlternatives
+from django.core.files.storage import default_storage
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import bcrypt
 import json
+import os
+# FIXED
+import cloudinary
+import cloudinary.uploader
+
+cloudinary.config(
+    cloud_name='dxuqakxv9',
+    api_key='719323789754514',
+    api_secret='hrrFtxLmlMJ4qJv4BozkxM_1yx4',
+    secure=True,
+)
 
 db = settings.MONGO_DB
 users_collection      = db['users']
@@ -127,7 +139,7 @@ def agent_dashboard(request):
     agreement = agreements_collection.find_one({'username': username, 'accepted': True})
     if not agreement:
         return redirect('agent_agreement')
-    students = list(users_collection.find({'role': 'student', 'agent_name': username}, {'password': 0}))
+    students = list(users_collection.find({'role': 'student', 'status': {'$ne': 'deleted'}}, {'password': 0}))
     for s in students:
         s['_id'] = str(s['_id'])
     active_count  = sum(1 for s in students if s.get('status', 'active') == 'active')
@@ -489,27 +501,6 @@ def init_units(request):
 
 
 # ─────────────────────────────────────────────
-#  ADMIN DASHBOARD
-# ─────────────────────────────────────────────
-
-def admin_dashboard(request):
-    if request.session.get('role') != 'admin':
-        return redirect('login_select')
-
-    students = list(users_collection.find({'role': 'student'}))
-    for s in students:
-        s['_id']        = str(s['_id'])
-        s['status']     = s.get('status', 'pending')
-        s['submittedAt'] = s.get('submitted_at', str(s['_id']))
-        if 'docs' not in s or not isinstance(s.get('docs'), dict):
-            s['docs'] = {k: [] for k in FILE_FIELDS}
-
-    return render(request, 'myapp/admin_dashboard.html', {
-        'applications': students
-    })
-
-
-# ─────────────────────────────────────────────
 #  EMAIL CONSTANTS & HELPERS
 # ─────────────────────────────────────────────
 
@@ -530,6 +521,95 @@ FIELD_LABELS = {
     'work_experience': 'Work Experience Certificates',
 }
 
+
+# ─────────────────────────────────────────────
+#  ADMIN DASHBOARD
+# ─────────────────────────────────────────────
+
+def admin_dashboard(request):
+    if request.session.get('role') != 'admin':
+        return redirect('login_select')
+
+    # ✅ Hide soft-deleted records
+    raw_students = list(users_collection.find({'role': 'student', 'status': {'$ne': 'deleted'}}))
+
+    apps = []
+    for s in raw_students:
+        raw_docs = s.get('docs', {})
+        if not isinstance(raw_docs, dict):
+            raw_docs = {}
+        docs = {field: raw_docs.get(field, []) for field in FILE_FIELDS}
+        for field in FILE_FIELDS:
+            if not isinstance(docs[field], list):
+                docs[field] = []
+            docs[field] = [str(p) for p in docs[field]]
+
+        apps.append({
+            'id':            str(s['_id']),
+            'ref_number':    s.get('ref_number', str(s['_id'])),
+            'full_name':     s.get('full_name', ''),
+            'email':         s.get('email', ''),
+            'phone':         s.get('phone', ''),
+            'country':       s.get('country', ''),
+            'agent_name':    s.get('agent_name', ''),
+            'agent_contact': s.get('agent_contact', ''),
+            'sop':           s.get('sop', ''),
+            'status':        s.get('status', 'pending'),
+            'submitted_at':  s.get('submitted_at', ''),
+            'docs':          docs,
+        })
+
+    applications_json = json.dumps(apps, default=str, ensure_ascii=False)
+
+    return render(request, 'myapp/admin_dashboard.html', {
+        'applications_json': applications_json,
+    })
+
+
+# ─────────────────────────────────────────────
+#  DELETE APPLICATION  (SOFT DELETE)
+# ─────────────────────────────────────────────
+
+@csrf_exempt
+@require_POST
+def delete_application(request):
+    try:
+        body   = json.loads(request.body)
+        ref_id = body.get('ref_id', '').strip()
+
+        if not ref_id:
+            return JsonResponse({'ok': False, 'message': 'ref_id is required.'}, status=400)
+
+        # ✅ SOFT DELETE — mark as deleted, never permanently remove
+        result = users_collection.update_one(
+            {'ref_number': ref_id, 'role': 'student'},
+            {'$set': {'status': 'deleted'}}
+        )
+        if result.matched_count == 0:
+            from bson import ObjectId
+            try:
+                result = users_collection.update_one(
+                    {'_id': ObjectId(ref_id), 'role': 'student'},
+                    {'$set': {'status': 'deleted'}}
+                )
+            except Exception:
+                pass
+
+        if result.matched_count == 0:
+            return JsonResponse({'ok': False, 'message': f'No applicant found for ref: {ref_id}'}, status=404)
+
+        return JsonResponse({'ok': True, 'message': 'Application removed from dashboard.'})
+
+    except json.JSONDecodeError:
+        return JsonResponse({'ok': False, 'message': 'Invalid JSON body.'}, status=400)
+    except Exception as e:
+        print("DELETE ERROR:", str(e))
+        return JsonResponse({'ok': False, 'message': 'Something went wrong.'}, status=500)
+
+
+# ─────────────────────────────────────────────
+#  EMAIL BUILDERS
+# ─────────────────────────────────────────────
 
 def _build_student_html(data: dict, doc_summary: dict) -> str:
     doc_rows = ''.join(
@@ -762,26 +842,42 @@ def register(request):
             'submitted_at':  datetime.now(timezone.utc).strftime('%d %b %Y, %H:%M UTC'),
         }
 
-        # 3. Collect uploaded files (keep in memory for attaching to email)
-        uploaded_files = {}   # field_name -> list of InMemoryUploadedFile
-        doc_summary    = {}   # field_name -> list of filenames (for HTML body)
+        # 3. Upload files to Cloudinary
+        uploaded_files = {}
+        doc_paths      = {}
+        doc_summary    = {}
+
         for field in FILE_FIELDS:
             files = request.FILES.getlist(field)
             uploaded_files[field] = files
-            doc_summary[field]    = [f.name for f in files]
+            saved_paths = []
+            for f in files:
+                # ✅ Upload directly to Cloudinary
+                folder = f'applications/{data["ref_number"]}/{field}'
+                result = cloudinary.uploader.upload(
+                    f,
+                    folder=folder,
+                    resource_type='auto',
+                    use_filename=True,
+                    unique_filename=False,
+                )
+                saved_paths.append(result['secure_url'])
+                f.seek(0)
+            doc_paths[field]   = saved_paths
+            doc_summary[field] = [os.path.basename(p) for p in saved_paths]
 
         # 4. Save to MongoDB
         try:
             users_collection.insert_one({
                 **data,
-                'docs':   doc_summary,
+                'docs':   doc_paths,
                 'role':   'student',
                 'status': 'pending',
             })
         except Exception as db_error:
             print("DB ERROR:", str(db_error))
 
-        # 5. Email → Student confirmation (no attachments needed for student)
+        # 5. Email → Student confirmation
         try:
             msg = EmailMultiAlternatives(
                 subject=f"[MIATA] Application Received — {data['ref_number']}",
@@ -794,7 +890,7 @@ def register(request):
         except Exception as e:
             print("STUDENT EMAIL ERROR:", str(e))
 
-        # 6. Email → support@miataedu.org with ALL uploaded documents attached
+        # 6. Email → support@miataedu.org with all documents attached
         try:
             msg = EmailMultiAlternatives(
                 subject=f"[MIATA] New Application — {data['ref_number']}",
@@ -804,13 +900,10 @@ def register(request):
                 reply_to=[data['email']],
             )
             msg.attach_alternative(_build_admin_html(data, doc_summary), 'text/html')
-
-            # ── Attach every uploaded file to this email ──────────────────────
             for field, files in uploaded_files.items():
                 for f in files:
-                    f.seek(0)   # reset pointer in case it was already read
+                    f.seek(0)
                     msg.attach(f.name, f.read(), f.content_type)
-
             msg.send(fail_silently=False)
         except Exception as e:
             print("SUPPORT EMAIL ERROR:", str(e))
@@ -841,7 +934,6 @@ def update_status(request):
         if new_status not in ('pending', 'reviewing', 'accepted', 'rejected'):
             return JsonResponse({'ok': False, 'message': f'Invalid status: {new_status}'}, status=400)
 
-        # ── Find applicant ────────────────────────────────────────────────────
         applicant = users_collection.find_one({'ref_number': ref_id, 'role': 'student'})
         if not applicant:
             from bson import ObjectId
@@ -857,13 +949,11 @@ def update_status(request):
         full_name     = applicant.get('full_name', 'Applicant')
         ref_number    = applicant.get('ref_number', ref_id)
 
-        # ── Update MongoDB ────────────────────────────────────────────────────
         users_collection.update_one(
             {'_id': applicant['_id']},
             {'$set': {'status': new_status}}
         )
 
-        # ── Send email for accepted / rejected ────────────────────────────────
         email_sent = False
         if new_status in ('accepted', 'rejected') and student_email:
             try:
@@ -876,13 +966,12 @@ def update_status(request):
                     html_body = _build_rejected_html(full_name, ref_number, note)
                     plain     = f"Dear {full_name}, we regret to inform you that your MIATA application ({ref_number}) was not successful at this time."
 
-                # ── To: student   CC: support (so support gets a copy too) ───
                 msg = EmailMultiAlternatives(
                     subject=subject,
                     body=plain,
-                    from_email=SUPPORT_EMAIL,        # sent FROM support@
-                    to=[student_email],              # primary recipient = student
-                    cc=[SUPPORT_EMAIL],              # support gets a CC copy
+                    from_email=SUPPORT_EMAIL,
+                    to=[student_email],
+                    cc=[SUPPORT_EMAIL],
                 )
                 msg.attach_alternative(html_body, 'text/html')
                 msg.send(fail_silently=False)
@@ -901,3 +990,39 @@ def update_status(request):
     except Exception as e:
         print("UPDATE STATUS ERROR:", str(e))
         return JsonResponse({'ok': False, 'message': 'Something went wrong.'}, status=500)
+
+
+# ─────────────────────────────────────────────
+#  DEBUG DASHBOARD
+# ─────────────────────────────────────────────
+
+def debug_dashboard(request):
+    def clean(doc):
+        result = {}
+        for k, v in doc.items():
+            if k == 'password':
+                result[k] = '***hidden***'
+            elif k == '_id':
+                result[k] = str(v)
+            elif isinstance(v, bytes):
+                result[k] = v.decode('utf-8', errors='replace')
+            elif isinstance(v, dict):
+                result[k] = clean(v)
+            elif isinstance(v, list):
+                result[k] = [str(i) if isinstance(i, bytes) else i for i in v]
+            else:
+                result[k] = v
+        return result
+
+    result = {
+        'total_docs':    users_collection.count_documents({}),
+        'all_roles':     users_collection.distinct('role'),
+        'student_count': users_collection.count_documents({'role': 'student'}),
+        'with_ref':      users_collection.count_documents({'ref_number': {'$exists': True}}),
+        'sample_students': [
+            clean(doc)
+            for doc in users_collection.find({'role': 'student'}).limit(3)
+        ],
+    }
+
+    return JsonResponse(result, safe=False)

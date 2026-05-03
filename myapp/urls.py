@@ -25,4 +25,5 @@ urlpatterns = [
     path('faq/',                 views.faq,                name='faq'),
     path('api/register/', views.register, name='register'),
     path('api/update-status/',  views.update_status,  name='update_status'), 
+    path('debug-dashboard/', views.debug_dashboard, name='debug_dashboard'),
 ]
