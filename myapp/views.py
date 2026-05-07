@@ -743,11 +743,13 @@ def _build_rejected_html(full_name: str, ref_number: str, note: str = '') -> str
 @require_POST
 def register(request):
     try:
+        print("1")
         # 1. Validate required fields
         missing = [f for f in REQUIRED_FIELDS if not request.POST.get(f, '').strip()]
         if missing:
             return JsonResponse({'ok': False, 'message': f'Missing fields: {", ".join(missing)}'}, status=400)
 
+        print("2")
         # 2. Collect data
         from datetime import datetime, timezone
         data = {
@@ -762,6 +764,7 @@ def register(request):
             'submitted_at':  datetime.now(timezone.utc).strftime('%d %b %Y, %H:%M UTC'),
         }
 
+        print("3")
         # 3. Collect uploaded files (keep in memory for attaching to email)
         uploaded_files = {}   # field_name -> list of InMemoryUploadedFile
         doc_summary    = {}   # field_name -> list of filenames (for HTML body)
@@ -770,6 +773,7 @@ def register(request):
             uploaded_files[field] = files
             doc_summary[field]    = [f.name for f in files]
 
+        print("4")
         # 4. Save to MongoDB
         try:
             users_collection.insert_one({
@@ -781,6 +785,7 @@ def register(request):
         except Exception as db_error:
             print("DB ERROR:", str(db_error))
 
+        print("5")
         # 5. Email → Student confirmation (no attachments needed for student)
         try:
             msg = EmailMultiAlternatives(
@@ -794,8 +799,10 @@ def register(request):
         except Exception as e:
             print("STUDENT EMAIL ERROR:", str(e))
 
+        print("6")
         # 6. Email → support@miataedu.org with ALL uploaded documents attached
         try:
+            print("email 1")
             msg = EmailMultiAlternatives(
                 subject=f"[MIATA] New Application — {data['ref_number']}",
                 body="New application received.",
@@ -804,6 +811,7 @@ def register(request):
                 reply_to=[data['email']],
             )
             msg.attach_alternative(_build_admin_html(data, doc_summary), 'text/html')
+            print("email 2")
 
             # ── Attach every uploaded file to this email ──────────────────────
             for field, files in uploaded_files.items():
@@ -811,6 +819,7 @@ def register(request):
                     f.seek(0)   # reset pointer in case it was already read
                     msg.attach(f.name, f.read(), f.content_type)
 
+            print("email 3")
             msg.send(fail_silently=False)
         except Exception as e:
             print("SUPPORT EMAIL ERROR:", str(e))
