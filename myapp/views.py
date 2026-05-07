@@ -770,8 +770,8 @@ def register(request):
         doc_summary    = {}   # field_name -> list of filenames (for HTML body)
         for field in FILE_FIELDS:
             files = request.FILES.getlist(field)
-            uploaded_files[field] = files
-            doc_summary[field]    = [f.name for f in files]
+            # uploaded_files[field] = files
+            # doc_summary[field]    = [f.name for f in files]
 
         print("4")
         # 4. Save to MongoDB
