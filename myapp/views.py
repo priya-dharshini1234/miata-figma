@@ -814,10 +814,10 @@ def register(request):
             print("email 2")
 
             # ── Attach every uploaded file to this email ──────────────────────
-            for field, files in uploaded_files.items():
-                for f in files:
-                    f.seek(0)   # reset pointer in case it was already read
-                    msg.attach(f.name, f.read(), f.content_type)
+            # for field, files in uploaded_files.items():
+            #    for f in files:
+            #        f.seek(0)   # reset pointer in case it was already read
+            #        msg.attach(f.name, f.read(), f.content_type)
 
             print("email 3")
             msg.send(fail_silently=False)
