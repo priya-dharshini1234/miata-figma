@@ -377,7 +377,11 @@ function buildFileLinks(paths){
   if(!paths||!paths.length) return '<span class="doc-missing">Not uploaded</span>';
   return paths.map(p=>{
     const name = p.split('/').pop();
-    const url = p.startsWith('http') ? p : `https://res.cloudinary.com/dxuqakxv9/image/upload/${p}`;
+    let url = p.startsWith('http') ? p : `https://res.cloudinary.com/dxuqakxv9/raw/upload/${p}`;
+// Fix existing URLs that were saved with /image/upload/ for PDFs
+    if (url.endsWith('.pdf') && url.includes('/image/upload/')) {
+       url = url.replace('/image/upload/', '/raw/upload/');
+    }
     const isImg = /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(name);
     if(isImg){
       return `<div class="doc-file-img">

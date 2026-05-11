@@ -10,7 +10,6 @@ from django.views.decorators.http import require_POST
 import bcrypt
 import json
 import os
-# FIXED
 import cloudinary
 import cloudinary.uploader
 
@@ -852,17 +851,23 @@ def register(request):
             uploaded_files[field] = files
             saved_paths = []
             for f in files:
-                # ✅ Upload directly to Cloudinary
                 folder = f'applications/{data["ref_number"]}/{field}'
-                result = cloudinary.uploader.upload(
-                    f,
-                    folder=folder,
-                    resource_type='auto',
-                    use_filename=True,
-                    unique_filename=False,
-                )
-                saved_paths.append(result['secure_url'])
-                f.seek(0)
+                try:
+                    result = cloudinary.uploader.upload(
+                        f,
+                        folder=folder,
+                        resource_type='auto',
+                        use_filename=True,
+                        unique_filename=False,
+                    )
+                    saved_paths.append(result['secure_url'])
+                    f.seek(0)
+                except Exception as upload_err:
+                    print(f"UPLOAD FAILED [{field}] {f.name}: {upload_err}")
+                    return JsonResponse({
+                        'ok': False,
+                        'message': f'File upload failed for "{f.name}". Please try again.'
+                    }, status=500)
             doc_paths[field]   = saved_paths
             doc_summary[field] = [os.path.basename(p) for p in saved_paths]
 
@@ -879,6 +884,7 @@ def register(request):
 
         # 5. Email → Student confirmation
         try:
+            print(f"DEBUG: Sending student email to {data['email']}")
             msg = EmailMultiAlternatives(
                 subject=f"[MIATA] Application Received — {data['ref_number']}",
                 body=f"Dear {data['full_name']}, your application has been received. Ref: {data['ref_number']}",
@@ -887,11 +893,15 @@ def register(request):
             )
             msg.attach_alternative(_build_student_html(data, doc_summary), 'text/html')
             msg.send(fail_silently=False)
+            print("DEBUG: Student email sent successfully")
         except Exception as e:
+            import traceback
             print("STUDENT EMAIL ERROR:", str(e))
+            print(traceback.format_exc())
 
         # 6. Email → support@miataedu.org with all documents attached
         try:
+            print("DEBUG: Sending support email")
             msg = EmailMultiAlternatives(
                 subject=f"[MIATA] New Application — {data['ref_number']}",
                 body="New application received.",
@@ -905,19 +915,20 @@ def register(request):
                     f.seek(0)
                     msg.attach(f.name, f.read(), f.content_type)
             msg.send(fail_silently=False)
+            print("DEBUG: Support email sent successfully")
         except Exception as e:
+            import traceback
             print("SUPPORT EMAIL ERROR:", str(e))
+            print(traceback.format_exc())
 
-        return JsonResponse({'ok': True, 'message': 'Application submitted successfully!', 'ref': data['ref_number']})
+        return JsonResponse({'ok': True, 'message': 'Application submitted successfully.'})
 
     except Exception as e:
         print("REGISTER ERROR:", str(e))
-        return JsonResponse({'ok': False, 'message': 'Something went wrong. Please try again.'}, status=500)
+        return JsonResponse({'ok': False, 'message': 'Something went wrong.'}, status=500)
 
 
-# ─────────────────────────────────────────────
-#  STATUS UPDATE VIEW   POST /api/update-status/
-# ─────────────────────────────────────────────
+
 
 @csrf_exempt
 @require_POST
