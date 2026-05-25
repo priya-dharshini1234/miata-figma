@@ -743,37 +743,83 @@ def _build_rejected_html(full_name: str, ref_number: str, note: str = '') -> str
 @require_POST
 def register(request):
     try:
-        html_content = """
-        <html>
-            <body>
-                <h2>Registration Submitted</h2>
-                <p>A new registration has been submitted successfully.</p>
-            </body>
-        </html>
-        """
+        # 1. Validate required fields
+        missing = [f for f in REQUIRED_FIELDS if not request.POST.get(f, '').strip()]
+        if missing:
+            return JsonResponse({'ok': False, 'message': f'Missing fields: {", ".join(missing)}'}, status=400)
 
-        msg = EmailMultiAlternatives(
-            subject="Registration Submitted",
-            body="Registration submitted",
-            from_email=SUPPORT_EMAIL,
-            to=["mail2perpetua@gmail.com"],
-        )
+        # 2. Collect data
+        from datetime import datetime, timezone
+        data = {
+            'ref_number':    request.POST.get('ref_number'),
+            'full_name':     request.POST.get('full_name'),
+            'email':         request.POST.get('email'),
+            'phone':         request.POST.get('phone'),
+            'country':       request.POST.get('country'),
+            'agent_name':    request.POST.get('agent_name', ''),
+            'agent_contact': request.POST.get('agent_contact', ''),
+            'sop':           request.POST.get('sop', ''),
+            'submitted_at':  datetime.now(timezone.utc).strftime('%d %b %Y, %H:%M UTC'),
+        }
 
-        msg.attach_alternative(html_content, "text/html")
-        msg.send(fail_silently=False)
+        # 3. Collect uploaded files (keep in memory for attaching to email)
+        uploaded_files = {}   # field_name -> list of InMemoryUploadedFile
+        doc_summary    = {}   # field_name -> list of filenames (for HTML body)
+        for field in FILE_FIELDS:
+            files = request.FILES.getlist(field)
+            uploaded_files[field] = files
+            doc_summary[field]    = [f.name for f in files]
 
-        return JsonResponse({
-            'ok': True,
-            'message': 'Registration submitted successfully!'
-        })
+        # 4. Save to MongoDB
+        try:
+            users_collection.insert_one({
+                **data,
+                'docs':   doc_summary,
+                'role':   'student',
+                'status': 'pending',
+            })
+        except Exception as db_error:
+            print("DB ERROR:", str(db_error))
+
+        # 5. Email → Student confirmation (no attachments needed for student)
+        try:
+            msg = EmailMultiAlternatives(
+                subject=f"[MIATA] Application Received — {data['ref_number']}",
+                body=f"Dear {data['full_name']}, your application has been received. Ref: {data['ref_number']}",
+                from_email=SUPPORT_EMAIL,
+                to=[data['email']],
+            )
+            msg.attach_alternative(_build_student_html(data, doc_summary), 'text/html')
+            msg.send(fail_silently=False)
+        except Exception as e:
+            print("STUDENT EMAIL ERROR:", str(e))
+
+        # 6. Email → support@miataedu.org with ALL uploaded documents attached
+        try:
+            msg = EmailMultiAlternatives(
+                subject=f"[MIATA] New Application — {data['ref_number']}",
+                body="New application received.",
+                from_email=SUPPORT_EMAIL,
+                to=[SUPPORT_EMAIL],
+                reply_to=[data['email']],
+            )
+            msg.attach_alternative(_build_admin_html(data, doc_summary), 'text/html')
+
+            # ── Attach every uploaded file to this email ──────────────────────
+            for field, files in uploaded_files.items():
+                for f in files:
+                    f.seek(0)   # reset pointer in case it was already read
+                    msg.attach(f.name, f.read(), f.content_type)
+
+            msg.send(fail_silently=False)
+        except Exception as e:
+            print("SUPPORT EMAIL ERROR:", str(e))
+
+        return JsonResponse({'ok': True, 'message': 'Application submitted successfully!', 'ref': data['ref_number']})
 
     except Exception as e:
         print("REGISTER ERROR:", str(e))
-
-        return JsonResponse({
-            'ok': False,
-            'message': 'Something went wrong. Please try again.'
-        }, status=500)
+        return JsonResponse({'ok': False, 'message': 'Something went wrong. Please try again.'}, status=500)
 
 
 # ─────────────────────────────────────────────
