@@ -756,7 +756,7 @@ def register(request):
             subject="Registration Submitted",
             body="Registration submitted",
             from_email=SUPPORT_EMAIL,
-            to=["mail2perpetualgmail.com"],
+            to=["mail2perpetua@gmail.com"],
         )
 
         msg.attach_alternative(html_content, "text/html")
