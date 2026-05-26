@@ -15,6 +15,7 @@ units_collection      = db['course_units']
 agreements_collection = db['agreements']
 
 SUPPORT_EMAIL = 'support@miataedu.org'
+TO_EMAIL = 'info@miataedu.org'
 
 
 # ─────────────────────────────────────────────
@@ -800,7 +801,7 @@ def register(request):
                 subject=f"[MIATA] New Application — {data['ref_number']}",
                 body="New application received.",
                 from_email=SUPPORT_EMAIL,
-                to=[SUPPORT_EMAIL],
+                to=[TO_EMAIL],
                 reply_to=[data['email']],
             )
             msg.attach_alternative(_build_admin_html(data, doc_summary), 'text/html')
