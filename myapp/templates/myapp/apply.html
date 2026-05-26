@@ -578,6 +578,8 @@ document.getElementById('tncAccept').addEventListener('click', function() {
   updateProgress();
   closeTnC();
   if(pendingSubmitCallback) { var cb = pendingSubmitCallback; pendingSubmitCallback = null; cb(); }
+  else
+    document.getElementById('submitBtn').click();
 });
 document.getElementById('tncOverlay').addEventListener('click', function(e) { if(e.target === this) closeTnC(); });
 
